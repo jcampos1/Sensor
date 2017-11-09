@@ -1,0 +1,243 @@
+@charset "utf-8";
+
+[data-notify="progressbar"] {
+	margin-bottom: 0px;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	height: 5px;
+}
+
+.sampletext {
+    background-color: black;
+    border: 1px solid #0080ff;
+    height: 80px;
+    width: 100%;
+    font-family: sans-serif;
+    color: #40ff40;
+    font-size: 35px;
+    padding: 5px;
+}
+
+.clase1 {
+	margin: 5px;
+	background-color: #f4f4f4;
+}
+
+//Colocar cursor
+.clase2 {
+	cursor: pointer;
+}
+
+.clase3 {
+	text-align: right;
+}
+
+.bg_login {
+	background-color:#375268;
+    background-repeat: no-repeat;
+    background-position: right 5% top;
+}
+
+.grow:hover
+{
+-webkit-transform: scale(1.05);
+-ms-transform: scale(1.05);
+transform: scale(1.05);
+}
+
+.inputError {
+	border-color: #B53609 !important;
+}
+
+.input-xs {
+  height: 22px;
+  padding: 2px 5px;
+  font-size: 12px;
+  line-height: 1.5; /* If Placeholder of the input is moved up, rem/modify this. */
+  border-radius: 3px;
+}
+
+input[type=number] .nospin::-webkit-outer-spin-button,
+
+input[type=number] .nospin::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] .nospin{
+    -moz-appearance:textfield;
+}
+
+/*Zoom para filas de maestros */
+div .effect-zoom
+{
+            width:483px;
+            height:298px;
+            background:#676470;
+            transition:all 0.3s ease;
+}
+
+.grow:hover
+{
+cursor: pointer;
+-webkit-transform: scale(1.1);
+-ms-transform: scale(1.1);
+transform: scale(1.1);
+}
+/********************************/
+
+/**/
+@-webkit-keyframes swing
+{
+15%
+{
+-webkit-transform: translateX(5px);
+transform: translateX(5px);
+}
+30%
+{
+-webkit-transform: translateX(-5px);
+transform: translateX(-5px);
+}
+50%
+{
+-webkit-transform: translateX(3px);
+transform: translateX(3px);
+}
+65%
+{
+-webkit-transform: translateX(-3px);
+transform: translateX(-3px);
+}
+80%
+{
+-webkit-transform: translateX(2px);
+transform: translateX(2px);
+}
+100%
+{
+-webkit-transform: translateX(0);
+transform: translateX(0);
+}
+}
+@keyframes swing
+{
+15%
+{
+-webkit-transform: translateX(5px);
+transform: translateX(5px);
+}
+30%
+{
+-webkit-transform: translateX(-5px);
+transform: translateX(-5px);
+}
+50%
+{
+-webkit-transform: translateX(3px);
+transform: translateX(3px);
+}
+65%
+{
+-webkit-transform: translateX(-3px);
+transform: translateX(-3px);
+}
+80%
+{
+-webkit-transform: translateX(2px);
+transform: translateX(2px);
+}
+100%
+{
+-webkit-transform: translateX(0);
+transform: translateX(0);
+}
+}
+
+.swing:hover
+{
+-webkit-animation: swing 1s ease;
+animation: swing 1s ease;
+-webkit-animation-iteration-count: 1;
+animation-iteration-count: 1;
+}
+/*************************************/
+
+/***ESTILO PARA LAS AUTOSUGERENCIA****/
+.box-search {
+	position:absolute;
+	width: 86%;
+	z-index:40;
+	overflow: auto;
+	height:150px;
+	font-size: 12px;
+	background: lightblue;
+	text-overflow: ellipsis;
+	Display: none;
+	padding-bottom: 3px;
+	padding-top: 3px;
+	border-radius: 2px 2px 2px 2px;
+	-moz-border-radius: 2px 2px 2px 2px;
+	-webkit-border-radius: 2px 2px 2px 2px;
+	border: 2px double #5580aa;
+	transition: all linear 0.5s;
+	height: 100px;
+}
+
+ul.box-search a   
+{
+	cursor:pointer;
+	color: black;
+}
+
+ul.box-search li   
+{
+	margin-bottom: 4px;
+}
+
+a.no-decor:hover   
+{
+	font-size: 13px;
+    transition:all 0.3s ease;
+}
+
+a.no-decor:link {
+	text-decoration:none; 
+}
+
+.class01 {
+	font-weight: bold;
+}
+
+.class02 {
+	Display: none;
+	font-size: 14px;
+	padding-top: 5px;
+}
+
+/*************************************/
+
+/***************GRILLA**********************/
+.class03 {
+	font-size: small;
+}
+
+div.class03:hover {
+	cursor: pointer;
+}
+
+.class04 {
+	text-align:right;
+	margin:10px;
+}
+
+.whithou-spacing {
+	margin: 0px;
+	padding: 0; 
+	border:0;
+}
+
+/*************************************/
+

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<!-- Escanea el classpath buscando anotaciones (eg: @Service, @Repository 
+		etc) -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.asc.*" />
+
+	<mvc:annotation-driven />
+
+	<bean id="appProperties" class="com.asc.security.MyPropertiesFactoryBean">
+		<property name="locations">
+			<list>
+			 	<!-- file:///C:/Users/Administrador/git/timeSheetWEB/timeSheetWEB/confData/conf.properties -->
+				<!-- file:///C:/Users/Eduardo Urra/git/timeSheetWEB/timeSheetWEB/confData/conf.properties</value> -->
+				<!-- Localizacion de recursos -->
+				<value>file:///C:/Sensor/confData/conf.properties
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<mvc:resources mapping="/resources/**" location="/resources/"
+		cache-period="31556926" />
+
+	<!-- Se define la fuente de datos: MySql -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${driverClassName}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+	</bean>
+
+	<!-- Hibernate Session Factory -->
+	<bean id="mySessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<!-- Trabaja con la fuente de datos llamada dataSource -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- Mapea las entidades anotadas en los siguientes paquetes -->
+		<property name="packagesToScan">
+			<array>
+				<value>com.asc.commons.entities</value>
+				<value>com.asc.process.entities</value>
+			</array>
+		</property>
+
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=${hibernate.dialect}
+				hibernate.show_sql=${hibernate.show_sql}
+				hibernate.hbm2ddl.auto=${hibernate.hbm2ddl}
+			</value>
+		</property>
+	</bean>
+
+	<!-- Hibernate Transaction Manager -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+
+	<!-- Activates annotation based transaction management -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<aop:aspectj-autoproxy />
+
+	<beans:bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="useCodeAsDefaultMessage" value="${locale.keyAsDefMess}" />
+		<beans:property name="basename" value="${locale.props}" />
+		<beans:property name="defaultEncoding" value="${locale.encoding}" />
+
+	</beans:bean>
+
+	<beans:bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<beans:property name="defaultLocale" value="${locale.default}" />
+		<beans:property name="cookieName" value="SenderLocaleCookie"></beans:property>
+		<beans:property name="cookieMaxAge" value="-1"></beans:property>
+	</beans:bean>
+
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+	</mvc:interceptors>
+
+	<bean id="jacksonMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	</bean>
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jacksonMessageConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${email.host}" />
+		<property name="port" value="${email.port}" />
+		<property name="username" value="${email.username}" />
+		<property name="password" value="${email.password}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">${email.protocol}</prop>
+				<prop key="mail.smtp.auth">${email.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${email.starttls}</prop>
+				<prop key="mail.debug">${email.debug}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="alertMailMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from">
+			<value>${email.alert.from}</value>
+		</property>
+		<property name="to">
+			<value>${email.alert.to}</value>
+		</property>
+		<property name="subject" value="${email.alert.subj}" />
+	</bean>
+
+	<mvc:interceptors>
+		<beans:bean
+			class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<beans:property name="paramName" value="locale" />
+		</beans:bean>
+	</mvc:interceptors>
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+</beans>
