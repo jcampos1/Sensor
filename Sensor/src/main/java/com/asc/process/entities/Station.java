@@ -39,7 +39,7 @@ public class Station extends AbstractEntity implements Serializable {
 	
 	@Id
 	@NaturalId(mutable=true)
-	@Size(min = Configuration.SIZE_ONE, max = Configuration.SIZE_NINE)
+	@Size(min = Configuration.SIZE_ONE, max = Configuration.SIZE_30)
 	@Column(name = "namest", unique = true, nullable = false)
 	public String getNamest() {
 		return namest;
@@ -50,7 +50,7 @@ public class Station extends AbstractEntity implements Serializable {
 	}
 
 	@NotNull
-	@Column(name = "phone", nullable = false, length = Configuration.SIZE_PHON)
+	@Column(name = "phonst", nullable = false, length = Configuration.SIZE_PHON)
 	public String getPhonst() {
 		return phonst;
 	}

@@ -23,15 +23,19 @@ public class StationValidator extends Configuration implements Validator {
 	public void validate(Object target, Errors errors) {
 		Station station = (Station) target;
 		
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "namest", "gene.required",
-				getMess("gene.required"));
+		if(null == station.getNamest()){
+			errors.rejectValue("namest", "gene.required", getMess("gene.required"));
+		}else{
+			
+			if(!station.getNamest().isEmpty()){
+				
+			}else{
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "namest", "gene.required",
+						getMess("gene.required"));
+			}
+		}
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phonst", "gene.required",
 				getMess("gene.required"));
-		
-		if(!station.getNamest().isEmpty()){
-			
-		}
-		
 	}
 }

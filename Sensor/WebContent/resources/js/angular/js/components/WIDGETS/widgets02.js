@@ -43,7 +43,7 @@ angular
 .component(
 		'widgets02Component',
 		{
-			templateUrl : "/WeighBridgeStandAlone/resources/js/angular/js/components/WIDGETS/widgets02.jsp",
+			templateUrl : "/Sensor/resources/js/angular/js/components/WIDGETS/widgets02.jsp",
 			controller : 'widgets02Controller',
 			controllerAs: 'vm'
 		});

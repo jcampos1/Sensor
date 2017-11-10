@@ -6,7 +6,7 @@ angular.module('messages').config([ '$translateProvider',
 				"GENE": {
 					"SEARCH": 			"Search...",
 					"CANCEL": 			"Cancel",
-					"NEW":				"New entry",
+					"NEW":				"New",
 					"SAVE":				"Save",
 					"ACCEPT":			"Accept",
 					"SPANISH":			"Spanish",
@@ -36,7 +36,7 @@ angular.module('messages').config([ '$translateProvider',
 					"MSTR":				"Masters",
 					"ADMN":				"Administrator",
 					"MAIN_NAVI":		"Main Navigation",
-					"NAME_APP":			"WeighBridgeStandAlone",
+					"NAME_APP":			"Sensor",
 					"NAME_APP_SIG":		"WBSA",
 					"TO_TRNS":			"Translate to Language",
 					"REG":				"Register",
@@ -47,7 +47,7 @@ angular.module('messages').config([ '$translateProvider',
 					"ACTI_PROJ":		"Active Projects",
 					"CLSD_PROJ":		"Closed Projects",
 					"GRAP_PROJ":		"graphic Projects",
-					"WELC":				"¡Welcome to WeighBridgeStandAlone!",
+					"WELC":				"¡Welcome to Sensor!",
 					"MORE_INFO":		"More info",
 					"REQ":				"Field is required",
 					"RGTR_SUCS":		"The entry was successfully registered.",
@@ -150,10 +150,14 @@ angular.module('messages').config([ '$translateProvider',
 					"AS_PREC":			"Assign seals",
 					"CONFIRMED":		"Confirmed",
 					"ERROR":			"Error",
+					"ACTIONS":			"Actions",
+					"PHONE":			"Phone",
+					"NAME":				"Name",
+					"STATUS":			"Status",
 				},
 				
 				"URL": {
-					"SIGN_OUT":			"/WeighBridgeStandAlone/logout",
+					"SIGN_OUT":			"/Sensor/logout",
 					"TRLO":				"https://trello.com/login?returnUrl=%2Faeasc1",
 				},
 				
@@ -441,7 +445,7 @@ angular.module('messages').config([ '$translateProvider',
 				"GENE": {
 					"SEARCH": 			"Buscar...",
 					"CANCEL": 			"Cancelar",
-					"NEW":				"Nueva entrada",
+					"NEW":				"Nuevo",
 					"SAVE":				"Guardar",
 					"ACCEPT":			"Aceptar",
 					"SPANISH":			"Español",
@@ -471,7 +475,7 @@ angular.module('messages').config([ '$translateProvider',
 					"MSTR":				"Maestros",
 					"ADMN":				"Administrador",
 					"MAIN_NAVI":		"Barra de navegación",
-					"NAME_APP":			"WeighBridgeStandAlone",
+					"NAME_APP":			"Sensor",
 					"NAME_APP_SIG":		"WBSA",
 					"TO_TRNS":			"Traducir al lenguaje",
 					"REG":				"Registrar",
@@ -482,7 +486,7 @@ angular.module('messages').config([ '$translateProvider',
 					"ACTI_PROJ":		"Proyectos Activos",
 					"CLSD_PROJ":		"Proyectos Cerrados",
 					"GRAP_PROJ":		"Gráfico de Proyectos",
-					"WELC":				"¡Bienvenido a WeighBridgeStandAlone!",
+					"WELC":				"¡Bienvenido a Sensor!",
 					"MORE_INFO":		"Más info",
 					"REQ":				"El campo es requerido",
 					"RGTR_SUCS":		"Registro procesado exitosamente",
@@ -585,11 +589,15 @@ angular.module('messages').config([ '$translateProvider',
 					"AS_PREC":			"Asignar precintos",
 					"CONFIRMED":		"Confirmado",
 					"ERROR":			"Error",
+					"ACTIONS":			"Acciones",
+					"PHONE":			"Teléfono",
+					"NAME":				"Nombre",
+					"STATUS":			"Estado",
 					
 				},
 				
 				"URL": {
-					"SIGN_OUT":			"/WeighBridgeStandAlone/logout",
+					"SIGN_OUT":			"/Sensor/logout",
 					"TRLO":				"https://trello.com/login?returnUrl=%2Faeasc1",
 				},
 				
@@ -909,7 +917,7 @@ function translations($http, $q, $translate) {
 		
 		setLocale: function(lang) {
 			var deferred = $q.defer();
-			$http.get("/WeighBridgeStandAlone/user/locale/?locale="+lang).then(function successCallback(response) {
+			$http.get("/Sensor/user/locale/?locale="+lang).then(function successCallback(response) {
                 deferred.resolve(response);
 			}, function errorCallback(response) {
 				deferred.reject(response.error);
@@ -920,7 +928,7 @@ function translations($http, $q, $translate) {
 		
 		setLanguage : function(lang) {
 			var deferred = $q.defer();
-			$http.post("/WeighBridgeStandAlone/user/create_language", lang).then(function successCallback(response) {
+			$http.post("/Sensor/user/create_language", lang).then(function successCallback(response) {
                 deferred.resolve(response);
 			}, function errorCallback(response) {
 				deferred.reject(response.error);
@@ -931,7 +939,7 @@ function translations($http, $q, $translate) {
 		
 		getLanguage : function() {
 			var deferred = $q.defer();
-			$http.get("/WeighBridgeStandAlone/user/language").then(function successCallback(response) {
+			$http.get("/Sensor/user/language").then(function successCallback(response) {
                 deferred.resolve(response);
 			}, function errorCallback(response) {
 				deferred.reject(response.error);
@@ -1015,6 +1023,6 @@ function changeLang($http, $q, $window, $translate ) {
 
 angular.module('messages').component('languages',
 {
-	templateUrl : "/WeighBridgeStandAlone/resources/js/angular/js/locale/languages.jsp",
+	templateUrl : "/Sensor/resources/js/angular/js/locale/languages.jsp",
 	controller : 'languagesController'
 });

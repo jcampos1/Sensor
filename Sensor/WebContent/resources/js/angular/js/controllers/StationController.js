@@ -1,278 +1,238 @@
-/*********************************************
- *DEPENDENCIAS:
- *** stationService
- *** comunicacion
- *** alrts
- *********************************************/
-
 //Detalle de entidad
-(function() {
+(function ( ) {
 	"use strict";
-	angular.module("processApp").controller('DetailStation', DetailStation);
+	angular.module("processApp").controller('DetailStationCtrl',
+			DetailStationCtrl);
 
-	DetailStation.$inject = [ '$scope', 'parentScope', '$uibModalInstance', 'comunication'];
-	function DetailStation($scope, parentScope, $uibModalInstance, comunication) {
-		$scope.station = parentScope.entityDetail;
+	DetailStationCtrl.$inject = [ '$scope', 'station', '$uibModalInstance',
+			'comunication' ];
+	function DetailStationCtrl ( $scope, station, $uibModalInstance,
+			comunication ) {
 		
-		$scope.cancel = function() {
-			$uibModalInstance.dismiss(false);
-		};
+			$scope.station = station;
+			$scope.cancel = function ( ) {
+				$uibModalInstance.dismiss(false);
+			};
 	}
 })();
 
-//Eliminacion de entidad
-(function() {
+// Eliminacion de entidad
+(function ( ) {
 	"use strict";
-	angular.module("processApp").controller("DeleteStation",
-			DeleteStation);
+	angular.module("processApp").controller("DeleteStationCtrl",
+			DeleteStationCtrl);
 
-	DeleteStation.$inject = [ '$scope', '$rootScope', '$uibModalInstance', 'alrts', 'comunication', 'stationService'];
-	function DeleteStation($scope, $rootScope, $uibModalInstance, alrts, comunication, stationService) {
-		$scope.ok = function() {
+	DeleteStationCtrl.$inject = [ '$scope', '$log', '$rootScope', 'station',
+			'$uibModalInstance', 'alrts', 'comunication', 'stationService' ];
+	function DeleteStationCtrl ( $scope, $log, $rootScope, station,
+			$uibModalInstance, alrts, comunication, stationService ) {
+		
+		$scope.ok = function ( ) {
 			$scope.cancel();
-			//Se elige motivo de eliminacion
+			// Se elige motivo de eliminacion
 			$rootScope.selectUTI1006("ELIM");
-			
-			stationService.inactivate(namest, moti)
-				.then(function successCallback(response) {
-					$uibModalInstance.close(true);
-					alrts.successMsg("GENE.RGTR_SUPR");
-					//Recargar lista
-		        	comunication.setEvnt06("emit");
-				},
-				function errorCallback(response) {
-				});
 		};
 		
-		//Procedimiento a seguir una vez seleccionado el motivo de eliminacion
-		$scope.$watch(function() { return comunication.getMot_04() }, function() {
-			if( comunication.isValid(comunication.getMot_04()) ){
-				stationService.inactivate(comunication.getData03().namest, comunication.getMot_04())
-				.then(function successCallback(response) {
-					$uibModalInstance.close(true);
-					alrts.successMsg("GENE.RGTR_SUPR");
-					//Recargar lista
-		        	comunication.setEvnt06("emit");
-				},
-				function errorCallback(response) {
+		// Procedimiento a seguir una vez seleccionado el motivo de eliminacion
+		$scope.$watch(function ( ) { return comunication.getMot_04() }, function ( ) {
+			if (comunication.isValid(comunication.getMot_04())) {
+				stationService.inactivate(station.namest, comunication.getMot_04())
+				.then(function successCallback ( response ) {
+						$uibModalInstance.close(true);
+						alrts.successMsg("GENE.RGTR_SUPR");
+						//Recargar lista
+			        	comunication.setEvnt06("emit");
+				}, function errorCallback ( error ) {
+					$log.error(response);
 				});
-				
-				/*mae1013Service.inactivateWithMotivo(comunication.getOrdElim().orno, comunication.getMot_04())
-				.then(function successCallback(response) {
-					alrts.successMsg("GENE.RGTR_SUPR");
-					comunication.setGrid1013("grid1013");
-					comunication.setRelWdgts("relWdgts");
-				},function errorCallback(response) {
-				});*/
+				/*
+				 * mae1013Service.inactivateWithMotivo(comunication.getOrdElim().orno,
+				 * comunication.getMot_04()) .then(function
+				 * successCallback(response) {
+				 * alrts.successMsg("GENE.RGTR_SUPR");
+				 * comunication.setGrid1013("grid1013");
+				 * comunication.setRelWdgts("relWdgts"); },function
+				 * errorCallback(response) { });
+				 */
 				comunication.setMot_04(null);
 			}
-        });
+		});
 
-		$scope.cancel = function() {
+		$scope.cancel = function ( ) {
 			$uibModalInstance.dismiss(false);
 		};
 	}
 })();
 
-//Edicion de entidad
-(function() {
+// Edicion de entidad
+(function ( ) {
 	"use strict";
-	angular.module("processApp")
-			.controller('EditStation', EditStation);
+	angular.module("processApp").controller('UpdateStationCtrl',
+			UpdateStationCtrl);
 
-	EditStation.$inject = [ '$scope', '$uibModalInstance', 'parentScope', 'stationService' ];
-	function EditStation($scope, $uibModalInstance, parentScope, stationService) {
-		
-		$scope.station = angular.copy(parentScope.entityEdit);
-		
-		$scope.save = function(form) {
-			if( form.$valid ) {
+	UpdateStationCtrl.$inject = [ '$scope', '$uibModalInstance', 'station',
+			'stationService' ];
+	function UpdateStationCtrl ( $scope, $uibModalInstance, station,
+			stationService ) {
+		$scope.station = angular.copy(station);
+		$scope.update = function ( form ) {
+			if (form.$valid) {
 				stationService.update(station, $uibModalInstance, 1, $scope);
 			}
 		};
-		
-		$scope.cancel = function(srvrpo) {
+		$scope.cancel = function ( srvrpo ) {
 			$uibModalInstance.dismiss(false);
 		};
 	}
 })();
 
-//Controlador principal de  entidad
-(function() {
+// Controlador principal de entidad
+(function ( ) {
 	"use strict";
-	angular.module("processApp").controller('StationController', StationController);
-	StationController.$inject = [ '$scope', '$uibModal', '$log', 'adminService',
-			'uiGridConstants', 'basicConfigurationGrid',
-			'i18nService', '$translate', '$window', '$rootScope', 'translations', 'OK', 'NOT_CONTENT', 'NOT_FOUND', 'stationService' ];
+	angular.module("processApp").controller('StationCtrl',
+			StationCtrl);
+	StationCtrl.$inject = [ '$scope', '$uibModal', '$log', 'i18nService',
+			'$translate', '$window', '$rootScope', 'translations', 'OK',
+			'NOT_CONTENT', 'NOT_FOUND', 'stationService', 'comunication' ];
 
-	function StationController($scope, $uibModal, $log, adminService,
-			uiGridConstants, basicConfigurationGrid,
-			i18nService, $translate, $window, $rootScope, translations, OK, NOT_CONTENT, NOT_FOUND, stationService) {
-		
+	function StationCtrl ( $scope, $uibModal, $log, i18nService,
+			$translate, $window, $rootScope, translations, OK, NOT_CONTENT,
+			NOT_FOUND, stationService, comunication ) {
 		/** * ****INICIALIZACION DE VARIABLES Y ESTRUCTURAS * **** */
 
-		/*function find( ) {
-			stationService.find().
-		}*/
+		// Se cargan inicialmente todas las estaciones
+		find();
 		
-		$translate(toTrans).then(function(translation) {
-			$scope.translation = translation;
-			$scope.columns = [];
-			language_grid();
-			adminService.setEntity("MAE1007");
-			$scope.mstr = 2;
-			$scope.size = "md";
-			$scope.isEmit = true;
-			$scope.evt_recept= 'reload_mae1007';
-			
-			/** ******************************************************************************** */
-
-			/* ********************** CONFIGURACION DE UI-GRID ************** */
-			basicConfigurationGrid.initMenuOptions($scope);
-			basicConfigurationGrid.initializeGridOptions($scope, true);
-			basicConfigurationGrid.registerPaginationChanged($scope);
-
-			/** **************************************************************** */
-
-			/** *********************** EVENTOS ******************************** */
-			basicConfigurationGrid.eventSearch($scope);
-			basicConfigurationGrid.eventSortingExternal($scope);
-			/** ******************************************************************************** */
-
-			basicConfigurationGrid.getPage($scope, $scope.mstr);
-			
-			$scope.$on('new_mae1007', function(event, data) 
-			{
-				$scope.$broadcast('reload_mae1007', 1);
-		    });
-
-			function language_grid() {
-				$scope.columns = [ {
-					name : 'id',
-					visible : false
-				}, {
-					name : 'code',
-					displayName : $scope.translation['MAE1007.CODE']
-				}, {
-					field : 'dsca',
-					displayName : $scope.translation['MAE1007.DSCA']
-				}, {
-					field : 'char_sepa.dsca',
-					displayName : $scope.translation['MAE1007.CHAR_SEPA'],
-					enableSorting : false
-				}, {
-					field : 'char_stab',
-					displayName : $scope.translation['MAE1007.CHAR_STAB'],
-					enableSorting : false
-				} , {
-					field : 'posi_stab',
-					displayName : $scope.translation['MAE1007.POSI_STAB'],
-					enableSorting : false
-				} , {
-					field : 'char_unit',
-					displayName : $scope.translation['MAE1007.CHAR_UNIT'],
-					enableSorting : false
-				} , {
-					field : 'posi_weig',
-					displayName : $scope.translation['MAE1007.POSI_WEIG'],
-					enableSorting : false
-				}];
-			}
-			
-			function trans(lang) {
-				$translate.use(lang);
-				$scope.lang = lang;
-				$translate(toTrans).then(function(translation) {
-					$scope.translation = translation;
-					language_grid();
-					$scope.gridOptions.columnDefs = $scope.columns;
-					basicConfigurationGrid.initMenuOptions($scope);
-				});
-			}
-			
-			translations.getLanguage().then(function(response) {
-				if(response.status == NOT_CONTENT) {
-					var lang = ($window.navigator.language || $window.navigator.userLanguage).indexOf("es") == 0 ? "es" : "en"; 
-				}else {
-					var lang = response.data;
+		// Estacion seleccionada
+		$scope.selected = function ( station ) {
+			$scope.stselected = station;
+			$log.info("estacion seleccionada");
+		}
+		
+		// Detalle de estacion
+		$scope.detail = function ( ) {
+			var modalInstance = $uibModal.open({
+				animation : true,
+				templateUrl : "detailStation.html",
+				controller : "DetailStationCtrl",
+				size : "sm",
+				resolve : {
+					station : function ( ) {
+						return $scope.stselected;
+					}
 				}
-				trans(lang);
-				translations.setLocale(lang).then(function(response) {
-				})
-		        .catch(function(error) {
-		        });
-	        })
-	        .catch(function(error) {
-	        });
-			
-			globalScope = $scope;
-			
-		});
+			});
+		}
 		
-		/* ***********SE CARGAN LAS LISTAS ************** */
-		mae1007Service.getLstNmax_stab( ).then(function(response){
-			$rootScope.lstNmax_stab = response.data;
+		// Actualizacion de etsacion
+		$scope.update = function ( ) {
+			var modalInstance = $uibModal.open({
+				animation : true,
+				templateUrl : "updateStation.html",
+				controller : "UpdateStationCtrl",
+				size : "sm",
+				resolve : {
+					station : function ( ) {
+						return $scope.stselected;
+					}
+				}
+			});
+		}
+		
+		$scope.create = function() {
+			var modalInstance = $uibModal.open({
+				animation : true,
+				templateUrl : 'createStationComponent.html',
+				controller : 'CreateStationCtrl',
+				size : "md",
+				backdrop: false
+			});
+		};
+		
+		$scope.remove = function ( ) {
+			var modalInstance = $uibModal.open({
+				animation : true,
+				templateUrl : "myModalContent.html",
+				controller : "DeleteStationCtrl",
+				size : "sm",
+				resolve : {
+					station : function ( ) {
+						return $scope.stselected;
+					}
+				}
+			});
+		}
+		
+		// Obtiene el lenguaje del usuario
+		translations.getLanguage().then(function ( response ) {
+			if (response.status == NOT_CONTENT) {
+				var lang = ($window.navigator.language || $window.navigator.userLanguage)
+						.indexOf("es") == 0 ? "es" : "en";
+			} else {
+				var lang = response.data;
+			}
+			trans(lang);
+			// Establece el idioma seleccionado del lado del servidor
+			translations.setLocale(lang).then(function ( response ) {
+			})
+			.catch(function(error) {
+		        $log.error(error);
+		    });
 		})
 		.catch(function(error) {
-			$log.warn(error);
+			$log.error(error);
 		});
-		
-		mae1007Service.getLstChar_sepa( ).then(function(response){
-			$rootScope.lstChar_sepa = response.data;
-		})
-		.catch(function(error) {
-			$log.warn(error);
+
+		// Escuchador para recargar mesas
+		$scope.$watch(function ( ) { return comunication.getEvnt06() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt06())) {
+				find();
+				comunication.setEvnt06(null);
+			}
 		});
-		
-		mae1007Service.getLstNmax_unst( ).then(function(response){
-			$rootScope.lstNmax_unst = response.data;
-		})
-		.catch(function(error) {
-			$log.warn(error);
-		});
-		
-		mae1007Service.getLstPosi_weig( ).then(function(response){
-			$rootScope.lstPosi_weig = response.data;
-		})
-		.catch(function(error) {
-			$log.warn(error);
-		});
-		
-		mae1007Service.getLstPosi_stab( ).then(function(response){
-			$rootScope.lstPosi_stab = response.data;
-		})
-		.catch(function(error) {
-			$log.warn(error);
-		});
-		
-		mae1007Service.getLstNmax_slep( ).then(function(response){
-			$rootScope.lstNmax_slep = response.data;
-		})
-		.catch(function(error) {
-			$log.warn(error);
-		});
-		
-		mae1007Service.getLstVal_min( ).then(function(response){
-			$rootScope.lstVal_min = response.data;
-		})
-		.catch(function(error) {
-			$log.warn(error);
-		});
-		
-		mae1007Service.getLstVal_max( ).then(function(response){
-			$rootScope.lstVal_max = response.data;
-		})
-		.catch(function(error) {
-			$log.warn(error);
-		});
-		
-		mae1007Service.getLstNread_tried( ).then(function(response){
-			$rootScope.lstNread_tried = response.data;
-		})
-		.catch(function(error) {
-			$log.warn(error);
-		});
-		
-		/* *************************************************** */
+
+		// Encontrar estaciones
+		function find ( ) {
+			stationService.find().then(function successCallback ( stations ) {
+				$scope.stations = stations.data;
+				$log.info($scope.stations);
+				
+			}, function errorCallback ( response ) {
+				$log.error("Error al obtener estaciones de trabajo");
+			});
+		}
+		// Establece el idioma del lado del cliente
+		function trans ( lang ) {
+			$translate.use(lang);
+		}
 	}
 })();
+
+//Controlador para crear estacion
+(function() {
+	"use strict";
+	angular.module("processApp").controller('CreateStationCtrl',
+			CreateStationCtrl);
+
+	CreateStationCtrl.$inject = [ '$scope', '$uibModalInstance','stationService', '$log' ];
+	function CreateStationCtrl($scope, $uibModalInstance, stationService, $log) {
+		$scope.station = new Object();
+		
+		$scope.save = function(form) {
+			if( form.$valid ) {
+				stationService.update($scope.station, $uibModalInstance, 0, $scope);
+			}
+		}
+
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss(false);
+		};
+	}
+})();
+
+//Componente de creacion de estacion
+angular.module('processApp').component('createStationComponent',
+{
+	templateUrl : 'resources/views/forms/station/create.jsp',
+	controller : 'StationCtrl'
+});

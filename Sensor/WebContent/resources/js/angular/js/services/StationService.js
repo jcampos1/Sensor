@@ -15,6 +15,7 @@ function stationService(comunication, $http, $log, $q, alrts) {
 			.then(function(response) {
 				window.clearErrors("FATH_FORM");
 	        	if(response.status == "ok") {
+	        		$log.info("Entidad a actualizar: ");$log.info(entity);
 	        		update(entity, opc)
 			        .then(function(data) {
 			        	if($uibModalInstance){
@@ -36,7 +37,7 @@ function stationService(comunication, $http, $log, $q, alrts) {
 	        	}
 	        })
 	        .catch(function(response) {
-	        	$log.error(response.error);
+	        	$log.error(response);
 	        });
 		},
 		
@@ -47,7 +48,13 @@ function stationService(comunication, $http, $log, $q, alrts) {
 	}
 	
 	function find() {
-		return $http.get("/Sensor/Station/find");
+		return $http({
+			url : "/Sensor/Station/find",
+			method : "GET",
+			type: "application/json"
+		});
+		
+		
 	}
 	
 	//Comprobar informacion asociada a la entidad

@@ -45,6 +45,10 @@
 					</section>
 					
 					<section class="col-lg-12">
+						<div ui-view="stations"></div>
+					</section>
+					
+					<section class="col-lg-12">
 						<div ui-view="mstr"></div>
 					</section>
 					<section class="col-lg-12">

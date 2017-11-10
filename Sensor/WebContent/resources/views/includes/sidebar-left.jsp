@@ -51,6 +51,8 @@
 								class="fa fa-circle-o"></i> {{'GENE.PORT' | translate}}</a></li>
 						<li ui-sref-active="active" class="grow"><a ui-sref="display"><i
 								class="fa fa-circle-o"></i> {{'GENE.DISP' | translate}}</a></li>
+						<li ui-sref-active="active" class="grow"><a ui-sref="station"><i
+								class="fa fa-circle-o"></i> {{'GENE.STNS' | translate}}</a></li>
 						<li ui-sref-active="active" class="grow"><a
 							ui-sref="parameters"><i class="fa fa-circle-o"></i>
 								{{'GENE.PARA' | translate}}</a></li>
