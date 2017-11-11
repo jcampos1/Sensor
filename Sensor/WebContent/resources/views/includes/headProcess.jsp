@@ -206,6 +206,15 @@ var="anguspin" />
 	var="currentMAE1007Js" />
 <!---------------------------------------------------->
 
+<!--------------------- Station  ---------------------->
+<spring:url value="/resources/js/angular/js/services/StationService.js"
+	var="StationService" />
+
+<spring:url
+	value="/resources/js/angular/js/controllers/StationController.js"
+	var="StationController" />
+<!---------------------------------------------------->
+
 <!--------------------- PAR1001  ---------------------->
 <spring:url
 	value="/resources/js/angular/js/components/PAR1001/current-parameter.js"
@@ -672,5 +681,14 @@ var="CPREC" />
 <!------------------------------------------------------>
 
 <script type="text/javascript" src="${processApp}"></script>
+
+<!--******************ELEMENTOS CREADOS BASADOS EN EL MODULO processApp **************-->
+
+<!--------------------- Station -------------------->
+<script type="text/javascript" src="${StationService}"></script>
+<script type="text/javascript" src="${StationController}"></script>
+<!-------------------------------------------------->
+
+<!--**********************************************************************************-->
 
 </head>

@@ -53,6 +53,18 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
         	},
         } 
     })
+    .state('station', {
+        url: "/station",
+        views:{
+        	"widgets":{
+                template: "<widgets02-component />"
+        	},
+        	"stations":{
+                templateUrl: "/Sensor/resources/views/forms/station/list.jsp",
+                controller: "StationCtrl"
+        	},
+        } 
+     })
      .state('parameters', {
         url: "/admin/parameters",
         views:{

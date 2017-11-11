@@ -1,6 +1,7 @@
 package com.asc.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.asc.entities.abstracts.GenericObject;
 import com.asc.exceptions.MyWebException;
-import com.asc.process.entities.MAE1007;
 import com.asc.process.entities.Station;
 import com.asc.process.entities.UTI1006;
 import com.asc.service.interfaces.IStationService;
@@ -49,16 +50,16 @@ public class StationController extends Base<Station> {
 
 	@RequestMapping(value = "/check", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public JsonResponse check(@RequestBody MAE1007 entity, BindingResult result) {
+	public JsonResponse check(@RequestBody Station entity, BindingResult result) {
 		validator.validate(entity, result);
 		JsonResponse jr = converErrorsToJson(result);
 		return jr;
 	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> find() throws IOException, MyWebException {
-		List<Station> stations = stationServ.findActive();
-		return new ResponseEntity<String>(JSON_MAPPER.writeValueAsString(stations), HttpStatus.OK);
+	public ResponseEntity<List<Station>> find() throws IOException, MyWebException {
+		ArrayList<Station> stations = (ArrayList<Station>) stationServ.findActive();
+		return new ResponseEntity<List<Station>>(stations, HttpStatus.OK);
 	}
 			
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -76,6 +77,8 @@ public class StationController extends Base<Station> {
 	public ResponseEntity<Station> create(@RequestBody Station entity, BindingResult result, ModelMap modelMap)
 			throws Exception {
 		
+		entity.setActive(true);
+		entity.setStatus(false);
 		stationServ.add(entity);
 		return new ResponseEntity<Station>(entity, HttpStatus.OK);
 	}

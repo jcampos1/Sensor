@@ -11,21 +11,15 @@
 
 	window.showErrors = function(json) {
 		var attr = "";
-		$
-				.each(
-						json,
-						function(key, obj) {
-							var selector = $('#ERROR_' + key);
-							selector
-									.html('<span style="color:red;"><i class="fa fa-times-circle-o"></i>&nbsp;'
-											+ obj + '</span>');
-							attr = $("#" + key).attr('type');
-							if (attr == "text" || attr == "email"
-									|| attr == "password") {
-								$("#" + key).addClass("inputError");
-								selector.show();
-							}
-						});
+		$.each(json,function(key, obj) {
+				var selector = $('#ERROR_' + key);
+				selector.html('<span style="color:red;"><i class="fa fa-times-circle-o"></i>&nbsp;'+ obj + '</span>');
+				attr = $("#" + key).attr('type');
+				if (attr == "text" || attr == "email" || attr == "password") {
+					$("#" + key).addClass("inputError");
+					selector.show();
+				}
+			});
 	}
 
 	window.lettersAndDigitsAndSlashOnly = function(evt) {
