@@ -1,18 +1,22 @@
 // Controlador principal de entidad
 (function ( ) {
 	"use strict";
-	angular.module("processApp").controller('StationCtrl',
-			StationCtrl);
-	StationCtrl.$inject = [ '$scope', '$uibModal', '$log', 'i18nService',
+	angular.module("processApp").controller('SensorCtrl',
+			SensorCtrl);
+	SensorCtrl.$inject = [ '$scope', '$uibModal', '$log', 'i18nService',
 			'$translate', '$window', '$rootScope', 'translations', 'OK',
-			'NOT_CONTENT', 'NOT_FOUND', 'stationService', 'comunication', 'SweetAlert' ];
+			'NOT_CONTENT', 'NOT_FOUND', 'SensorService', 'comunication', 'SweetAlert' ];
 
-	function StationCtrl ( $scope, $uibModal, $log, i18nService,
+	function SensorCtrl ( $scope, $uibModal, $log, i18nService,
 			$translate, $window, $rootScope, translations, OK, NOT_CONTENT,
-			NOT_FOUND, stationService, comunication, SweetAlert ) {
+			NOT_FOUND, SensorService, comunication, SweetAlert ) {
 		/** * ****INICIALIZACION DE VARIABLES Y ESTRUCTURAS * **** */
 
-		// Se cargan inicialmente todas las estaciones
+		var toTrans = new Array();
+		toTrans.push('GENE.NAME');
+		toTrans.push('GENE.NOMENC');
+		
+		// Se cargan inicialmente todas los sensores
 		find();
 		
 		// Estacion seleccionada
@@ -54,8 +58,8 @@
 		$scope.create = function() {
 			var modalInstance = $uibModal.open({
 				animation : true,
-				templateUrl : 'createStationComponent.html',
-				controller : 'CreateStationCtrl',
+				templateUrl : 'createSensorComponent.html',
+				controller : 'CreateSensorCtrl',
 				size : "md",
 				backdrop: false
 			});
@@ -74,39 +78,81 @@
 			}
 		}
 		
-		// Obtiene el lenguaje del usuario
-		translations.getLanguage().then(function ( response ) {
-			if (response.status == NOT_CONTENT) {
-				var lang = ($window.navigator.language || $window.navigator.userLanguage)
-						.indexOf("es") == 0 ? "es" : "en";
-			} else {
-				var lang = response.data;
+		$translate(toTrans).then(function(translation) {
+			$scope.translation = translation;
+			$scope.columns = [];
+			language_grid();
+			
+			/** ******************************************************************************** */
+
+			/* ********************** CONFIGURACION DE UI-GRID ************** */
+			UTI1006ConfigurationGrid.initializeGridOptionsAdmin($scope);
+			UTI1006ConfigurationGrid.registerPaginationChanged($scope);
+			/** **************************************************************** */
+			
+			function language_grid() {
+				$scope.columns = [ {
+					name : 'code_m',
+					displayName : $scope.translation['GENE.CODE'],
+					width : '30%'
+				}, {
+					field : 'dsca_m',
+					displayName : $scope.translation['GENE.DSCA'],
+					width : '67%'
+				}];
 			}
-			trans(lang);
-			// Establece el idioma seleccionado del lado del servidor
-			translations.setLocale(lang).then(function ( response ) {
+			
+			//Se obtienen motivos
+			function reload(){
+				UTI1006ConfigurationGrid.getPage($scope);
+			}
+			
+			function trans(lang) {
+				$translate.use(lang);
+				$scope.lang = lang;
+				$translate(toTrans).then(function(translation) {
+					$scope.translation = translation;
+					language_grid();
+					$scope.gridOptions.columnDefs = $scope.columns;
+				});
+			}
+			
+			reload();
+			
+			// Obtiene el lenguaje del usuario
+			translations.getLanguage().then(function ( response ) {
+				if (response.status == NOT_CONTENT) {
+					var lang = ($window.navigator.language || $window.navigator.userLanguage)
+							.indexOf("es") == 0 ? "es" : "en";
+				} else {
+					var lang = response.data;
+				}
+				trans(lang);
+				// Establece el idioma seleccionado del lado del servidor
+				translations.setLocale(lang).then(function ( response ) {
+				})
+				.catch(function(error) {
+			        $log.error(error);
+			    });
 			})
 			.catch(function(error) {
-		        $log.error(error);
-		    });
-		})
-		.catch(function(error) {
-			$log.error(error);
+				$log.error(error);
+			});
 		});
 
-		// Escuchador para recargar estaciones
-		$scope.$watch(function ( ) { return comunication.getEvnt06() }, function ( ) {
-			if (comunication.isValid(comunication.getEvnt06())) {
+		// Escuchador para recargar sensores
+		$scope.$watch(function ( ) { return comunication.getEvnt11() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt11())) {
 				find();
-				comunication.setEvnt06(null);
+				comunication.setEvnt11(null);
 			}
 		});
 
-		// Encontrar estaciones
+		// Encontrar sensores
 		function find ( ) {
-			stationService.find().then(function successCallback ( stations ) {
-				$scope.stations = stations.data;
-				$log.info($scope.stations);
+			SensorService.find().then(function successCallback ( sensors ) {
+				$scope.sensors = sensors.data;
+				$log.info($scope.sensors);
 				
 			}, function errorCallback ( response ) {
 				$log.error("Error al obtener estaciones de trabajo");
@@ -215,16 +261,16 @@
 //Controlador para crear estacion
 (function() {
 	"use strict";
-	angular.module("processApp").controller('CreateStationCtrl',
-			CreateStationCtrl);
+	angular.module("processApp").controller('CreateSensorCtrl',
+			CreateSensorCtrl);
 
-	CreateStationCtrl.$inject = [ '$scope', '$uibModalInstance','stationService', '$log' ];
-	function CreateStationCtrl($scope, $uibModalInstance, stationService, $log) {
-		$scope.station = new Object();
+	CreateSensorCtrl.$inject = [ '$scope', '$uibModalInstance','SensorService', '$log' ];
+	function CreateSensorCtrl($scope, $uibModalInstance, SensorService, $log) {
+		$scope.sensor = new Object();
 		
 		$scope.save = function(form) {
 			if( form.$valid ) {
-				stationService.update($scope.station, $uibModalInstance, 0, $scope);
+				SensorService.update($scope.sensor, $uibModalInstance, 0, $scope);
 			}
 		}
 
@@ -234,9 +280,9 @@
 	}
 })();
 
-//Componente de creacion de estacion
-angular.module('processApp').component('createStationComponent',
+//Componente de creacion de sensor
+angular.module('processApp').component('createSensorComponent',
 {
-	templateUrl : 'resources/views/forms/station/create.jsp',
-	controller : 'StationCtrl'
+	templateUrl : 'resources/views/forms/sensor/create.jsp',
+	controller : 'SensorCtrl'
 });

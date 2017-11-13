@@ -14,7 +14,7 @@
 			<div class="row">
 				<!-- Nombre -->
 				<div class="col-sm-6">
-					<h5>{{ 'GENE.NAME' | translate }}</h5>
+					<h5><strong>{{ 'GENE.NAME' | translate }}</strong></h5>
 					<input name="namest" id="namest" class="form-control"
 						placeholder="{{ 'GENE.NAME' | translate }}"
 						ng-model="station.namest" ng-maxlength="30" required /> <span
@@ -26,7 +26,7 @@
 				</div>
 				<!-- Teléfono -->
 				<div class="col-sm-6">
-					<h5>{{ 'GENE.PHONE' | translate }}</h5>
+					<h5><strong>{{ 'GENE.PHONE' | translate }}</strong></h5>
 					<input name="phonst" id="phonst" class="form-control"
 						placeholder="{{ 'GENE.PHONE' | translate }}"
 						ng-model="station.phonst" ng-maxlength="30" required /> <span

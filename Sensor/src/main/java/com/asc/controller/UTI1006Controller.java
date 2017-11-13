@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.asc.commons.entities.IdsDelete;
 import com.asc.commons.entities.Options;
 import com.asc.commons.entities.UTI1001;
 import com.asc.entities.abstracts.GenericObject;
@@ -81,20 +80,10 @@ public class UTI1006Controller extends Base<UTI1006> {
 		return new ResponseEntity<UTI1006>(entity, HttpStatus.OK);
 	}
 	
-	@Override
-	@RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = "application/json; charset=UTF-8")
-	public ResponseEntity<UTI1006> delete(@RequestBody List<IdsDelete> lst) throws MyWebException {
-		if (!lst.isEmpty()) {
-			motiServ.enabled(lst, false);
-		}
-		return new ResponseEntity<UTI1006>(HttpStatus.NO_CONTENT);
-	}
-	
 	@RequestMapping(value = "/inactivate", method = RequestMethod.DELETE, produces = "application/json; charset=UTF-8")
-	public ResponseEntity<Void> delete(@RequestParam("obj") String obj)
+	public ResponseEntity<Void> inactivate(@RequestBody UTI1006 uti1006)
 			throws MyWebException, JsonParseException, JsonMappingException, IOException {
-		UTI1006 aux = JSON_MAPPER.readValue(obj, UTI1006.class);
-		motiServ.inactivate(aux);
+		motiServ.inactivate(uti1006);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
@@ -129,4 +118,5 @@ public class UTI1006Controller extends Base<UTI1006> {
 	public ResponseEntity<List<Options>> listReasonType() throws Exception {
 		return new ResponseEntity<List<Options>>(getListOptions(ReasonType.class), HttpStatus.OK);
 	}
+
 }

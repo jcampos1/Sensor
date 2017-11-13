@@ -1,8 +1,8 @@
 /* *********************** SERVICIOS ********************** */
 "use strict";
-angular.module('processApp').service('stationService', stationService);
-stationService.$inject = [ 'comunication', '$http', '$log', '$q', 'alrts'];
-function stationService(comunication, $http, $log, $q, alrts) {
+angular.module('processApp').service('SensorService', SensorService);
+SensorService.$inject = [ 'comunication', '$http', '$log', '$q', 'alrts'];
+function SensorService(comunication, $http, $log, $q, alrts) {
 	return {
 		//Encuentra todas las entidades activas
 		find: function( ) {
@@ -22,11 +22,11 @@ function stationService(comunication, $http, $log, $q, alrts) {
 			        	}
 			        	showMsg(opc);
 			        	if(opc==0){
-			        		$scope.station = new Object();
+			        		$scope.sensor = new Object();
 			        	}
 			        	
-			        	//Recargar lista
-			        	comunication.setEvnt06("emit");
+			        	//Recargar lista de sensores
+			        	comunication.setEvnt11("emit");
 			        })
 			        .catch(function(error) {
 			        	showMsg(3);
@@ -42,15 +42,14 @@ function stationService(comunication, $http, $log, $q, alrts) {
 		},
 		
 		//Elimina logicamente una estacion
-		inactivate: function(namest, moti) {
-			alert(namest);
-			return inactivate(namest, moti);
+		inactivate: function(obj, moti) {
+			return inactivate(obj, moti);
 		},
 	}
 	
 	function find() {
 		return $http({
-			url : "/Sensor/Station/find",
+			url : "/Sensor/Sensor/find",
 			method : "GET",
 			type: "application/json"
 		});
@@ -62,7 +61,7 @@ function stationService(comunication, $http, $log, $q, alrts) {
 	function check(entity) {
 		var defered = $q.defer();
 		var promise = defered.promise;
-		var url = '/Sensor/Station/check';
+		var url = '/Sensor/Sensor/check';
 		$http.post(url, entity).success(function(data) {
 			defered.resolve(data);
 		}).error(function(err) {
@@ -77,11 +76,11 @@ function stationService(comunication, $http, $log, $q, alrts) {
 		var url = '';
 		switch(opc) {
 		case 0:
-			url = '/Sensor/Station/create';
+			url = '/Sensor/Sensor/create';
 			break;
 		case 1:
 		default:
-			url = '/Sensor/Station/update';
+			url = '/Sensor/Sensor/update';
 			break;
 		}
 		$http.post(url, entity).success(function(data) {
@@ -92,12 +91,12 @@ function stationService(comunication, $http, $log, $q, alrts) {
 		return promise;
 	}
 	
-	function inactivate(namest, moti) {
+	function inactivate(obj, moti) {
 		return $http({
 			url : "/Sensor/Station/inactivate",
 			method : "DELETE",
 			params : {
-				namest : namest,
+				obj : obj,
 				uti1006 : moti
 			},
 		});

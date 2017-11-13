@@ -59,7 +59,7 @@ public class UTI1006ServiceImpl extends AbstractGenericService<UTI1006> implemen
 	@Transactional
 	public void inactivate(UTI1006 obj) throws MyWebException {
 		obj.setActive(false);
-		update(obj);
+		merge(obj);
 	}
 	
 	@Transactional(readOnly = true)

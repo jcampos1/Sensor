@@ -2,52 +2,22 @@
 
 'use strict';
 angular.module("UTI1006APP", [ 'ui.bootstrap', 'ngTouch', 'ui.grid',
-		'ui.grid.selection', 'ui.grid.pagination', 'adminModule',
+		'ui.grid.selection', 'ui.grid.pagination',
 		'ui.bootstrap.contextMenu', 'ui.grid.exporter', 'messages',
-		'constants', 'UTI1006Service', 'abstractService', 'notify', 'angular-ui-grid-translate' ]);
+		'constants', 'UTI1006Service', 'abstractService', 'notify', 'angular-ui-grid-translate','oitozero.ngSweetAlert' ]);
 
-/* ******** CONTROLADORES - MODALES *************** */
 
-(function() {
-	"use strict";
-	angular.module("UTI1006APP").controller("modal_confirmation_deleteUTI1006",
-			modal_confirmation_deleteUTI1006);
-
-	modal_confirmation_deleteUTI1006.$inject = [ '$scope', '$uibModalInstance',
-			'adminService', 'basicConfigurationGrid', 'alrts'];
-	function modal_confirmation_deleteUTI1006($scope, $uibModalInstance, adminService,
-			basicConfigurationGrid, alrts) {
-		$scope.ok = function() {
-			
-			// Configurar modal para seleccion de motivo de anulacion
-			adminService
-					.remove(globalScope)
-					.then(
-							function successCallback(response) {
-								$uibModalInstance.close(true);
-								alrts.successMsg("GENE.RGTR_SUPR");
-								basicConfigurationGrid.getPage(globalScope, 5);
-							},
-							function errorCallback(response) {
-							});
-		};
-
-		$scope.cancel = function() {
-			$uibModalInstance.dismiss(false);
-		};
-	}
-})();
-
+//Controlador principal
 (function() {
 	"use strict";
 	angular.module("UTI1006APP").controller('uti1006Controller', uti1006Controller);
 	uti1006Controller.$inject = [ '$scope', 'UTI1006ConfigurationGrid', 'comunication', '$uibModal', '$log',
 			'uiGridConstants',
-			'i18nService', '$translate', '$window', '$rootScope', 'translations', 'OK', 'NOT_CONTENT', 'NOT_FOUND', 'uti1006Service' ];
+			'i18nService', '$translate', '$window', '$rootScope', 'translations', 'OK', 'NOT_CONTENT', 'NOT_FOUND', 'uti1006Service', 'SweetAlert' ];
 
 	function uti1006Controller($scope, UTI1006ConfigurationGrid, comunication, $uibModal, $log,
 			uiGridConstants,
-			i18nService, $translate, $window, $rootScope, translations, OK, NOT_CONTENT, NOT_FOUND, uti1006Service) {
+			i18nService, $translate, $window, $rootScope, translations, OK, NOT_CONTENT, NOT_FOUND, uti1006Service, SweetAlert) {
 		
 		/** * ****INICIALIZACION DE VARIABLES Y ESTRUCTURAS * **** */
 		uti1006Service.listReasonType().then(function(lst) {
@@ -60,32 +30,30 @@ angular.module("UTI1006APP", [ 'ui.bootstrap', 'ngTouch', 'ui.grid',
 		
 		// Detalle de motivo
 		$scope.detail = function ( ) {
-			var modalInstance = $uibModal.open({
-				animation : true,
-				templateUrl : "detailMotive.html",
-				controller : "DetailMotiveCtrl",
-				size : "md",
-				resolve : {
-					motive : function ( ) {
-						return $scope.motiselected;
-					}
-				}
-			});
+			if(comunication.getData07()!=null){
+				var modalInstance = $uibModal.open({
+					animation : true,
+					templateUrl : "detailMotive.html",
+					controller : "DetailMotiveCtrl",
+					size : "md"
+				});
+			}else{
+				showAlerts("GENE.ERROR01");
+			}
 		}
 		
 		// Actualizacion de etsacion
 		$scope.update = function ( ) {
-			var modalInstance = $uibModal.open({
-				animation : true,
-				templateUrl : "updateUTI1006.html",
-				controller : "UpdateUTI1006Ctrl",
-				size : "md",
-				resolve : {
-					station : function ( ) {
-						return $scope.stselected;
-					}
-				}
-			});
+			if(comunication.getData07()!=null){
+				var modalInstance = $uibModal.open({
+					animation : true,
+					templateUrl : "updateUTI1006.html",
+					controller : "UpdateUTI1006Ctrl",
+					size : "md"
+				});
+			}else{
+				showAlerts("GENE.ERROR01");
+			}
 		}
 		
 		//Creacion de motivo
@@ -97,6 +65,20 @@ angular.module("UTI1006APP", [ 'ui.bootstrap', 'ngTouch', 'ui.grid',
 				size : "md"
 			});
 		};
+		
+		//Eliminar motivo
+		$scope.remove = function ( ) {
+			if(comunication.getData07()!=null){
+				var modalInstance = $uibModal.open({
+					animation : true,
+					templateUrl : "confirm.html",
+					controller : "DeleteUTI1006Ctrl",
+					size : "sm"
+				});
+			}else{
+				showAlerts("GENE.ERROR01");
+			}
+		}
 		
 		$translate(toTrans).then(function(translation) {
 			$scope.translation = translation;
@@ -159,23 +141,36 @@ angular.module("UTI1006APP", [ 'ui.bootstrap', 'ngTouch', 'ui.grid',
 	        });
 		});
 		
-		// Escuchador para recargar estaciones
+		// Escuchador para recargar lista de motivos
 		$scope.$watch(function ( ) { return comunication.getEvnt09() }, function ( ) {
 			if (comunication.isValid(comunication.getEvnt09())) {
 				comunication.setEvnt09(null);
 				//Se obtienen motivos
-				reload();
+				UTI1006ConfigurationGrid.getPage($scope);
 			}
 		});
 		
 		// Escuchador para edicion de motivo por doble click en fila
-		$scope.$watch(function ( ) { return comunication.getEvnt08() }, function ( ) {
-			if (comunication.isValid(comunication.getEvnt08())) {
-				comunication.setEvnt08(null);
+		$scope.$watch(function ( ) { return comunication.getEvnt10() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt10())) {
+				comunication.setEvnt10(null);
 				//Se obtienen motivos
 				$scope.update();
 			}
 		});
+		
+		function showAlerts(toTraslate) {
+			var toTrans = new Array();
+			toTrans.push(toTraslate);
+			$translate(toTrans).then(function(tr) {
+				SweetAlert.swal({
+					  title: "Error!",
+					  text: tr[toTraslate],
+					  type: "error",
+					  confirmButtonText: "Ok"
+					});
+			});
+		}
 	}
 })();
 
@@ -185,11 +180,11 @@ angular.module("UTI1006APP", [ 'ui.bootstrap', 'ngTouch', 'ui.grid',
 	angular.module("UTI1006APP")
 			.controller('DetailMotiveCtrl', DetailMotiveCtrl);
 
-	DetailMotiveCtrl.$inject = [ '$scope', '$uibModalInstance', 'motive'];
-	function DetailMotiveCtrl($scope, $uibModalInstance, motive) {
+	DetailMotiveCtrl.$inject = [ '$scope', '$uibModalInstance', 'comunication'];
+	function DetailMotiveCtrl($scope, $uibModalInstance, comunication) {
 		
 		//Motivo seleccionado
-		$scope.uti1006 = angular.copy(motive);
+		$scope.uti1006 = comunication.getData07();
 		
 		$scope.cancel = function() {
 			$uibModalInstance.dismiss(false);
@@ -203,10 +198,10 @@ angular.module("UTI1006APP", [ 'ui.bootstrap', 'ngTouch', 'ui.grid',
 	angular.module("UTI1006APP")
 			.controller('UpdateUTI1006Ctrl', UpdateUTI1006Ctrl);
 
-	UpdateUTI1006Ctrl.$inject = [ '$scope', '$uibModalInstance', 'comunication', 'uti1006Service'];
-	function UpdateUTI1006Ctrl($scope, $uibModalInstance, comunication, uti1006Service) {
+	UpdateUTI1006Ctrl.$inject = [ '$scope', '$log', '$uibModalInstance', 'comunication', 'uti1006Service'];
+	function UpdateUTI1006Ctrl($scope, $log, $uibModalInstance, comunication, uti1006Service) {
 		
-		$scope.uti1006 = angular.copy(comunication.getData05());
+		$scope.uti1006 = angular.copy(comunication.getData07());
 		
 		$scope.update = function(form) {
 			if( form.$valid ) {
@@ -237,6 +232,36 @@ angular.module("UTI1006APP", [ 'ui.bootstrap', 'ngTouch', 'ui.grid',
 		}
 
 		$scope.cancel = function() {
+			$uibModalInstance.dismiss(false);
+		};
+	}
+})();
+
+
+//Eliminacion de motivo
+(function ( ) {
+	"use strict";
+	angular.module("UTI1006APP").controller("DeleteUTI1006Ctrl",
+			DeleteUTI1006Ctrl);
+
+	DeleteUTI1006Ctrl.$inject = [ '$scope', '$log',
+			'$uibModalInstance', 'alrts', 'comunication', 'uti1006Service' ];
+	function DeleteUTI1006Ctrl ( $scope, $log,
+			$uibModalInstance, alrts, comunication, uti1006Service ) {
+		
+		$scope.ok = function ( ) {
+			$scope.cancel();
+			uti1006Service.inactivate(comunication.getData07())
+			.then(function successCallback ( response ) {
+					alrts.successMsg("GENE.RGTR_SUPR");
+					//Recargar lista
+		        	comunication.setEvnt09("emit");
+			}, function errorCallback ( error ) {
+				$log.error(response);
+			});
+		};
+
+		$scope.cancel = function ( ) {
 			$uibModalInstance.dismiss(false);
 		};
 	}

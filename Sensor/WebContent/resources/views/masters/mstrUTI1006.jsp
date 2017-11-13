@@ -37,6 +37,14 @@
 			<%@ include file="/WEB-INF/views/commons/confirm.jsp" %>
     	</script>
     	
+    	<!-- Vista de confirmacion -->
+		<script type="text/ng-template" id="confirm.html">
+			<%@ include file="/resources/views/commons/confirm.jsp" %>
+		</script>
+
+    	<!-- Seleccion de motivo de eliminacion -->
+		<select-uti1006-component />
+    	
 		<br />
 		
 		<!-- Lista de motivos -->

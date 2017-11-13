@@ -44,7 +44,12 @@ function uti1006($http, $q, alrts, $translate, comunication) {
 		
 		listReasonType: function() {
 			return $http.post('UTI1006/listReasonType');
-		}
+		},
+		
+		//Elimina logicamente un motivo
+		inactivate: function(uti1006) {
+			return inactivate(uti1006);
+		},
 	}
 
 	function update(entity, opc) {
@@ -95,6 +100,23 @@ function uti1006($http, $q, alrts, $translate, comunication) {
 		});
 		
 		return promise;
+	}
+	
+	function inactivate(uti1006) {
+		return $http['delete']("/Sensor/UTI1006/inactivate", {
+					data : uti1006,
+					headers : {
+						"Content-Type" : "application/json;charset=utf-8"
+					}
+				});
+				/*{
+			url : "/Sensor/UTI1006/inactivate",
+			method : "DELETE",
+			params : {
+				namest : namest,
+				uti1006 : moti
+			},
+		});*/
 	}
 	
 	function showMsg(opc) {

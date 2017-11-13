@@ -104,6 +104,8 @@ public class Configuration {
 	public final static int ORNO = 9;
 	public final static int REGN = 15;
 	public final static int SIZE_PHON = 20;
+	public final static int SIZE_NOMENC = 20;
+	public final static int SIZE_RANGO = 100;
 	public final static int SIZE_16 = 16;
 	public final static int SIZE_EIGHTEEN = 18;
 	public final static int SIZE_THIRTY = 30;

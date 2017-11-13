@@ -11,8 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonFormat(shape= JsonFormat.Shape.OBJECT)
 @JsonAutoDetect()
 public enum ReasonType {
-	PEDI("Anular Pedido", 0), PESO("Anular Peso", 1), CONF("No Despacho", 2), SUSP("Supender",
-			3), ELIM("Eliminar", 4), DEVO("Devolución", 5), DEFA("Comunes", 6);
+	ELIM("Eliminar", 0);
 	@JsonProperty
 	private String dsca;
 

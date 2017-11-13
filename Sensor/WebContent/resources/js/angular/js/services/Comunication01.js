@@ -36,14 +36,18 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
     evnt05: null, //Actualizar orden tratada en la vista de líneas
     evnt06: null, //Actualizacion lista de estaciones de trabajo
     evnt07:	null, //Evento para seleccion de motivos
-    evnt08:	null, //Evento para edicion de motivo
+    evnt08:	null, //Evento para confirmar eliminacion
     evnt09:	null, //Actualizacion lista de motivos
+    evnt10: null, //Evento para edicion de motivo
+    evnt11: null, //Actualizacion lista de sensores
     
     data02: null, //Entidad a detallar
     data03: null, //Estacion a eliminar
     data04: null, //Tipo de motivo (Eliminacion)
     data05: null, //Motivo seleccionado con doble click
-    data06: null, //Motivo seleccionado con un click
+    data07: null, //Motivo seleccionado para operacion edicion (click y doble click)
+    data08: null, //Estacion seleccionada para operaciones (detalle, edicion, eliminacion)
+    data09: null, //Sensor seleccionado para operaciones (detalle, edicion, eliminacion)
     
     /*USADO PARA FILTRAR POR STATUS DE ORDEN EN MAESTRO DE CABECERA*/
     stat: null,
@@ -232,6 +236,19 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	setEvnt09: function(data) {
 	    this.evnt09 = data;
 	},
+	getEvnt10: function() {
+        return this.evnt10;
+	},
+	setEvnt10: function(data) {
+	    this.evnt10 = data;
+	},
+	getEvnt11: function() {
+        return this.evnt11;
+	},
+	setEvnt11: function(data) {
+	    this.evnt11 = data;
+	},
+	
 	getLine_dele: function() {
         return this.line_dele;
 	},
@@ -297,11 +314,23 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	setData05: function(data) {
 	    this.data05 = data;
 	},
-	getData06: function() {
-        return this.data06;
+	getData07: function() {
+        return this.data07;
 	},
-	setData06: function(data) {
-	    this.data06 = data;
+	setData07: function(data) {
+	    this.data07 = data;
+	},
+	getData08: function() {
+        return this.data08;
+	},
+	setData08: function(data) {
+	    this.data08 = data;
+	},
+	getData09: function() {
+        return this.data09;
+	},
+	setData09: function(data) {
+	    this.data09 = data;
 	},
 	
 	isValid: function(data) {

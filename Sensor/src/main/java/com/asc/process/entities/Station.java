@@ -22,9 +22,6 @@ import com.asc.entities.abstracts.AbstractEntity;
 @Table(name = "station")
 public class Station extends AbstractEntity implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private String namest;

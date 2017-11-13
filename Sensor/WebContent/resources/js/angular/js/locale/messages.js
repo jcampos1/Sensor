@@ -158,6 +158,9 @@ angular.module('messages').config([ '$translateProvider',
 					"ERRORSERV":		"Error processing data on the server",
 					"ACTIVEfalse":		"Inactive",
 					"ACTIVEtrue":		"Active",
+					"ERROR01":			"You must select an item to perform this operation",
+					"NOMENC":			"Nomenclature",
+					"RANGO":			"Rank",
 				},
 				
 				"URL": {
@@ -601,6 +604,9 @@ angular.module('messages').config([ '$translateProvider',
 					"ERRORSERV":		"Error al procesar datos en el servidor",
 					"ACTIVEfalse":		"Inactivo",
 					"ACTIVEtrue":		"Activo",
+					"ERROR01":			"Debe seleccionar un item para realizar esta operación",
+					"NOMENC":			"Nomenclatura",
+					"RANGO":			"Rango",
 					
 				},
 				
