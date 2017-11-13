@@ -6,10 +6,10 @@
 			<div class="inner">
 				<h3>{{lstDataUser[0]}}</h3>
 
-				<p>{{'GENE.CONT_USER' | translate}}</p>
+				<p>{{'GENE.STNS' | translate}}</p>
 			</div>
 			<div class="icon">
-				<i class="ion ion-person-add"></i>
+				<i class="fa fa-home"></i>
 			</div>
 			<a href="#" class="small-box-footer">{{'GENE.MORE_INFO' | translate}} <i
 				class="fa fa-arrow-circle-right"></i></a>

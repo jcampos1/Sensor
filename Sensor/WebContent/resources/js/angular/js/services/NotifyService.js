@@ -42,7 +42,7 @@ function alrts($translate) {
 			$translate(txt).then(function(mess) {
 				$.notify({
 					// options
-					icon: 'glyphicon glyphicon-chevron-down',
+					icon: 'glyphicon glyphicon-remove-sign',
 					message: mess 
 				},{
 					// settings

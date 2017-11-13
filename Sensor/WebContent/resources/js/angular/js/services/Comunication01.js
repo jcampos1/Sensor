@@ -35,9 +35,15 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
     evnt04: null, //Deshabilitar el ingreso de cantidad de articulos contenedores
     evnt05: null, //Actualizar orden tratada en la vista de líneas
     evnt06: null, //Actualizacion lista de estaciones de trabajo
+    evnt07:	null, //Evento para seleccion de motivos
+    evnt08:	null, //Evento para edicion de motivo
+    evnt09:	null, //Actualizacion lista de motivos
     
     data02: null, //Entidad a detallar
     data03: null, //Estacion a eliminar
+    data04: null, //Tipo de motivo (Eliminacion)
+    data05: null, //Motivo seleccionado con doble click
+    data06: null, //Motivo seleccionado con un click
     
     /*USADO PARA FILTRAR POR STATUS DE ORDEN EN MAESTRO DE CABECERA*/
     stat: null,
@@ -208,8 +214,24 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	setEvnt06: function(data) {
 	    this.evnt06 = data;
 	},
-	
-	
+	getEvnt07: function() {
+        return this.evnt07;
+	},
+	setEvnt07: function(data) {
+	    this.evnt07 = data;
+	},
+	getEvnt08: function() {
+        return this.evnt08;
+	},
+	setEvnt08: function(data) {
+	    this.evnt08 = data;
+	},
+	getEvnt09: function() {
+        return this.evnt09;
+	},
+	setEvnt09: function(data) {
+	    this.evnt09 = data;
+	},
 	getLine_dele: function() {
         return this.line_dele;
 	},
@@ -262,6 +284,24 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	},
 	setData03: function(data) {
 	    this.data03 = data;
+	},
+	getData04: function() {
+        return this.data04;
+	},
+	setData04: function(data) {
+	    this.data04 = data;
+	},
+	getData05: function() {
+        return this.data05;
+	},
+	setData05: function(data) {
+	    this.data05 = data;
+	},
+	getData06: function() {
+        return this.data06;
+	},
+	setData06: function(data) {
+	    this.data06 = data;
 	},
 	
 	isValid: function(data) {

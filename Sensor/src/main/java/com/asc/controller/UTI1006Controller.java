@@ -25,7 +25,9 @@ import com.asc.process.entities.UTI1006;
 import com.asc.service.interfaces.IUTI1006Service;
 import com.asc.utils.JsonResponse;
 import com.asc.validators.UTI1006Validator;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iss.enums.ReasonType;
 
@@ -72,7 +74,7 @@ public class UTI1006Controller extends Base<UTI1006> {
 			throws Exception {
 		if (entity.getId() != null) {
 			if (service.getById(entity.getId()) == null) {
-				throw new Exception("display not found");
+				throw new Exception("Reason not found");
 			}
 		}
 		motiServ.add(entity);
@@ -88,13 +90,21 @@ public class UTI1006Controller extends Base<UTI1006> {
 		return new ResponseEntity<UTI1006>(HttpStatus.NO_CONTENT);
 	}
 	
+	@RequestMapping(value = "/inactivate", method = RequestMethod.DELETE, produces = "application/json; charset=UTF-8")
+	public ResponseEntity<Void> delete(@RequestParam("obj") String obj)
+			throws MyWebException, JsonParseException, JsonMappingException, IOException {
+		UTI1006 aux = JSON_MAPPER.readValue(obj, UTI1006.class);
+		motiServ.inactivate(aux);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/motiByType", method = RequestMethod.POST)
 	public ResponseEntity<List<UTI1006>> motiByType(@RequestParam("type_m") ReasonType type_m) throws Exception {
 		return new ResponseEntity<List<UTI1006>>(motiServ.motiByType(type_m), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/externalPagination", method = RequestMethod.POST)
-	public ResponseEntity<String> externalPagination(@RequestParam ( "uti1001" ) String json, @RequestParam ( "type_m") ReasonType type_m) throws MyWebException, JsonProcessingException {
+	public ResponseEntity<String> externalPagination(@RequestParam ( "uti1001" ) String json, @RequestParam ( value= "type_m", required = false) ReasonType type_m) throws MyWebException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		GenericObject<UTI1006> objectGen;
 

@@ -1,11 +1,17 @@
-<!------------- FORMULARIO NUEVO MOTIVO --------------->
+<a  ng-click="create()"
+	uib-popover="{{'GENE.NEW' | translate}}"
+	popover-trigger="'mouseenter'"
+	class="btn btn-social-icon btn-facebook"> <span
+	class="fa fa-plus-square"></span>
+</a>
 
+<script type="text/ng-template" id="NewUTI1006Ctrl.html">
 <div class="modal-header">
-	<h3 class="box-title">{{ ('FORM.UTI1006' | translate)+('FORM.NEW'
-		| translate) }}</h3>
+	<div class="modal-header">
+		<h3 class="box-title"><i class="fa fa-plus-square"></i>&nbsp;{{ ('GENE.NEW' | translate) }}</h3>
+	</div>
 </div>
 <div id="FATH_FORM" class="modal-body">
-	<!--  -->
 	<form id="UTI1006Form" name="UTI1006Form" novalidate="true">
 		<div class="row">
 			<div class="col-sm-6">
@@ -50,10 +56,11 @@
 		<div class="modal-footer">
 			<a ng-click="cancel()" class="btn btn-app btn btn-warning"> <i
 				class="fa fa-close"></i> {{ 'GENE.CANCEL' | translate }}
-			</a> <a ng-disabled="!UTI1006Form.$valid" ng-click="submitForm(uti1006, UTI1006EditForm)"
+			</a> <a ng-disabled="!UTI1006Form.$valid" ng-click="create(UTI1006Form)"
 				class="btn btn-app btn btn-primary"> <i class="fa fa-save"></i>
 				{{ 'GENE.SAVE' | translate }}
 			</a>
 		</div>
 	</form>
 </div>
+</script>

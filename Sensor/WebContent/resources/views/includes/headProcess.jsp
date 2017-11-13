@@ -19,6 +19,8 @@
        folder instead of downloading all of them to reduce the load. -->
 <link rel="stylesheet"
 	href="/Sensor/resources/dist/css/skins/_all-skins.min.css">
+<link rel="stylesheet"
+	href="/Sensor/resources/css/checkboxes.min.css">
 <link href="/Sensor/resources/css/styles.css"
 	rel="stylesheet">
 	
@@ -163,9 +165,6 @@ var="anguspin" />
 <!--------------------------------------------------->
 
 <!--------------------- UTI1006  ---------------------->
-<spring:url
-	value="/resources/js/angular/js/components/UTI1006/new-uti1006.js"
-	var="newUTI1006Js" />
 <spring:url
 	value="/resources/js/angular/js/controllers/UTI1006Controller.js"
 	var="mstrUTI1006Js" />
@@ -559,8 +558,9 @@ var="CPREC" />
 <!------------->
 
 <!-- UTI1006 -->
+<script type="text/javascript" src="${GRIDUTI1006ServJs}"></script>
+<script type="text/javascript" src="${selectUTI1006Js}"></script>
 <script type="text/javascript" src="${uti1006ServJs}"></script>
-<script type="text/javascript" src="${newUTI1006Js}"></script>
 <script type="text/javascript" src="${mstrUTI1006Js}"></script>
 <!------------->
 
@@ -587,7 +587,6 @@ var="CPREC" />
 <script type="text/javascript" src="${GRIDMAE1013ServJs}"></script>
 <script type="text/javascript" src="${uti1006ServJs}"></script>
 <script type="text/javascript" src="${GRIDMAE1012ServJs}"></script>
-<script type="text/javascript" src="${GRIDUTI1006ServJs}"></script>
 <script type="text/javascript" src="${assignSealsJs}"></script>
 <script type="text/javascript" src="${newMAE1013Js}"></script>
 <script type="text/javascript" src="${selectMAE1012Js}"></script>
@@ -596,7 +595,6 @@ var="CPREC" />
 <script type="text/javascript" src="${searchMAE1016Js}"></script>
 <script type="text/javascript" src="${searchMAE1017Js}"></script>
 <script type="text/javascript" src="${searchMAE1018Js}"></script>
-<script type="text/javascript" src="${selectUTI1006Js}"></script>
 <script type="text/javascript" src="${mstrMAE1013Js}"></script>
 <!------------------------------------------------------>
 

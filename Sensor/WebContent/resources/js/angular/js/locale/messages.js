@@ -154,6 +154,10 @@ angular.module('messages').config([ '$translateProvider',
 					"PHONE":			"Phone",
 					"NAME":				"Name",
 					"STATUS":			"Status",
+					"STNS":				"Stations",
+					"ERRORSERV":		"Error processing data on the server",
+					"ACTIVEfalse":		"Inactive",
+					"ACTIVEtrue":		"Active",
 				},
 				
 				"URL": {
@@ -593,6 +597,10 @@ angular.module('messages').config([ '$translateProvider',
 					"PHONE":			"Teléfono",
 					"NAME":				"Nombre",
 					"STATUS":			"Estado",
+					"STNS":				"Estaciones",
+					"ERRORSERV":		"Error al procesar datos en el servidor",
+					"ACTIVEfalse":		"Inactivo",
+					"ACTIVEtrue":		"Activo",
 					
 				},
 				

@@ -27,34 +27,27 @@
 	function DeleteStationCtrl ( $scope, $log, $rootScope, station,
 			$uibModalInstance, alrts, comunication, stationService ) {
 		
+		$log.info("ESTACION A ELMINAR"); $log.info(station);
 		$scope.ok = function ( ) {
 			$scope.cancel();
 			// Se elige motivo de eliminacion
-			$rootScope.selectUTI1006("ELIM");
+			comunication.setData04("ELIM");
+			comunication.setEvnt07("emit");
 		};
 		
 		// Procedimiento a seguir una vez seleccionado el motivo de eliminacion
-		$scope.$watch(function ( ) { return comunication.getMot_04() }, function ( ) {
-			if (comunication.isValid(comunication.getMot_04())) {
-				stationService.inactivate(station.namest, comunication.getMot_04())
+		$rootScope.$watch(function ( ) { return comunication.getData05() }, function ( ) {
+			if (comunication.isValid(comunication.getData05())) {
+				$log.info("ESTACION A ELMINAR"); $log.info(station);
+				stationService.inactivate(station.namest, comunication.getData05())
 				.then(function successCallback ( response ) {
-						$uibModalInstance.close(true);
 						alrts.successMsg("GENE.RGTR_SUPR");
 						//Recargar lista
 			        	comunication.setEvnt06("emit");
 				}, function errorCallback ( error ) {
 					$log.error(response);
 				});
-				/*
-				 * mae1013Service.inactivateWithMotivo(comunication.getOrdElim().orno,
-				 * comunication.getMot_04()) .then(function
-				 * successCallback(response) {
-				 * alrts.successMsg("GENE.RGTR_SUPR");
-				 * comunication.setGrid1013("grid1013");
-				 * comunication.setRelWdgts("relWdgts"); },function
-				 * errorCallback(response) { });
-				 */
-				comunication.setMot_04(null);
+				comunication.setData05(null);
 			}
 		});
 
@@ -77,10 +70,10 @@
 		$scope.station = angular.copy(station);
 		$scope.update = function ( form ) {
 			if (form.$valid) {
-				stationService.update(station, $uibModalInstance, 1, $scope);
+				stationService.update($scope.station, $uibModalInstance, 1, $scope);
 			}
 		};
-		$scope.cancel = function ( srvrpo ) {
+		$scope.cancel = function ( ) {
 			$uibModalInstance.dismiss(false);
 		};
 	}
@@ -107,6 +100,7 @@
 		$scope.selected = function ( station ) {
 			$scope.stselected = station;
 			$log.info("estacion seleccionada");
+			$log.info($scope.stselected);
 		}
 		
 		// Detalle de estacion
@@ -152,7 +146,7 @@
 		$scope.remove = function ( ) {
 			var modalInstance = $uibModal.open({
 				animation : true,
-				templateUrl : "myModalContent.html",
+				templateUrl : "confirm.html",
 				controller : "DeleteStationCtrl",
 				size : "sm",
 				resolve : {
@@ -183,7 +177,7 @@
 			$log.error(error);
 		});
 
-		// Escuchador para recargar mesas
+		// Escuchador para recargar estaciones
 		$scope.$watch(function ( ) { return comunication.getEvnt06() }, function ( ) {
 			if (comunication.isValid(comunication.getEvnt06())) {
 				find();

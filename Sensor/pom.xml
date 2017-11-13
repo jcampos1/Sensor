@@ -6,7 +6,7 @@
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
-	<properties>  
+	<properties>   
 		<!-- Spring -->
 		<spring-framework.version>4.3.1.RELEASE</spring-framework.version>
 		<!-- Spring Security -->

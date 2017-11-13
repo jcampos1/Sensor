@@ -12,4 +12,6 @@ public interface IStationService extends IGenericService<Station> {
 	public void inactivateWithMotivo(String namest, UTI1006 moti, MAE1001 userna) throws MyWebException;
 
 	List<Station> findActive();
+
+	void myOwnerAdd(Station station) throws MyWebException;
 }

@@ -15,4 +15,5 @@ public interface IUTI1006Service extends IGenericService<UTI1006> {
 	public List<UTI1006> motiByType(ReasonType type_m);
 	public void enabled(List<IdsDelete> lst, Boolean enabled) throws MyWebException;
 	public GenericObject<UTI1006> findSubsetSimpleMoti(UTI1002 gp, ReasonType type_m);
+	void inactivate(UTI1006 obj) throws MyWebException;
 }

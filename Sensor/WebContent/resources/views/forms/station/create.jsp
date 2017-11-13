@@ -2,7 +2,7 @@
 	uib-popover="{{'GENE.NEW' | translate}}"
 	popover-trigger="'mouseenter'"
 	class="btn btn-social-icon btn-facebook"> <span
-	class="glyphicon glyphicon-edit"></span>
+	class="fa fa-plus-square"></span>
 </a>
 <script type="text/ng-template" id="createStationComponent.html">
 	<div class="modal-header">

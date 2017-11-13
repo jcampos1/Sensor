@@ -5,15 +5,15 @@ angular.module("UTI1006Service", ['notify', 'messages']);
 /* *********************** SERVICIO MOTIVOS ********************** */
 "use strict";
 angular.module('UTI1006Service').service('uti1006Service', uti1006);
-uti1006.$inject = [ '$http', '$q', 'alrts', '$translate' ];
-function uti1006($http, $q, alrts, $translate) {
+uti1006.$inject = [ '$http', '$q', 'alrts', '$translate', 'comunication' ];
+function uti1006($http, $q, alrts, $translate, comunication) {
 	return {
-		update : function(entity, $uibModalInstance, opc, $scope, bcg, pscope) {
-			checkEntityPromise(entity)
+		update : function(entity, $uibModalInstance, opc, $scope) {
+			check(entity)
 			.then(function(response) {
 				window.clearErrors("FATH_FORM");
 	        	if(response.status == "ok") {
-	        		updatePromise(entity, opc)
+	        		update(entity, opc)
 			        .then(function(data) {
 			        	if($uibModalInstance){
 			        		$uibModalInstance.close(true);
@@ -22,9 +22,11 @@ function uti1006($http, $q, alrts, $translate) {
 			        	if(opc==0){
 			        		$scope.uti1006 = new Object();
 			        	}
-			        	bcg.getPage(pscope, 5);
+			        	//Recargar lista de motivos
+			        	comunication.setEvnt09("emit");
 			        })
 			        .catch(function(error) {
+			        	showMsg(3);
 			        	console.log(error);
 			        });
 	        	}else {
@@ -45,7 +47,7 @@ function uti1006($http, $q, alrts, $translate) {
 		}
 	}
 
-	function updatePromise(entity, opc) {
+	function update(entity, opc) {
 		var defered = $q.defer();
 		var promise = defered.promise;
 		var url = '';
@@ -66,7 +68,7 @@ function uti1006($http, $q, alrts, $translate) {
 		return promise;
 	}
 	
-	function checkEntityPromise(entity) {
+	function check(entity) {
 		var defered = $q.defer();
 		var promise = defered.promise;
 		var url = 'UTI1006/checkUTI1006';
@@ -83,7 +85,7 @@ function uti1006($http, $q, alrts, $translate) {
 		var promise = defered.promise;
 		
 		$http({
-			url: "/WeighBridgeStandAlone/UTI1006/externalPagination", 
+			url: "/Sensor/UTI1006/externalPagination", 
 			method: "POST",
 			params: {uti1001:obj, type_m:type_m },
 		}).success(function(data){
@@ -105,6 +107,9 @@ function uti1006($http, $q, alrts, $translate) {
 			break;
 		case 2:
 			alrts.successMsg("GENE.RGTR_SUPR");
+			break;
+		case 3:
+			alrts.dangerMsg("GENE.ERRORSERV");
 			break;
 		default:
 			break;

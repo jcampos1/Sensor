@@ -84,7 +84,12 @@ public class UTI1006DAOImpl extends AbstractHibernateDao<UTI1006> implements IUT
 		toIndex = gp.getPageSize();
 
 		criteria.select(root).distinct(true);
-		Predicate pred = builder.equal(root.get(UTI1006_.type_m), type_m);
+		Predicate pred = builder.equal(root.get(UTI1006_.active), true);
+		
+		if(type_m != null){
+			pred = builder.and(pred, builder.equal(root.get(UTI1006_.type_m), type_m));
+		}
+		
 		criteria.where(pred);
 
 		totalRecords = getCurrentSession().createQuery(criteria).getResultList().size();

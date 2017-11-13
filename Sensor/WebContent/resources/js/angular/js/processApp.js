@@ -1,5 +1,5 @@
 'use strict';
-angular.module("processApp", [ 'MEDIOAPP',  'myApp', 'widgets01', 'widgets02', 'MAE1008APP', 'MAE1007APP', 'UTI1006APP', 'PAR1001APP', 'MAE1013APP', 'MAE1014APP', 'MAE1015APP', 'selectMAE1016', 'selectMAE1017', 'selectMAE1018', 'desgloseMAE1010', 'CMAE1010_01', 'commons', 'localytics.directives', 'ui.router', 'CTRLPESAJE', 'dynamicNumber', 'Comunication02']);
+angular.module("processApp", [ 'MEDIOAPP',  'myApp', 'widgets01', 'widgets02', 'GRIDUTI1006', 'MAE1008APP', 'MAE1007APP', 'UTI1006APP', 'PAR1001APP', 'MAE1013APP', 'MAE1014APP', 'MAE1015APP', 'selectMAE1016', 'selectMAE1017', 'selectMAE1018', 'desgloseMAE1010', 'CMAE1010_01', 'commons', 'localytics.directives', 'ui.router', 'CTRLPESAJE', 'dynamicNumber', 'Comunication02']);
 
 angular.module("processApp").config(['dynamicNumberStrategyProvider', function(dynamicNumberStrategyProvider){
   dynamicNumberStrategyProvider.addStrategy('general', {
@@ -27,7 +27,7 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
                  template: "<widgets02-component />"
             },
             "mstr":{
-                 templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrUser.jsp"
+                 templateUrl: "/Sensor/resources/views/masters/mstrUser.jsp"
             },
         } 
     })
@@ -38,7 +38,7 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
                 template: "<widgets02-component />"
         	},
         	"mstr":{
-                templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrMAE1008.jsp"
+                templateUrl: "/Sensor/resources/views/masters/mstrMAE1008.jsp"
         	},
         } 
     })
@@ -49,7 +49,7 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
                 template: "<widgets02-component />"
         	},
         	"mstr":{
-                templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrMAE1007.jsp"
+                templateUrl: "/Sensor/resources/views/masters/mstrMAE1007.jsp"
         	},
         } 
     })
@@ -72,7 +72,7 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
                 template: "<widgets02-component />"
         	},
         	"mstr":{
-                templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrPAR1001.jsp"
+                templateUrl: "/Sensor/resources/views/masters/mstrPAR1001.jsp"
         	},
         } 
     })
@@ -83,7 +83,7 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
                 template: "<widgets02-component />"
         	},
         	"mstr":{
-                templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrUTI1006.jsp"
+                templateUrl: "/Sensor/resources/views/masters/mstrUTI1006.jsp"
         	},
         } 
     })
@@ -91,10 +91,10 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
             url: "/header",
             views:{
             	"content-header":{
-                     templateUrl: "/WeighBridgeStandAlone/resources/views/includes/content-header.jsp"
+                     templateUrl: "/Sensor/resources/views/includes/content-header.jsp"
                 },
                 "header":{
-                     templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrMAE1013.jsp"
+                     templateUrl: "/Sensor/resources/views/masters/mstrMAE1013.jsp"
                 },
                 "widgets":{
                     template: "<widgets01-component ></widgets01-component>"
@@ -105,23 +105,23 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
             url: "/lines",
             views:{
             	"content-header":{
-                    templateUrl: "/WeighBridgeStandAlone/resources/views/includes/content-header2.jsp"
+                    templateUrl: "/Sensor/resources/views/includes/content-header2.jsp"
                 },
                 "header":{
-                     templateUrl: "/WeighBridgeStandAlone/resources/views/forms/MAE1013/detailPage.jsp"
+                     templateUrl: "/Sensor/resources/views/forms/MAE1013/detailPage.jsp"
                 },
                 "lines": {
 
-                    templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrMAE1014.jsp"
+                    templateUrl: "/Sensor/resources/views/masters/mstrMAE1014.jsp"
                 },
                 "conten": {
-                    templateUrl: "/WeighBridgeStandAlone/resources/views/forms/MAE1010/contenedores.jsp"
+                    templateUrl: "/Sensor/resources/views/forms/MAE1010/contenedores.jsp"
                 },
                 "peso": {
                     template: "<ctrl-pesaje-component></ctrl-pesaje-component>"
                 },
                 "desglose": {
-                	 templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrMAE1015.jsp"
+                	 templateUrl: "/Sensor/resources/views/masters/mstrMAE1015.jsp"
                 }
             } 
         })
@@ -129,17 +129,17 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
             url: "/linesReadOnly",
             views:{
             	"content-header":{
-                    templateUrl: "/WeighBridgeStandAlone/resources/views/includes/content-header2.jsp"
+                    templateUrl: "/Sensor/resources/views/includes/content-header2.jsp"
                 },
                 "header":{
-                     templateUrl: "/WeighBridgeStandAlone/resources/views/forms/MAE1013/detailPage.jsp"
+                     templateUrl: "/Sensor/resources/views/forms/MAE1013/detailPage.jsp"
                 },
                 "lines": {
 
-                    templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrMAE1014.jsp"
+                    templateUrl: "/Sensor/resources/views/masters/mstrMAE1014.jsp"
                 },
                 "desglose": {
-                	 templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrMAE1015.jsp"
+                	 templateUrl: "/Sensor/resources/views/masters/mstrMAE1015.jsp"
                 }
             } 
         })
@@ -147,14 +147,14 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
             url: "/linesOrder",
             views:{
             	"content-header":{
-                    templateUrl: "/WeighBridgeStandAlone/resources/views/includes/content-header2.jsp"
+                    templateUrl: "/Sensor/resources/views/includes/content-header2.jsp"
                 },
                 "header":{
-                     templateUrl: "/WeighBridgeStandAlone/resources/views/forms/MAE1013/detailPage.jsp"
+                     templateUrl: "/Sensor/resources/views/forms/MAE1013/detailPage.jsp"
                 },
                 "lines": {
 
-                    templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrMAE1014.jsp"
+                    templateUrl: "/Sensor/resources/views/masters/mstrMAE1014.jsp"
                 },
             } 
         })

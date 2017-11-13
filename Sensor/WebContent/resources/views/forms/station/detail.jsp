@@ -6,17 +6,17 @@
 </div>
 <div id="FATH_FORM" class="modal-body">
 	<div class="row">
-		<div class="col-sm-4">
+		<div class="col-sm-4 col-xs-4">
 			<h5>{{ 'GENE.NAME' | translate }}</h5>
 			{{station.namest}}
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-4 col-xs-4">
 			<h5>{{ 'GENE.PHONE' | translate }}</h5>
 			{{station.phonst}}
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-4 col-xs-4">
 			<h5>{{ 'GENE.STATUS' | translate }}</h5>
-			{{'GENE.'+station.status | translate}}
+			{{'GENE.ACTIVE'+station.status | translate}}
 		</div>
 	</div>
 	<br />

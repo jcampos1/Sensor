@@ -5,8 +5,11 @@
 	<div id="FATH_FORM" class="modal-body">
 		<!--  -->
 		<form id="StationEditForm" name="StationEditForm" novalidate="true">
-			<h5>{{station.namest}}</h5>
-			<hr>
+			<div class="row">
+				<div class="col-xs-4 col-xs-offset-4">
+					<strong><h4>{{station.namest}}</h4></strong>
+				</div>
+			</div>
 			<div class="row">
 				<!-- Teléfono -->
 				<div class="col-sm-6">

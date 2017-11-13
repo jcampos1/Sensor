@@ -50,6 +50,14 @@ public class StationServiceImpl extends AbstractGenericService<Station> implemen
 		myDao.update(station);
 	}
 	
+	@Override
+	@Transactional
+	public void myOwnerAdd(Station station) throws MyWebException {
+		station.setActive(true);
+		station.setStatus(false);
+		myDao.create(station);
+	}
+	
 	@Transactional(readOnly = true)
 	@Override
 	public List<Station> findActive() {

@@ -15,7 +15,6 @@ function stationService(comunication, $http, $log, $q, alrts) {
 			.then(function(response) {
 				window.clearErrors("FATH_FORM");
 	        	if(response.status == "ok") {
-	        		$log.info("Entidad a actualizar: ");$log.info(entity);
 	        		update(entity, opc)
 			        .then(function(data) {
 			        	if($uibModalInstance){
@@ -30,6 +29,7 @@ function stationService(comunication, $http, $log, $q, alrts) {
 			        	comunication.setEvnt06("emit");
 			        })
 			        .catch(function(error) {
+			        	showMsg(3);
 			        	$log.error(error);
 			        });
 	        	}else {
@@ -93,7 +93,7 @@ function stationService(comunication, $http, $log, $q, alrts) {
 	
 	function inactivate(namest, moti) {
 		return $http({
-			url : path + "/inactivate",
+			url : "/Sensor/Station/inactivate",
 			method : "DELETE",
 			params : {
 				namest : namest,
@@ -113,6 +113,9 @@ function stationService(comunication, $http, $log, $q, alrts) {
 			break;
 		case 2:
 			alrts.successMsg("GENE.RGTR_SUPR");
+			break;
+		case 3:
+			alrts.dangerMsg("GENE.ERRORSERV");
 			break;
 		default:
 			break;

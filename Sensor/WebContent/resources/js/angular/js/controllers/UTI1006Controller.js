@@ -3,28 +3,10 @@
 'use strict';
 angular.module("UTI1006APP", [ 'ui.bootstrap', 'ngTouch', 'ui.grid',
 		'ui.grid.selection', 'ui.grid.pagination', 'adminModule',
-		'ui.bootstrap.contextMenu', 'ui.grid.exporter','newUTI1006', 'messages',
+		'ui.bootstrap.contextMenu', 'ui.grid.exporter', 'messages',
 		'constants', 'UTI1006Service', 'abstractService', 'notify', 'angular-ui-grid-translate' ]);
 
-var globalScope;
-
 /* ******** CONTROLADORES - MODALES *************** */
-
-(function() {
-	"use strict";
-	angular.module("UTI1006APP")
-			.controller('modalDetailUTI1006Ctrl', modalDetailUTI1006Ctrl);
-
-	modalDetailUTI1006Ctrl.$inject = [ '$scope', '$uibModalInstance', 'parentScope'];
-	function modalDetailUTI1006Ctrl($scope, $uibModalInstance, parentScope) {
-		
-		$scope.uti1006 = angular.copy(parentScope.rowDetail);
-		
-		$scope.cancel = function() {
-			$uibModalInstance.dismiss(false);
-		};
-	}
-})();
 
 (function() {
 	"use strict";
@@ -58,109 +40,91 @@ var globalScope;
 
 (function() {
 	"use strict";
-	angular.module("UTI1006APP")
-			.controller('modalEditUTI1006Ctrl', modal_edit_entity);
-
-	modal_edit_entity.$inject = [ '$scope', '$uibModalInstance',
-			'parentScope', 'basicConfigurationGrid', 'uti1006Service'];
-	function modal_edit_entity($scope, $uibModalInstance,
-			parentScope, basicConfigurationGrid, uti1006Service) {
-		
-		$scope.uti1006 = angular.copy(parentScope.rowEdit);
-		
-		$scope.submitForm = function(uti1006, form) {
-			if( form.$valid ) {
-				uti1006Service.update(uti1006, $uibModalInstance, 1, $scope, basicConfigurationGrid, parentScope);
-			}
-		};
-		
-		$scope.cancel = function() {
-			$uibModalInstance.dismiss(false);
-		};
-	}
-})();
-
-(function() {
-	"use strict";
 	angular.module("UTI1006APP").controller('uti1006Controller', uti1006Controller);
-	uti1006Controller.$inject = [ '$scope', '$uibModal', '$log', 'adminService',
-			'uiGridConstants', 'basicConfigurationGrid',
+	uti1006Controller.$inject = [ '$scope', 'UTI1006ConfigurationGrid', 'comunication', '$uibModal', '$log',
+			'uiGridConstants',
 			'i18nService', '$translate', '$window', '$rootScope', 'translations', 'OK', 'NOT_CONTENT', 'NOT_FOUND', 'uti1006Service' ];
 
-	function uti1006Controller($scope, $uibModal, $log, adminService,
-			uiGridConstants, basicConfigurationGrid,
+	function uti1006Controller($scope, UTI1006ConfigurationGrid, comunication, $uibModal, $log,
+			uiGridConstants,
 			i18nService, $translate, $window, $rootScope, translations, OK, NOT_CONTENT, NOT_FOUND, uti1006Service) {
 		
 		/** * ****INICIALIZACION DE VARIABLES Y ESTRUCTURAS * **** */
-		$rootScope.scUTI1006 = $scope;
-		$scope.controllerDetail = "modalDetailUTI1006Ctrl";
-		$scope.controllerEdition = "modalEditUTI1006Ctrl";
-		$scope.controllerDelete = "modal_confirmation_deleteUTI1006";
-		
 		uti1006Service.listReasonType().then(function(lst) {
 			$rootScope.lstType = lst.data;
 		});
 		
-		// Texto de busqueda
-		$scope.text = "";
-		// Campos de busquedas
-		$scope.search_fields = new Array();
-		$scope.search_fields.push("id");
-		$scope.search_fields.push("code_m");
-		$scope.search_fields.push("dsca_m");
-		
-		$scope.lstOrder = new Array();
-
 		var toTrans = new Array();
-		toTrans = translations.transMstr();
-		toTrans.push('UTI1006.TYPE_M');
-		toTrans.push('GENE.DSCA');
 		toTrans.push('GENE.CODE');
+		toTrans.push('GENE.DSCA');
 		
-		$scope.controllerDetail = "modalDetailUTI1006Ctrl";
+		// Detalle de motivo
+		$scope.detail = function ( ) {
+			var modalInstance = $uibModal.open({
+				animation : true,
+				templateUrl : "detailMotive.html",
+				controller : "DetailMotiveCtrl",
+				size : "md",
+				resolve : {
+					motive : function ( ) {
+						return $scope.motiselected;
+					}
+				}
+			});
+		}
+		
+		// Actualizacion de etsacion
+		$scope.update = function ( ) {
+			var modalInstance = $uibModal.open({
+				animation : true,
+				templateUrl : "updateUTI1006.html",
+				controller : "UpdateUTI1006Ctrl",
+				size : "md",
+				resolve : {
+					station : function ( ) {
+						return $scope.stselected;
+					}
+				}
+			});
+		}
+		
+		//Creacion de motivo
+		$scope.create = function() {
+			var modalInstance = $uibModal.open({
+				animation : true,
+				templateUrl : 'NewUTI1006Ctrl.html',
+				controller : 'NewUTI1006Ctrl',
+				size : "md"
+			});
+		};
 		
 		$translate(toTrans).then(function(translation) {
 			$scope.translation = translation;
 			$scope.columns = [];
 			language_grid();
-			adminService.setEntity("UTI1006");
-			$scope.mstr = 5;
-			$scope.size = "md";
 			
 			/** ******************************************************************************** */
 
 			/* ********************** CONFIGURACION DE UI-GRID ************** */
-			basicConfigurationGrid.initMenuOptions($scope);
-			basicConfigurationGrid.initializeGridOptions($scope, true);
-			basicConfigurationGrid.registerPaginationChanged($scope);
-
+			UTI1006ConfigurationGrid.initializeGridOptionsAdmin($scope);
+			UTI1006ConfigurationGrid.registerPaginationChanged($scope);
 			/** **************************************************************** */
-
-			/** *********************** EVENTOS ******************************** */
-			basicConfigurationGrid.eventSearch($scope);
-			basicConfigurationGrid.eventSortingExternal($scope);
-			/** ******************************************************************************** */
-
-			basicConfigurationGrid.getPage($scope, $scope.mstr);
-
+			
 			function language_grid() {
 				$scope.columns = [ {
-					name : 'id',
-					visible : true,
-					width : '8%'
-				}, {
 					name : 'code_m',
 					displayName : $scope.translation['GENE.CODE'],
-					width : '20%'
+					width : '30%'
 				}, {
 					field : 'dsca_m',
 					displayName : $scope.translation['GENE.DSCA'],
-					width : '45%'
-				} , {
-					field : 'type_m.dsca',
-					displayName : $scope.translation['UTI1006.TYPE_M'],
-					width : '24%'
+					width : '67%'
 				}];
+			}
+			
+			//Se obtienen motivos
+			function reload(){
+				UTI1006ConfigurationGrid.getPage($scope);
 			}
 			
 			function trans(lang) {
@@ -170,9 +134,10 @@ var globalScope;
 					$scope.translation = translation;
 					language_grid();
 					$scope.gridOptions.columnDefs = $scope.columns;
-					basicConfigurationGrid.initMenuOptions($scope);
 				});
 			}
+			
+			reload();
 			
 			translations.getLanguage().then(function(response) {
 				if(response.status == NOT_CONTENT) {
@@ -180,16 +145,109 @@ var globalScope;
 				}else {
 					var lang = response.data;
 				}
+				//Se establece el lenguaje del lado del cliente
 				trans(lang);
+				//Se establece el lenguaje del lado del servidor
 				translations.setLocale(lang).then(function(response) {
 				})
 		        .catch(function(error) {
+		        	$log.error(error);
 		        });
 	        })
 	        .catch(function(error) {
+	        	$log.error(error);
 	        });
-			
-			globalScope = $scope;
+		});
+		
+		// Escuchador para recargar estaciones
+		$scope.$watch(function ( ) { return comunication.getEvnt09() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt09())) {
+				comunication.setEvnt09(null);
+				//Se obtienen motivos
+				reload();
+			}
+		});
+		
+		// Escuchador para edicion de motivo por doble click en fila
+		$scope.$watch(function ( ) { return comunication.getEvnt08() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt08())) {
+				comunication.setEvnt08(null);
+				//Se obtienen motivos
+				$scope.update();
+			}
 		});
 	}
 })();
+
+//Controlador para detalle
+(function() {
+	"use strict";
+	angular.module("UTI1006APP")
+			.controller('DetailMotiveCtrl', DetailMotiveCtrl);
+
+	DetailMotiveCtrl.$inject = [ '$scope', '$uibModalInstance', 'motive'];
+	function DetailMotiveCtrl($scope, $uibModalInstance, motive) {
+		
+		//Motivo seleccionado
+		$scope.uti1006 = angular.copy(motive);
+		
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss(false);
+		};
+	}
+})();
+
+//Controlador para edicion
+(function() {
+	"use strict";
+	angular.module("UTI1006APP")
+			.controller('UpdateUTI1006Ctrl', UpdateUTI1006Ctrl);
+
+	UpdateUTI1006Ctrl.$inject = [ '$scope', '$uibModalInstance', 'comunication', 'uti1006Service'];
+	function UpdateUTI1006Ctrl($scope, $uibModalInstance, comunication, uti1006Service) {
+		
+		$scope.uti1006 = angular.copy(comunication.getData05());
+		
+		$scope.update = function(form) {
+			if( form.$valid ) {
+				uti1006Service.update($scope.uti1006, $uibModalInstance, 1, $scope);
+			}
+		};
+		
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss(false);
+		};
+	}
+})();
+
+//Controlador para nuevo
+(function() {
+	"use strict";
+	angular.module("UTI1006APP").controller('NewUTI1006Ctrl',
+			NewUTI1006Ctrl);
+
+	NewUTI1006Ctrl.$inject = [ '$scope', '$uibModalInstance', 'uti1006Service' ];
+	function NewUTI1006Ctrl($scope, $uibModalInstance, uti1006Service) {
+		$scope.uti1006 = new Object();
+
+		$scope.create = function(form) {
+			if( form.$valid ) {
+				uti1006Service.update($scope.uti1006, $uibModalInstance, 0, $scope);
+			}
+		}
+
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss(false);
+		};
+	}
+})();
+
+//Componente creacion de usuario
+angular
+		.module('UTI1006APP')
+		.component(
+				'createUti1006Component',
+				{
+					templateUrl : 'resources/views/forms/UTI1006/create.jsp',
+					controller : 'uti1006Controller'
+				});

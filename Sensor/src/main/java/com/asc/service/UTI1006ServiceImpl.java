@@ -55,6 +55,13 @@ public class UTI1006ServiceImpl extends AbstractGenericService<UTI1006> implemen
 		}
 	}
 	
+	@Override
+	@Transactional
+	public void inactivate(UTI1006 obj) throws MyWebException {
+		obj.setActive(false);
+		update(obj);
+	}
+	
 	@Transactional(readOnly = true)
 	public GenericObject<UTI1006> findSubsetSimpleMoti(UTI1002 gp, ReasonType type_m) {
 		return myDao.findSubsetSimpleMoti(gp, type_m);

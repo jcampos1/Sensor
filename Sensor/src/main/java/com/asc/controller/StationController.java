@@ -66,7 +66,7 @@ public class StationController extends Base<Station> {
 	public ResponseEntity<Station> update(@RequestBody Station entity, BindingResult result, ModelMap modelMap)
 			throws Exception {
 		if ( !StringUtil.isEmptyOrNullValue(entity.getNamest()) ) {
-			if ( service.getById(entity.getNamest()) == null ) { throw new Exception("parameter not found"); }
+			if ( service.getById(entity.getNamest()) == null ) { throw new Exception("Station not found"); }
 		}
 
 		stationServ.merge(entity);
@@ -77,9 +77,11 @@ public class StationController extends Base<Station> {
 	public ResponseEntity<Station> create(@RequestBody Station entity, BindingResult result, ModelMap modelMap)
 			throws Exception {
 		
-		entity.setActive(true);
-		entity.setStatus(false);
-		stationServ.add(entity);
+		if ( !StringUtil.isEmptyOrNullValue(entity.getNamest()) ) {
+			if ( service.getById(entity.getNamest()) != null ) { throw new Exception(getMess("gene.duplicated")); }
+		}
+		
+		stationServ.myOwnerAdd(entity);
 		return new ResponseEntity<Station>(entity, HttpStatus.OK);
 	}
 

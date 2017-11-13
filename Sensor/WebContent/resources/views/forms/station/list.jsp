@@ -1,5 +1,6 @@
+<!-- Lista de operaciones -->
 <div class="row">
-	<div class="col-lg-3 col-sm-4 col-xs-6" style="text-align: left;">
+	<div class="col-lg-3 col-sm-4 col-xs-8" style="text-align: left;">
 		<h4>{{'GENE.ACTIONS' | translate}}</h4>
 		<a ng-click="detail()"
 			uib-popover="{{'GENE.DETAIL' | translate}}"
@@ -22,98 +23,45 @@
 		</a>
 	</div>
 </div>
-<hr/>
 
+<!-- Titulo estaciones -->
+<div class="row">
+	<div class="col-lg-12" style="text-align: center;"> 
+		<h3><i class="fa fa-home"></i>&nbsp;{{"GENE.STNS" | translate}}</h3>
+	</div>
+</div>
+
+<!-- Vista de detalle -->
 <%@ include file="/resources/views/forms/station/detail.jsp" %>
+<!-- Vista de edicion -->
 <%@ include file="/resources/views/forms/station/edit.jsp" %>
+<!-- Vista de confirmacion -->
+<script type="text/ng-template" id="confirm.html">
+	<%@ include file="/resources/views/commons/confirm.jsp" %>
+</script>
 
+<!-- Seleccion de motivo de eliminacion -->
+<select-uti1006-component />
+
+<!-- Lista de estaciones -->
 <div class="row" id="stations">
 	<div ng-repeat="station in stations" class="col-lg-3 col-sm-4 col-xs-12" ng-click="selected(station)">
 		<div class="info-box bg-blue">
-			<span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
+			<span class="info-box-icon"><i class="fa fa-home"></i>
+			</span>
 			<div class="info-box-content">
-			    <span class="info-box-text">{{station.namest}}</span>
-			    <span class="info-box-number">{{station.status}}41,410</span>
-			    <!-- The progress section is optional -->
-			    <div class="progress">
-			      <div class="progress-bar" style="width: 70%"></div>
-			    </div>
+			    <span class="info-box-text">{{station.namest}} </span>
+			    <span class="info-box-number" >{{station.phonst}}</span>
 			    <span class="progress-description">
-			      {{station.phonst}}
+			      	<div class="ckbx-style-9">
+                        <input type="checkbox" id="ckbx-style-9-1" ng-model="station.status" value="0" name="ckbx-style-9">
+                        <label for="ckbx-style-9-1"></label>
+                    </div>
 				</span>
 			</div>
 		</div>
 	</div>
 </div>
-
-<!-- Custom tabs (Charts with tabs)-->
-<%-- <div class="nav-tabs-custom">
-	<ul class="nav nav-tabs pull-right">
-		<li class="active"><a href="#mstr_user" data-toggle="tab">{{'GENE.STNS'
-				| translate }}</a></li>
-		<li class="pull-left header"><i class="fa fa-table"></i>
-			{{'GENE.MSTR' | translate }}</li>
-	</ul>
-	<div class="tab-content no-padding">
-		<!-- Morris chart - Sales -->
-		<div class="tab-pane active" id="mstr_activity"
-			style="position: relative;">
-			<br>
-			<div ng-controller="mae1007Controller">
-				<script type="text/ng-template" id="myModalContent.html">
-			<%@ include file="/resources/views/commons/confirm.jsp" %>
-    	</script>
-				<div class="row">
-					<div class="col-lg-12">
-						<current-simulator></current-simulator>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-						<div class="input-group">
-								<script type="text/ng-template" id="modalNewMAE1007Ctrl.html">
-							<%@ include file="/resources/views/forms/MAE1007/MAE1007.jsp" %>
-						</script>
-								<script type="text/ng-template" id="modalSelectMAE1008Ctrl.html">
-							<%@ include file="/resources/views/forms/MAE1007/GRIDMAE1008.jsp" %>
-						</script>
-								<new-mae1007-component />
-						</div>
-						<div class="input-group">
-							<script type="text/ng-template" id="modalEditEntity.html">
-							<%@ include file="/resources/views/forms/MAE1007/edit.jsp" %>
-						</script>
-						</div>
-						<script type="text/ng-template" id="modalDetailEntity.html">
-							<%@ include file="/resources/views/forms/MAE1007/detail.jsp" %>
-						</script>
-					</div>
-
-					<div class="col-sm-6 col-xs-8 col-sm-offset-4 col-xs-offset-2">
-						<div class="input-group">
-							<input type="text" uib-popover="{{'TLTPS.TP04'|translate}}"
-								popover-trigger="'mouseenter'" ng-change="search()" ng-model="text"
-								ng-model-options='{ debounce: 500 }' class="form-control">
-							<span class="input-group-btn">
-								<button class="btn btn-primary" type="button">{{
-									'GENE.SEARCH' | translate }}</button>
-							</span>
-						</div>
-					</div>
-				</div>
-				<br />
-				<div class="row" ui-i18n="{{ lang }}">
-					<!--  -->
-					<div class="col-sm-12">
-						<div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection
-							ui-grid-exporter></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
---%>
 
 <script type="text/javascript">
 	$(document).ready(function(){
