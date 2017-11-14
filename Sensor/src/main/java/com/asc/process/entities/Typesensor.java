@@ -12,60 +12,47 @@ import javax.validation.constraints.NotNull;
 import com.asc.controller.abstracts.Configuration;
 import com.asc.entities.abstracts.AbstractEntityID;
 
-//ENTIDAD: SENSOR
+//ENTIDAD: TIPO SENSOR (EJMPLO: TEMPARATURA SUELO, GAS, ULTRAVIOLETA)
 
 @Entity
-@Table(name = "sensort")
-public class Sensor extends AbstractEntityID {
+@Table(name = "typesensor")
+public class Typesensor extends AbstractEntityID {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String namese;
-	private String nomenc;
-	private String rango;
+	private String namety;
+	private String descty;
 	private REL1002 evento;
 	
-//	private List<MAE1014> lines = new ArrayList<MAE1014>(0);
-	
-	public Sensor() {
+	public Typesensor() {
 	}
 	
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "idse", unique = true, nullable = false)
+	@Column(name = "idty", unique = true, nullable = false)
 	public Long getId() {
 		return this.id;
 	}
 
 	@NotNull
-	@Column(name = "namese", nullable = false, length = Configuration.SIZE_50)
-	public String getNamese() {
-		return namese;
+	@Column(name = "namety", nullable = false, length = Configuration.SIZE_50)
+	public String getNamety() {
+		return namety;
 	}
 
-	public void setNamese(String namese) {
-		this.namese = namese;
+
+	public void setNamety(String namety) {
+		this.namety = namety;
 	}
 
-	@NotNull
-	@Column(name = "nomenc", nullable = false, length = Configuration.SIZE_NOMENC)
-	public String getNomenc() {
-		return nomenc;
+	@Column(name = "descty", nullable = true, length = Configuration.SIZE_100)
+	public String getDescty() {
+		return descty;
 	}
 
-	public void setNomenc(String nomenc) {
-		this.nomenc = nomenc;
-	}
-
-	@NotNull
-	@Column(name = "rango", nullable = false, length = Configuration.SIZE_RANGO)
-	public String getRango() {
-		return rango;
-	}
-
-	public void setRango(String rango) {
-		this.rango = rango;
+	public void setDescty(String descty) {
+		this.descty = descty;
 	}
 
 

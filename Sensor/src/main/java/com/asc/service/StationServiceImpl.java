@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.asc.commons.entities.MAE1001;
+import com.asc.commons.entities.UTI1002;
 import com.asc.dao.interfaces.IStationDao;
 import com.asc.dao.interfaces.generic.IGenericDao;
+import com.asc.entities.abstracts.GenericObject;
 import com.asc.exceptions.MyWebException;
 import com.asc.process.entities.REL1002;
 import com.asc.process.entities.Station;
@@ -62,5 +64,11 @@ public class StationServiceImpl extends AbstractGenericService<Station> implemen
 	@Override
 	public List<Station> findActive() {
 		return myDao.findActive();
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public GenericObject<Station> findSubsetSimpleStation(UTI1002 gp) {
+		return myDao.findSubsetSimpleStation(gp);
 	}
 }

@@ -13,7 +13,7 @@
 			<div class="row">
 				<!-- Teléfono -->
 				<div class="col-sm-6">
-					<h5><strong>{{ 'GENE.PHONE' | translate }}</strong></h5>
+					<h5><strong>{{'GENE.AST'| translate}}&nbsp;{{ 'GENE.PHONE' | translate }}</strong></h5>
 					<input name="phonst" id="phonst" class="form-control"
 						placeholder="{{ 'GENE.PHONE' | translate }}"
 						ng-model="station.phonst" ng-maxlength="30" required /> <span

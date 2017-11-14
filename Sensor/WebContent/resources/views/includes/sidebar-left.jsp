@@ -53,6 +53,10 @@
 								class="fa fa-circle-o"></i> {{'GENE.DISP' | translate}}</a></li>
 						<li ui-sref-active="active" class="grow"><a ui-sref="station"><i
 								class="fa fa-circle-o"></i> {{'GENE.STNS' | translate}}</a></li>
+						<li ui-sref-active="active" class="grow"><a ui-sref="sensor"><i
+							class="fa fa-circle-o"></i> {{'GENE.SENSOR' | translate}}</a></li>
+						<li ui-sref-active="active" class="grow"><a ui-sref="typesensor"><i
+							class="fa fa-circle-o"></i> {{'GENE.TYSENSOR' | translate}}</a></li>
 						<li ui-sref-active="active" class="grow"><a
 							ui-sref="parameters"><i class="fa fa-circle-o"></i>
 								{{'GENE.PARA' | translate}}</a></li>

@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="detailStation.html">
+<script type="text/ng-template" id="detailTypesensor.html">
 <div class="modal-header">
 	<h3 class="box-title">
 		<span class="glyphicon glyphicon-zoom-in"></span>&nbsp;
@@ -6,17 +6,15 @@
 </div>
 <div id="FATH_FORM" class="modal-body">
 	<div class="row">
-		<div class="col-sm-4 col-xs-4">
+		<div class="col-sm-12">
 			<h5><strong>{{ 'GENE.NAME' | translate }}</strong></h5>
-			{{station.namest}}
+			{{typesensor.namety}}
 		</div>
-		<div class="col-sm-4 col-xs-4">
-			<h5><strong>{{ 'GENE.PHONE' | translate }}</strong></h5>
-			{{station.phonst}}
-		</div>
-		<div class="col-sm-4 col-xs-4">
-			<h5><strong>{{ 'GENE.STATUS' | translate }}</strong></h5>
-			{{'GENE.ACTIVE'+station.status | translate}}
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<h5><strong>{{ 'GENE.DSCA' | translate }}</strong></h5>
+			{{typesensor.descty}}
 		</div>
 	</div>
 	<br />

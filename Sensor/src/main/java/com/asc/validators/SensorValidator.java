@@ -23,6 +23,9 @@ public class SensorValidator extends Configuration implements Validator {
 	public void validate(Object target, Errors errors) {
 		Sensor sensor = (Sensor) target;
 
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "namese", "gene.required",
+				getMess("gene.required"));
+		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nomenc", "gene.required",
 				getMess("gene.required"));
 		

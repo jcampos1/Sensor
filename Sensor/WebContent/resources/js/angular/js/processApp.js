@@ -65,6 +65,28 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
         	},
         } 
      })
+     .state('sensor', {
+        url: "/sensor",
+        views:{
+        	"widgets":{
+                template: "<widgets02-component />"
+        	},
+        	"mstr":{
+                templateUrl: "/Sensor/resources/views/masters/mstrSensor.jsp"
+        	},
+        } 
+     })
+     .state('typesensor', {
+        url: "/typesensor",
+        views:{
+        	"widgets":{
+                template: "<widgets02-component />"
+        	},
+        	"mstr":{
+                templateUrl: "/Sensor/resources/views/masters/mstrTypesensor.jsp"
+        	},
+        } 
+     })
      .state('parameters', {
         url: "/admin/parameters",
         views:{

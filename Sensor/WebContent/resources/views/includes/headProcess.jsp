@@ -210,8 +210,36 @@ var="anguspin" />
 	var="StationService" />
 
 <spring:url
+	value="/resources/js/angular/js/services/GridSelectStation.js"
+	var="GridSelectStation" />
+	
+<spring:url
 	value="/resources/js/angular/js/controllers/StationController.js"
 	var="StationController" />
+<!---------------------------------------------------->
+
+<!--------------------- Sensor  ---------------------->
+<spring:url value="/resources/js/angular/js/services/GridSensorService.js"
+	var="SensorConfigurationGrid" />
+	
+<spring:url value="/resources/js/angular/js/services/SensorService.js"
+	var="SensorService" />
+
+<spring:url
+	value="/resources/js/angular/js/controllers/SensorController.js"
+	var="SensorController" />
+<!---------------------------------------------------->
+
+<!--------------------- Tipo de Sensor  ---------------------->
+<spring:url value="/resources/js/angular/js/services/GridTypesensorService.js"
+	var="TypesensorConfigurationGrid" />
+	
+<spring:url value="/resources/js/angular/js/services/TypesensorService.js"
+	var="TypesensorService" />
+
+<spring:url
+	value="/resources/js/angular/js/controllers/TypesensorController.js"
+	var="TypesensorController" />
 <!---------------------------------------------------->
 
 <!--------------------- PAR1001  ---------------------->
@@ -684,7 +712,20 @@ var="CPREC" />
 
 <!--------------------- Station -------------------->
 <script type="text/javascript" src="${StationService}"></script>
+<script type="text/javascript" src="${GridSelectStation}"></script>
 <script type="text/javascript" src="${StationController}"></script>
+<!-------------------------------------------------->
+
+<!--------------------- Sensor -------------------->
+<script type="text/javascript" src="${SensorConfigurationGrid}"></script>
+<script type="text/javascript" src="${SensorService}"></script>
+<script type="text/javascript" src="${SensorController}"></script>
+<!-------------------------------------------------->
+
+<!--------------------- Tipo de sensor -------------------->
+<script type="text/javascript" src="${TypesensorConfigurationGrid}"></script>
+<script type="text/javascript" src="${TypesensorService}"></script>
+<script type="text/javascript" src="${TypesensorController}"></script>
 <!-------------------------------------------------->
 
 <!--**********************************************************************************-->

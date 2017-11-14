@@ -15,7 +15,7 @@
 	<form id="UTI1006Form" name="UTI1006Form" novalidate="true">
 		<div class="row">
 			<div class="col-sm-6">
-				<h5>{{ 'GENE.CODE' | translate }}</h5>
+				<h5><strong>{{'GENE.AST'| translate}}&nbsp;{{ 'GENE.CODE' | translate }}</strong></h5>
 				<input name="code_m" id="code_m" class="form-control"
 					placeholder="{{ 'GENE.CODE' | translate }}"
 					ng-model="uti1006.code_m" ng-maxlength="6" required /> <span
@@ -26,7 +26,7 @@
 				<div id="ERROR_code_m" class="logError has-error"></div>
 			</div>
 			<div class="col-sm-6">
-				<h5>{{ 'GENE.DSCA' | translate }}</h5>
+				<h5><strong>{{'GENE.AST'| translate}}&nbsp;{{ 'GENE.DSCA' | translate }}</strong></h5>
 				<input name="dsca_m" id="dsca_m" class="form-control"
 					placeholder="{{ 'GENE.DSCA' | translate }}"
 					ng-model="uti1006.dsca_m" ng-maxlength="30" required /> <span
@@ -39,7 +39,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-6">
-				<h5>{{ 'UTI1006.TYPE_M' | translate }}</h5>
+				<h5><strong>{{'GENE.AST'| translate}}&nbsp;{{ 'UTI1006.TYPE_M' | translate }}</strong></h5>
 				<select name="type_m" id="type_m" chosen="{width: '100%'}"
 					placeholder-text-single="'{{::'GENE.SELE_AOPT' | translate}}'"
 					allow-single-deselect="true" ng-model="uti1006.type_m"

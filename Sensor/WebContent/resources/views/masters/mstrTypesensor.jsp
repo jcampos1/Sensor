@@ -1,5 +1,5 @@
-<div id="mstr_activity" style="position: relative;">
-	<div ng-controller="uti1006Controller">
+<div id="mstr_typesensor" style="position: relative;">
+	<div ng-controller="TypesensorCtrl">
     	<!-- Lista de operaciones -->
     	<div class="row">
 			<div class="col-lg-3 col-sm-4 col-xs-8" style="text-align: left;">
@@ -16,7 +16,7 @@
 					class="btn btn-social-icon btn-google"> <span
 					class="glyphicon glyphicon-edit"></span>
 				</a>
-				<create-uti1006-component />
+				<create-typesensor-component />
 				<a ng-click="remove()"
 					uib-popover="{{'GENE.REMOVE' | translate}}"
 					popover-trigger="'mouseenter'"
@@ -26,16 +26,11 @@
 			</div>
 		</div>
 		
-		<!-- Vista detalle -->
-		<%@ include file="/resources/views/forms/UTI1006/detail.jsp" %>
+		 <!-- Vista detalle -->
+		<%@ include file="/resources/views/forms/typesensor/detail.jsp" %>
 		
 		<!-- Vista para actualizacion -->
-		<%@ include file="/resources/views/forms/UTI1006/edit.jsp" %>
-		
-		<!-- Vista para eliminacion -->
-		<script type="text/ng-template" id="myModalContent.html">
-			<%@ include file="/WEB-INF/views/commons/confirm.jsp" %>
-    	</script>
+		<%@ include file="/resources/views/forms/typesensor/edit.jsp" %>
     	
     	<!-- Vista de confirmacion -->
 		<script type="text/ng-template" id="confirm.html">
@@ -44,22 +39,19 @@
 
     	<!-- Seleccion de motivo de eliminacion -->
 		<select-uti1006-component />
-    	
-		<br />
 		
 		<!-- Titulo -->
 		<div class="row">
 			<div class="col-lg-12" style="text-align: center;">
 				<h3>
-					<i class="fa fa-home"></i>&nbsp;<strong>{{"GENE.MOTI" |
+					<i class="fa fa-home"></i>&nbsp;<strong>{{"GENE.TYSENSORS" |
 						translate}}</strong>
 				</h3>
 			</div>
 		</div>
 		
-		<!-- Lista de motivos -->
+		<!-- Lista de sensores -->
 		<div class="row" ui-i18n="{{ lang }}">
-			<!--  -->
 			<div class="col-sm-12">
 				<div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection
 					ui-grid-exporter></div>

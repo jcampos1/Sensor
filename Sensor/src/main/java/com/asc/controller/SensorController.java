@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.asc.commons.entities.UTI1001;
+import com.asc.entities.abstracts.GenericObject;
 import com.asc.exceptions.MyWebException;
 import com.asc.process.entities.Sensor;
 import com.asc.process.entities.UTI1006;
@@ -24,6 +26,7 @@ import com.asc.service.interfaces.ISensorService;
 import com.asc.utils.JsonResponse;
 import com.asc.validators.SensorValidator;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -92,5 +95,26 @@ public class SensorController extends Base<Sensor> {
 		sensorServ.inactivateWithMotivo(entity, motive, getClassCurrentUserByLogin());
 
 		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/externalPagination", method = RequestMethod.POST)
+	public ResponseEntity<String> externalPagination(@RequestParam ( "uti1001" ) String json) throws MyWebException, JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		GenericObject<Sensor> objectGen;
+
+		UTI1001 entity;
+		try {
+			entity = JSON_MAPPER.readValue(json, UTI1001.class);
+			
+			objectGen = sensorServ.findSubsetSimpleSensor(entity.getGrid());
+
+			if (objectGen.getListData().isEmpty()) {
+				return new ResponseEntity<String>(mapper.writeValueAsString(objectGen), HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<String>(mapper.writeValueAsString(objectGen), HttpStatus.OK);
+		} catch (IOException e) {
+			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+		}
 	}
 }

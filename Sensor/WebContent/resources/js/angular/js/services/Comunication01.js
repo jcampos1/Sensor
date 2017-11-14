@@ -40,6 +40,9 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
     evnt09:	null, //Actualizacion lista de motivos
     evnt10: null, //Evento para edicion de motivo
     evnt11: null, //Actualizacion lista de sensores
+    evnt12: null, //Evento para edicion de sensores
+    evnt13: null, //Actualizacion lista de tipos de sensores
+    evnt14: null, //Evento para edicion de tipos de sensores
     
     data02: null, //Entidad a detallar
     data03: null, //Estacion a eliminar
@@ -48,6 +51,8 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
     data07: null, //Motivo seleccionado para operacion edicion (click y doble click)
     data08: null, //Estacion seleccionada para operaciones (detalle, edicion, eliminacion)
     data09: null, //Sensor seleccionado para operaciones (detalle, edicion, eliminacion)
+    data10: null, //Estacion a asociar a entidad (Por ejemplo a sensor)
+    data11: null, //Tipo de sensor seleccionado para operaciones (detalle, edicion, eliminacion)
     
     /*USADO PARA FILTRAR POR STATUS DE ORDEN EN MAESTRO DE CABECERA*/
     stat: null,
@@ -248,6 +253,24 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	setEvnt11: function(data) {
 	    this.evnt11 = data;
 	},
+	getEvnt12: function() {
+        return this.evnt12;
+	},
+	setEvnt12: function(data) {
+	    this.evnt12 = data;
+	},
+	getEvnt13: function() {
+        return this.evnt13;
+	},
+	setEvnt13: function(data) {
+	    this.evnt13 = data;
+	},
+	getEvnt14: function() {
+        return this.evnt14;
+	},
+	setEvnt14: function(data) {
+	    this.evnt14 = data;
+	},
 	
 	getLine_dele: function() {
         return this.line_dele;
@@ -331,6 +354,18 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	},
 	setData09: function(data) {
 	    this.data09 = data;
+	},
+	getData10: function() {
+        return this.data10;
+	},
+	setData10: function(data) {
+	    this.data10 = data;
+	},
+	getData11: function() {
+        return this.data11;
+	},
+	setData11: function(data) {
+	    this.data11 = data;
 	},
 	
 	isValid: function(data) {

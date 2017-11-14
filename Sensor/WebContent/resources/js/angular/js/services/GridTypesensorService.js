@@ -1,10 +1,10 @@
 "use strict";
-angular.module('processApp').service('SensorConfigurationGrid',
-		SensorConfigurationGrid);
-SensorConfigurationGrid.$inject = [ '$log', '$uibModal',
-		'uiGridConstants', '$translate', 'auxServiceSensor', 'comunication'];
-function SensorConfigurationGrid($log, $uibModal,
-		uiGridConstants, $translate, auxServiceSensor, comunication) {
+angular.module('processApp').service('TypesensorConfigurationGrid',
+		TypesensorConfigurationGrid);
+TypesensorConfigurationGrid.$inject = [ '$log', '$uibModal',
+		'uiGridConstants', '$translate', 'auxServiceTypesensor', 'comunication'];
+function TypesensorConfigurationGrid($log, $uibModal,
+		uiGridConstants, $translate, auxServiceTypesensor, comunication) {
 	/** ********************** VARIABLES PRIVADAS ******************* */
 	var paginationOptions = {
 		pageNumber : 1,
@@ -36,23 +36,23 @@ function SensorConfigurationGrid($log, $uibModal,
 				enableRowSelection : true,
 				enableSelectAll : false,
 				enableFullRowSelection : true,
-				rowTemplate : '<div ng-click="grid.appScope.selected(row)" ng-dblclick="grid.appScope.sensorSelected(row)" style="cursor: pointer" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell> </div>'
+				rowTemplate : '<div ng-click="grid.appScope.selected(row)" ng-dblclick="grid.appScope.dobleSelected(row)" style="cursor: pointer" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell> </div>'
 			};
 			
-			//Devuelve el sensor a editar/eliminar/ver en detalle
+			//Devuelve el tipo de sensor a editar/eliminar/ver en detalle
 			$scope.selected = function(row) {
-				//Guarda el sensor seleccionado
-				$scope.sensselected = row.entity;
-				//Guarda el sensor seleccionado
-				comunication.setData09(row.entity);
+				//Guarda el tipo de sensor seleccionado
+				$scope.typesensorselected = row.entity;
+				//Guarda el tipo de sensor seleccionado
+				comunication.setData11(row.entity);
 			};
 			
-			//Acciona la edicion de motivo
-			$scope.sensorSelected = function(row) {
-				//Guarda el motivo seleccionado
-				comunication.setData09(row.entity);
-				//Se dispara evento para edicion de sensores
-				comunication.setEvnt12("emit");
+			//Acciona la edicion de tipos de sensores
+			$scope.dobleSelected = function(row) {
+				//Guarda el tipo de sensor seleccionado
+				comunication.setData11(row.entity);
+				//Se dispara evento para edicion de tipos de sensores
+				comunication.setEvnt14("emit");
 			};
 
 			return null;
@@ -86,11 +86,11 @@ function SensorConfigurationGrid($log, $uibModal,
 		obj.grid.page = paginationOptions.pageNumber;
 		obj.grid.pageSize = paginationOptions.pageSize;
 		
-		auxServiceSensor.getSubset(obj).then(function(response) {
+		auxServiceTypesensor.getSubset(obj).then(function(response) {
 			initGrid(response, $scope);
 		}).catch(function(error) {
 			initGrid(null, $scope);
-			$log.error("Se produjo un error en la obtencion de sensores");
+			$log.error("Se produjo un error en la obtencion de los tipos de sensores");
         });
 	}
 
@@ -111,9 +111,9 @@ function SensorConfigurationGrid($log, $uibModal,
 
 //Servicio para la obtencion de motivos
 "use strict";
-angular.module('processApp').service('auxServiceSensor', auxServiceSensor);
-auxServiceSensor.$inject = [ '$http', '$q', 'alrts', '$translate' ];
-function auxServiceSensor($http, $q, alrts, $translate) {
+angular.module('processApp').service('auxServiceTypesensor', auxServiceTypesensor);
+auxServiceTypesensor.$inject = [ '$http', '$q', 'alrts', '$translate' ];
+function auxServiceTypesensor($http, $q, alrts, $translate) {
 	return {
 		getSubset : function(obj) { 
 			return getSubset(obj);
@@ -125,7 +125,7 @@ function auxServiceSensor($http, $q, alrts, $translate) {
 		var promise = defered.promise;
 		
 		$http({
-			url : "/Sensor/Sensor/externalPagination",
+			url : "/Sensor/Typesensor/externalPagination",
 			method : "POST",
 			params : {
 				uti1001 : obj

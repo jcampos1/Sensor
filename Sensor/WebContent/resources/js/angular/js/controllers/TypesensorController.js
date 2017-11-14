@@ -1,28 +1,28 @@
 // Controlador principal de entidad
 (function ( ) {
 	"use strict";
-	angular.module("processApp").controller('SensorCtrl',
-			SensorCtrl);
-	SensorCtrl.$inject = [ '$scope', '$uibModal', '$log', 'i18nService',
+	angular.module("processApp").controller('TypesensorCtrl',
+			TypesensorCtrl);
+	TypesensorCtrl.$inject = [ '$scope', '$uibModal', '$log', 'i18nService',
 			'$translate', '$window', '$rootScope', 'translations', 'OK',
-			'NOT_CONTENT', 'NOT_FOUND', 'SensorService', 'SensorConfigurationGrid', 'comunication', 'SweetAlert' ];
+			'NOT_CONTENT', 'NOT_FOUND', 'TypesensorService', 'TypesensorConfigurationGrid', 'comunication', 'SweetAlert' ];
 
-	function SensorCtrl ( $scope, $uibModal, $log, i18nService,
+	function TypesensorCtrl ( $scope, $uibModal, $log, i18nService,
 			$translate, $window, $rootScope, translations, OK, NOT_CONTENT,
-			NOT_FOUND, SensorService, SensorConfigurationGrid, comunication, SweetAlert ) {
+			NOT_FOUND, TypesensorService, TypesensorConfigurationGrid, comunication, SweetAlert ) {
 		/** * ****INICIALIZACION DE VARIABLES Y ESTRUCTURAS * **** */
 
 		var toTrans = new Array();
 		toTrans.push('GENE.NAME');
-		toTrans.push('GENE.NOMENC');
+		toTrans.push('GENE.DSCA');
 		
-		// Detalle de sensor
+		// Detalle de tipo de sensor
 		$scope.detail = function ( ) {
-			if(comunication.getData09()!=null){
+			if(comunication.getData11()!=null){
 				var modalInstance = $uibModal.open({
 					animation : true,
-					templateUrl : "detailSensor.html",
-					controller : "DetailSensorCtrl",
+					templateUrl : "detailTypesensor.html",
+					controller : "DetailTypesensorCtrl",
 					size : "md"
 				});
 			}else{
@@ -30,13 +30,13 @@
 			}
 		}
 		
-		// Actualizacion de sensor
+		// Actualizacion de tipo de sensor
 		$scope.update = function ( ) {
-			if(comunication.getData09()!=null){
+			if(comunication.getData11()!=null){
 				var modalInstance = $uibModal.open({
 					animation : true,
-					templateUrl : "updateSensor.html",
-					controller : "UpdateSensorCtrl",
+					templateUrl : "updateTypesensor.html",
+					controller : "UpdateTypesensorCtrl",
 					size : "md"
 				});
 			}else{
@@ -44,23 +44,23 @@
 			}
 		}
 		
-		//Creacion de sensor
+		//Creacion de tipo de sensor
 		$scope.create = function() {
 			var modalInstance = $uibModal.open({
 				animation : true,
-				templateUrl : 'createSensorComponent.html',
-				controller : 'CreateSensorCtrl',
+				templateUrl : 'createTypesensorComponent.html',
+				controller : 'CreateTypesensorCtrl',
 				size : "md",
 				backdrop: false
 			});
 		};
 		
 		$scope.remove = function ( ) {
-			if(comunication.getData09()!=null){
+			if(comunication.getData11()!=null){
 				var modalInstance = $uibModal.open({
 					animation : true,
 					templateUrl : "confirm.html",
-					controller : "DeleteSensorCtrl",
+					controller : "DeleteTypesensorCtrl",
 					size : "sm"
 				});
 			}else{
@@ -76,25 +76,25 @@
 			/** ******************************************************************************** */
 
 			/* ********************** CONFIGURACION DE UI-GRID ************** */
-			SensorConfigurationGrid.initializeGridOptions($scope);
-			SensorConfigurationGrid.registerPaginationChanged($scope);
+			TypesensorConfigurationGrid.initializeGridOptions($scope);
+			TypesensorConfigurationGrid.registerPaginationChanged($scope);
 			/** **************************************************************** */
 			
 			function language_grid() {
 				$scope.columns = [ {
-					name : 'nomenc',
-					displayName : $scope.translation['GENE.NOMENC'],
+					name : 'namety',
+					displayName : $scope.translation['GENE.NAME'],
 					width : '30%'
 				}, {
-					field : 'namese',
-					displayName : $scope.translation['GENE.NAME'],
+					field : 'descty',
+					displayName : $scope.translation['GENE.DSCA'],
 					width : '70%'
 				}];
 			}
 			
-			//Se obtienen motivos
+			//Se obtienen tipos de sensores
 			function reload(){
-				SensorConfigurationGrid.getPage($scope);
+				TypesensorConfigurationGrid.getPage($scope);
 			}
 			
 			function trans(lang) {
@@ -130,19 +130,19 @@
 			});
 		});
 
-		// Escuchador para recargar sensores
-		$scope.$watch(function ( ) { return comunication.getEvnt11() }, function ( ) {
-			if (comunication.isValid(comunication.getEvnt11())) {
-				comunication.setEvnt11(null);
-				SensorConfigurationGrid.getPage($scope);
+		// Escuchador para recargar tipos de sensores
+		$scope.$watch(function ( ) { return comunication.getEvnt13() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt13())) {
+				comunication.setEvnt13(null);
+				TypesensorConfigurationGrid.getPage($scope);
 			}
 		});
 		
-		// Escuchador para edicion de sensor por doble click en fila
-		$scope.$watch(function ( ) { return comunication.getEvnt12() }, function ( ) {
-			if (comunication.isValid(comunication.getEvnt12())) {
-				comunication.setEvnt12(null);
-				//Se obtienen motivos
+		// Escuchador para edicion de tipo de sensor por doble click en fila
+		$scope.$watch(function ( ) { return comunication.getEvnt14() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt14())) {
+				comunication.setEvnt14(null);
+				//Se obtienen tipos de sensores
 				$scope.update();
 			}
 		});
@@ -165,16 +165,16 @@
 //Detalle de entidad
 (function ( ) {
 	"use strict";
-	angular.module("processApp").controller('DetailSensorCtrl',
-			DetailSensorCtrl);
+	angular.module("processApp").controller('DetailTypesensorCtrl',
+			DetailTypesensorCtrl);
 
-	DetailSensorCtrl.$inject = [ '$scope', '$uibModalInstance',
+	DetailTypesensorCtrl.$inject = [ '$scope', '$uibModalInstance',
 			'comunication' ];
-	function DetailSensorCtrl ( $scope, $uibModalInstance,
+	function DetailTypesensorCtrl ( $scope, $uibModalInstance,
 			comunication ) {
 		
-		//Sensor seleccionqeo
-		$scope.sensor = comunication.getData09();
+		//Tipo de sensor seleccionado
+		$scope.typesensor = comunication.getData11();
 		
 		$scope.cancel = function ( ) {
 			$uibModalInstance.dismiss(false);
@@ -185,13 +185,13 @@
 // Eliminacion de entidad
 (function ( ) {
 	"use strict";
-	angular.module("processApp").controller("DeleteSensorCtrl",
-			DeleteSensorCtrl);
+	angular.module("processApp").controller("DeleteTypesensorCtrl",
+			DeleteTypesensorCtrl);
 
-	DeleteSensorCtrl.$inject = [ '$scope', '$log', '$rootScope',
-			'$uibModalInstance', 'alrts', 'comunication', 'SensorService' ];
-	function DeleteSensorCtrl ( $scope, $log, $rootScope,
-			$uibModalInstance, alrts, comunication, SensorService ) {
+	DeleteTypesensorCtrl.$inject = [ '$scope', '$log', '$rootScope',
+			'$uibModalInstance', 'alrts', 'comunication', 'TypesensorService' ];
+	function DeleteTypesensorCtrl ( $scope, $log, $rootScope,
+			$uibModalInstance, alrts, comunication, TypesensorService ) {
 		
 		$scope.ok = function ( ) {
 			$scope.cancel();
@@ -203,11 +203,11 @@
 		// Procedimiento a seguir una vez seleccionado el motivo de eliminacion
 		$rootScope.$watch(function ( ) { return comunication.getData05() }, function ( ) {
 			if (comunication.isValid(comunication.getData05())) {
-				SensorService.inactivate(comunication.getData09(), comunication.getData05())
+				TypesensorService.inactivate(comunication.getData11(), comunication.getData05())
 				.then(function successCallback ( response ) {
 						alrts.successMsg("GENE.RGTR_SUPR");
 						//Recargar lista
-			        	comunication.setEvnt11("emit");
+			        	comunication.setEvnt13("emit");
 				}, function errorCallback ( error ) {
 					$log.error(response);
 				});
@@ -224,17 +224,17 @@
 // Edicion de entidad
 (function ( ) {
 	"use strict";
-	angular.module("processApp").controller('UpdateSensorCtrl',
-			UpdateSensorCtrl);
+	angular.module("processApp").controller('UpdateTypesensorCtrl',
+			UpdateTypesensorCtrl);
 
-	UpdateSensorCtrl.$inject = [ '$scope', '$uibModalInstance',
-			'SensorService', 'comunication' ];
-	function UpdateSensorCtrl ( $scope, $uibModalInstance,
-			SensorService, comunication ) {
-		$scope.sensor = angular.copy(comunication.getData09());
+	UpdateTypesensorCtrl.$inject = [ '$scope', '$uibModalInstance',
+			'TypesensorService', 'comunication' ];
+	function UpdateTypesensorCtrl ( $scope, $uibModalInstance,
+			TypesensorService, comunication ) {
+		$scope.typesensor = angular.copy(comunication.getData11());
 		$scope.update = function ( form ) {
 			if (form.$valid) {
-				SensorService.update($scope.sensor, $uibModalInstance, 1, $scope);
+				TypesensorService.update($scope.typesensor, $uibModalInstance, 1, $scope);
 			}
 		};
 		$scope.cancel = function ( ) {
@@ -246,25 +246,17 @@
 //Controlador para crear sensor
 (function() {
 	"use strict";
-	angular.module("processApp").controller('CreateSensorCtrl',
-			CreateSensorCtrl);
+	angular.module("processApp").controller('CreateTypesensorCtrl',
+			CreateTypesensorCtrl);
 
-	CreateSensorCtrl.$inject = [ '$scope', '$rootScope', 'comunication', '$uibModalInstance','SensorService', '$log' ];
-	function CreateSensorCtrl($scope, $rootScope, comunication, $uibModalInstance, SensorService, $log) {
-		$scope.sensor = new Object();
-		$scope.sensor.station = new Object();
-		//Se asigna la estación una vez seleccionada al sensor
-		$scope.$watch(function ( ) { return comunication.getData10() }, function ( ) {
-			if (comunication.isValid(comunication.getData10())) {
-				$scope.sensor.station = comunication.getData10();
-				comunication.setData10(null);
-			}
-		});
+	CreateTypesensorCtrl.$inject = [ '$scope', '$rootScope', 'comunication', '$uibModalInstance','TypesensorService', '$log' ];
+	function CreateTypesensorCtrl($scope, $rootScope, comunication, $uibModalInstance, TypesensorService, $log) {
+		
+		$scope.typesensor = new Object();
 		
 		$scope.save = function(form) {
-			$log.info($scope.sensor);
 			if( form.$valid ) {
-				SensorService.update($scope.sensor, $uibModalInstance, 0, $scope);
+				TypesensorService.update($scope.typesensor, $uibModalInstance, 0, $scope);
 			}
 		}
 
@@ -275,8 +267,8 @@
 })();
 
 //Componente de creacion de sensor
-angular.module('processApp').component('createSensorComponent',
+angular.module('processApp').component('createTypesensorComponent',
 {
-	templateUrl : 'resources/views/forms/sensor/create.jsp',
-	controller : 'SensorCtrl'
+	templateUrl : 'resources/views/forms/typesensor/create.jsp',
+	controller : 'TypesensorCtrl'
 });

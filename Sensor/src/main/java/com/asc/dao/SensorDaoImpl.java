@@ -1,5 +1,6 @@
 package com.asc.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,10 +12,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
+import com.asc.commons.entities.UTI1002;
 import com.asc.dao.interfaces.ISensorDao;
 import com.asc.dao.interfaces.generic.AbstractHibernateDao;
+import com.asc.entities.abstracts.GenericObject;
 import com.asc.process.entities.Sensor;
 import com.asc.process.entities.Sensor_;
+import com.asc.process.entities.UTI1006;
+import com.asc.process.entities.UTI1006_;
+import com.iss.enums.ReasonType;
 
 //DAO: Sensor
 @Repository
@@ -37,5 +43,32 @@ public class SensorDaoImpl extends AbstractHibernateDao<Sensor> implements ISens
 		criteria.where(pred);
 
 		return getCurrentSession().createQuery(criteria).getResultList();
+	}
+	
+	@Override
+	public GenericObject<Sensor> findSubsetSimpleSensor(UTI1002 gp) {
+		int fromIndex, toIndex;
+		long totalRecords;
+		List<Sensor> lst = new ArrayList<Sensor>();
+
+		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Sensor> criteria = builder.createQuery(Sensor.class);
+		Root<Sensor> root = criteria.from(Sensor.class);
+
+		fromIndex = gp.getPage();
+		toIndex = gp.getPageSize();
+
+		criteria.select(root).distinct(true);
+		Predicate pred = builder.equal(root.get(Sensor_.active), true);
+		
+		
+		criteria.where(pred);
+
+		totalRecords = getCurrentSession().createQuery(criteria).getResultList().size();
+		lst = getCurrentSession().createQuery(criteria).setFirstResult((fromIndex - 1) * toIndex).setMaxResults(toIndex)
+				.getResultList();
+		GenericObject<Sensor> objectGen = new GenericObject<Sensor>(totalRecords, lst);
+
+		return objectGen;
 	}
 }

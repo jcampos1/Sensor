@@ -1,8 +1,8 @@
 /* *********************** SERVICIOS ********************** */
 "use strict";
-angular.module('processApp').service('SensorService', SensorService);
-SensorService.$inject = [ 'comunication', '$http', '$log', '$q', 'alrts'];
-function SensorService(comunication, $http, $log, $q, alrts) {
+angular.module('processApp').service('TypesensorService', TypesensorService);
+TypesensorService.$inject = [ 'comunication', '$http', '$log', '$q', 'alrts'];
+function TypesensorService(comunication, $http, $log, $q, alrts) {
 	return {
 		//Chequea y actualiza la entidad
 		update : function(entity, $uibModalInstance, opc, $scope) {
@@ -17,11 +17,11 @@ function SensorService(comunication, $http, $log, $q, alrts) {
 			        	}
 			        	showMsg(opc);
 			        	if(opc==0){
-			        		$scope.sensor = new Object();
+			        		$scope.typesensor = new Object();
 			        	}
 			        	
 			        	//Recargar lista de sensores
-			        	comunication.setEvnt11("emit");
+			        	comunication.setEvnt13("emit");
 			        })
 			        .catch(function(error) {
 			        	showMsg(3);
@@ -46,7 +46,7 @@ function SensorService(comunication, $http, $log, $q, alrts) {
 	function check(entity) {
 		var defered = $q.defer();
 		var promise = defered.promise;
-		var url = '/Sensor/Sensor/check';
+		var url = '/Sensor/Typesensor/check';
 		$http.post(url, entity).success(function(data) {
 			defered.resolve(data);
 		}).error(function(err) {
@@ -61,11 +61,11 @@ function SensorService(comunication, $http, $log, $q, alrts) {
 		var url = '';
 		switch(opc) {
 		case 0:
-			url = '/Sensor/Sensor/create';
+			url = '/Sensor/Typesensor/create';
 			break;
 		case 1:
 		default:
-			url = '/Sensor/Sensor/update';
+			url = '/Sensor/Typesensor/update';
 			break;
 		}
 		$http.post(url, entity).success(function(data) {
@@ -78,7 +78,7 @@ function SensorService(comunication, $http, $log, $q, alrts) {
 	
 	function inactivate(obj, moti) {
 		return $http({
-			url : "/Sensor/Sensor/inactivate",
+			url : "/Sensor/Typesensor/inactivate",
 			method : "DELETE",
 			params : {
 				obj : obj,
