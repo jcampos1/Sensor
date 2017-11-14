@@ -1,0 +1,59 @@
+<div id="mstr_sensor" style="position: relative;">
+	<div ng-controller="SensorController">
+    	<!-- Lista de operaciones -->
+    	<div class="row">
+			<div class="col-lg-3 col-sm-4 col-xs-8" style="text-align: left;">
+				<h4>{{'GENE.ACTIONS' | translate}}</h4>
+				<a ng-click="detail()"
+					uib-popover="{{'GENE.DETAIL' | translate}}"
+					popover-trigger="'mouseenter'"
+					class="btn btn-social-icon btn-twitter"> <span
+					class="glyphicon glyphicon-zoom-in"></span>
+				</a> 
+				<a  ng-click="update()"
+					uib-popover="{{'GENE.BTN_EDIT' | translate}}"
+					popover-trigger="'mouseenter'"
+					class="btn btn-social-icon btn-google"> <span
+					class="glyphicon glyphicon-edit"></span>
+				</a>
+				<create-sensor-component />
+				<a ng-click="remove()"
+					uib-popover="{{'GENE.REMOVE' | translate}}"
+					popover-trigger="'mouseenter'"
+					class="btn btn-social-icon btn-github"> <span
+					class="glyphicon glyphicon-trash"></span>
+				</a>
+			</div>
+		</div>
+		
+		<%-- <!-- Vista detalle -->
+		<%@ include file="/resources/views/forms/UTI1006/detail.jsp" %>
+		
+		<!-- Vista para actualizacion -->
+		<%@ include file="/resources/views/forms/UTI1006/edit.jsp" %>
+		
+		<!-- Vista para eliminacion -->
+		<script type="text/ng-template" id="myModalContent.html">
+			<%@ include file="/WEB-INF/views/commons/confirm.jsp" %>
+    	</script>
+    	
+    	<!-- Vista de confirmacion -->
+		<script type="text/ng-template" id="confirm.html">
+			<%@ include file="/resources/views/commons/confirm.jsp" %>
+		</script>
+
+    	<!-- Seleccion de motivo de eliminacion -->
+		<select-uti1006-component />
+    	--%>
+		<br />
+		
+		<!-- Lista de sensores -->
+		<div class="row" ui-i18n="{{ lang }}">
+			<!--  -->
+			<div class="col-sm-12">
+				<div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection
+					ui-grid-exporter></div>
+			</div>
+		</div>
+	</div>
+</div>
