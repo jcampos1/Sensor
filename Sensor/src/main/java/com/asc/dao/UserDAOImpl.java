@@ -21,10 +21,10 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import org.springframework.stereotype.Repository;
 
-import com.asc.commons.entities.Role;
-import com.asc.commons.entities.CNF1002_;
 import com.asc.commons.entities.IdsDelete;
 import com.asc.commons.entities.MAE1001;
+import com.asc.commons.entities.Role;
+import com.asc.commons.entities.Role_;
 import com.asc.commons.entities.UTI1002;
 import com.asc.commons.entities.UTI1003;
 import com.asc.dao.interfaces.IUserDAO;
@@ -103,7 +103,7 @@ public class UserDAOImpl extends AbstractHibernateDao<MAE1001> implements IUserD
 			/*Se define la busqueda en la lista de usuarios por roles*/
 			ListJoin<MAE1001, Role> rol = root.joinList("roles");
 			root.fetch("roles");
-			Predicate pred = builder.equal(rol.get(CNF1002_.role_name).as(String.class), "ROLE_ADMIN");
+			Predicate pred = builder.equal(rol.get(Role_.name).as(String.class), "ROLE_ADMIN");
 			
 			criteria.select(root).distinct(true);
 			criteria.where(pred);

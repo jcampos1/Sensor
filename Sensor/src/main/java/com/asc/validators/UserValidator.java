@@ -56,7 +56,7 @@ public class UserValidator extends Configuration implements Validator {
 				while (it.hasNext() && band) {
 					rol = (Role) it.next();
 					try {
-						out = rolesService.findbyRol(rol.getRole_name());
+						out = rolesService.findbyRol(rol.getName());
 						if (null == out) {
 							errors.rejectValue("roles", "roles.req", getMess("roles.req"));
 							band = false;

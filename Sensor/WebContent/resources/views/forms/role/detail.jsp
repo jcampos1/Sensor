@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="detailSensor.html"></script>
+<script type="text/ng-template" id="detailRole.html">
 <div class="modal-header">
 	<h3 class="box-title">
 		<span class="glyphicon glyphicon-zoom-in"></span>&nbsp; {{
@@ -13,14 +13,14 @@
 			</h5>
 			{{role.name}}
 		</div>
-		<div class="col-sm-4 col-xs-4">
+		<!-- <div class="col-sm-4 col-xs-4">
 			<h5>
 				<strong>{{ 'GENE.NOMENC' | translate }}</strong>
 			</h5>
 			{{sensor.nomenc}}
-		</div>
+		</div> -->
 	</div>
-	<div class="row">
+	<%--<div class="row">
 		<div class="col-sm-4 col-xs-4">
 			<h5>
 				<strong>{{ 'GENE.STN' | translate }}</strong>
@@ -41,7 +41,7 @@
 			</h5>
 			{{sensor.rango}}
 		</div>
-	</div>
+	</div> --%>
 	<br />
 	<div class="modal-footer">
 		<a ng-click="cancel()" class="btn btn-app btn btn-warning"> <i
@@ -49,3 +49,4 @@
 		</a>
 	</div>
 </div>
+</script>

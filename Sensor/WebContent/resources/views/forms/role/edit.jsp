@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="updateSensor.html"></script>
+<script type="text/ng-template" id="updateRole.html">
 <div class="modal-header">
 	<h3 class="box-title">
 		<i class="glyphicon glyphicon-edit"></i>&nbsp;{{ ('FORM.EDIT' |
@@ -110,4 +110,4 @@
 		</div>
 	</form>
 </div>
-
+</script>

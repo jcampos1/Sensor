@@ -75,8 +75,8 @@
 			/** ******************************************************************************** */
 
 			/* ********************** CONFIGURACION DE UI-GRID ************** */
-			SensorConfigurationGrid.initializeGridOptions($scope);
-			SensorConfigurationGrid.registerPaginationChanged($scope);
+			RoleConfigurationGrid.initializeGridOptions($scope);
+			RoleConfigurationGrid.registerPaginationChanged($scope);
 			/** **************************************************************** */
 			
 			function language_grid() {

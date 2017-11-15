@@ -2,9 +2,9 @@
 angular.module('processApp').service('RoleConfigurationGrid',
 		RoleConfigurationGrid);
 RoleConfigurationGrid.$inject = [ '$log', '$uibModal',
-		'uiGridConstants', '$translate', 'auxServiceSensor', 'comunication'];
+		'uiGridConstants', '$translate', 'auxServiceRole', 'comunication'];
 function RoleConfigurationGrid($log, $uibModal,
-		uiGridConstants, $translate, auxServiceSensor, comunication) {
+		uiGridConstants, $translate, auxServiceRole, comunication) {
 	/** ********************** VARIABLES PRIVADAS ******************* */
 	var paginationOptions = {
 		pageNumber : 1,

@@ -110,7 +110,7 @@ public class CustomAuthenticationProvider extends AbstractService implements Aut
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		
 		for (Role rl : us.getRoles()) {
-			authorities.add(new SimpleGrantedAuthority(rl.getRole_name()));
+			authorities.add(new SimpleGrantedAuthority(rl.getName()));
 		}
 		
 		return authorities;

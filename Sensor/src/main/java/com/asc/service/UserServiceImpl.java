@@ -103,7 +103,7 @@ public class UserServiceImpl extends AbstractGenericService<MAE1001> implements 
 		try {
 			List<Role> roles = new ArrayList<Role>(0);
 			for (Role rol : entity.getRoles()) {
-				roles.add(rolesDao.findbyRol(rol.getRole_name()));
+				roles.add(rolesDao.findbyRol(rol.getName()));
 			}
 			
 			entity.setRoles(roles);

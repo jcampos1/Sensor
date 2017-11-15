@@ -215,7 +215,7 @@ public class Configuration {
 		Role rol = null;
 		while (it.hasNext() && band.equals(Boolean.FALSE)) {
 			rol = (Role) it.next();
-			if (rol.getRole_name().equals(role_name)) {
+			if (rol.getName().equals(role_name)) {
 				band = Boolean.TRUE;
 			}
 		}
