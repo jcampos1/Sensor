@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="updateSensor.html">
+<script type="text/ng-template" id="updateSensor.html"></script>
 <div class="modal-header">
 	<h3 class="box-title">
 		<i class="glyphicon glyphicon-edit"></i>&nbsp;{{ ('FORM.EDIT' |
@@ -7,7 +7,7 @@
 </div>
 <div id="FATH_FORM" class="modal-body">
 	<!--  -->
-	<form id="SensorEditForm" name="SensorEditForm" novalidate="true">
+	<form id="RoleEditForm" name="RoleEditForm" novalidate="true">
 		<div class="row">
 			<!-- Nombre -->
 			<div class="col-sm-6">
@@ -15,17 +15,17 @@
 					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'GENE.NAME' |
 						translate }}</strong>
 				</h5>
-				<input name="namese" id="namese" class="form-control"
+				<input name="name" id="name" class="form-control"
 					placeholder="{{ 'GENE.NAME' | translate }}"
-					ng-model="sensor.namese" ng-maxlength="50" required /> <span
-					ng-show="!SensorEditForm.namese.$pristine && SensorEditForm.namese.$error.required"
+					ng-model="role.name ng-maxlength="50" required /> <span
+					ng-show="!SensorEditForm.name.$pristine && SensorEditForm.name.$error.required"
 					class="logError has-error"><label class="control-label"
-					for="namese"><i class="fa fa-times-circle-o"></i> {{
+					for="name"><i class="fa fa-times-circle-o"></i> {{
 						'GENE.REQ' | translate }}</label></span>
-				<div id="ERROR_namese" class="logError"></div>
+				<div id="ERROR_name" class="logError"></div>
 			</div>
 			<!-- Nomenclatura -->
-			<div class="col-sm-6">
+			<!--  <div class="col-sm-6">
 				<h5>
 					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'GENE.NOMENC' |
 						translate }}</strong>
@@ -38,9 +38,9 @@
 					for="nomenc"><i class="fa fa-times-circle-o"></i> {{
 						'GENE.REQ' | translate }}</label></span>
 				<div id="ERROR_nomenc" class="logError"></div>
-			</div>
+			</div>-->
 		</div>
-		<div class="row">
+		<%--<div class="row">
 			<!-- Tipo de sensor -->
 			<div class="col-sm-6">
 				<h5>
@@ -97,17 +97,17 @@
 						'GENE.REQ' | translate }}</label></span>
 				<div id="ERROR_rango" class="logError"></div>
 			</div>
-		</div>
+		</div> --%>
 		<br />
 		<div class="modal-footer">
 			<a ng-click="cancel()" class="btn btn-app btn btn-warning"> <i
 				class="fa fa-close"></i> {{ 'GENE.CANCEL' | translate }}
-			</a> <a ng-disabled="!SensorEditForm.$valid"
-				ng-click="update(SensorEditForm)"
+			</a> <a ng-disabled="!RoleEditForm.$valid"
+				ng-click="update(RoleEditForm)"
 				class="btn btn-app btn btn-primary"> <i class="fa fa-save"></i>
 				{{ 'GENE.SAVE' | translate }}
 			</a>
 		</div>
 	</form>
 </div>
-</script>
+

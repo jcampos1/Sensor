@@ -1,30 +1,27 @@
 // Controlador principal de entidad
 (function ( ) {
 	"use strict";
-	angular.module("processApp").controller('SensorCtrl',
-			SensorCtrl);
-	SensorCtrl.$inject = [ '$scope', '$uibModal', '$log', 'i18nService',
+	angular.module("processApp").controller('RoleCtrl',
+			RoleCtrl);
+	RoleCtrl.$inject = [ '$scope', '$uibModal', '$log', 'i18nService',
 			'$translate', '$window', '$rootScope', 'translations', 'OK',
-			'NOT_CONTENT', 'NOT_FOUND', 'SensorService', 'SensorConfigurationGrid', 'comunication', 'SweetAlert' ];
+			'NOT_CONTENT', 'NOT_FOUND', 'RoleService', 'RoleConfigurationGrid', 'comunication', 'SweetAlert' ];
 
-	function SensorCtrl ( $scope, $uibModal, $log, i18nService,
+	function RoleCtrl ( $scope, $uibModal, $log, i18nService,
 			$translate, $window, $rootScope, translations, OK, NOT_CONTENT,
-			NOT_FOUND, SensorService, SensorConfigurationGrid, comunication, SweetAlert ) {
+			NOT_FOUND, RoleService, RoleConfigurationGrid, comunication, SweetAlert ) {
 		/** * ****INICIALIZACION DE VARIABLES Y ESTRUCTURAS * **** */
 
 		var toTrans = new Array();
 		toTrans.push('GENE.NAME');
-		toTrans.push('GENE.NOMENC');
-		toTrans.push('GENE.STN');
-		toTrans.push('GENE.TYSENSOR');
 		
-		// Detalle de sensor
+		// Detalle de rol
 		$scope.detail = function ( ) {
-			if(comunication.getData09()!=null){
+			if(comunication.getData13()!=null){
 				var modalInstance = $uibModal.open({
 					animation : true,
-					templateUrl : "detailSensor.html",
-					controller : "DetailSensorCtrl",
+					templateUrl : "detailRole.html",
+					controller : "DetailRoleCtrl",
 					size : "md"
 				});
 			}else{
@@ -32,13 +29,13 @@
 			}
 		}
 		
-		// Actualizacion de sensor
+		// Actualizacion de rol
 		$scope.update = function ( ) {
-			if(comunication.getData09()!=null){
+			if(comunication.getData13()!=null){
 				var modalInstance = $uibModal.open({
 					animation : true,
-					templateUrl : "updateSensor.html",
-					controller : "UpdateSensorCtrl",
+					templateUrl : "updateRole.html",
+					controller : "UpdateRoleCtrl",
 					size : "md"
 				});
 			}else{
@@ -46,12 +43,12 @@
 			}
 		}
 		
-		//Creacion de sensor
+		//Creacion de rol
 		$scope.create = function() {
 			var modalInstance = $uibModal.open({
 				animation : true,
-				templateUrl : 'createSensorComponent.html',
-				controller : 'CreateSensorCtrl',
+				templateUrl : 'createRoleComponent.html',
+				controller : 'CreateRoleCtrl',
 				size : "md",
 				backdrop: false
 			});
@@ -62,7 +59,7 @@
 				var modalInstance = $uibModal.open({
 					animation : true,
 					templateUrl : "confirm.html",
-					controller : "DeleteSensorCtrl",
+					controller : "DeleteRoleCtrl",
 					size : "sm"
 				});
 			}else{
@@ -84,27 +81,15 @@
 			
 			function language_grid() {
 				$scope.columns = [ {
-					name : 'nomenc',
-					displayName : $scope.translation['GENE.NOMENC'],
-					width : '20%'
-				}, {
-					field : 'namese',
+					name : 'name',
 					displayName : $scope.translation['GENE.NAME'],
-					width : '30%'
-				}, {
-					field : 'station.namest',
-					displayName : $scope.translation['GENE.STN'],
-					width : '20%'
-				}, {
-					field : 'typesensor.namety',
-					displayName : $scope.translation['GENE.TYSENSOR'],
-					width : '30%'
+					width : '100%'
 				}];
 			}
 			
-			//Se obtienen motivos
+			//Se obtienen roles
 			function reload(){
-				SensorConfigurationGrid.getPage($scope);
+				RoleConfigurationGrid.getPage($scope);
 			}
 			
 			function trans(lang) {
@@ -140,18 +125,18 @@
 			});
 		});
 
-		// Escuchador para recargar sensores
-		$scope.$watch(function ( ) { return comunication.getEvnt11() }, function ( ) {
-			if (comunication.isValid(comunication.getEvnt11())) {
-				comunication.setEvnt11(null);
-				SensorConfigurationGrid.getPage($scope);
+		// Escuchador para recargar roles
+		$scope.$watch(function ( ) { return comunication.getEvnt15() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt15())) {
+				comunication.setEvnt15(null);
+				RoleConfigurationGrid.getPage($scope);
 			}
 		});
 		
-		// Escuchador para edicion de sensor por doble click en fila
-		$scope.$watch(function ( ) { return comunication.getEvnt12() }, function ( ) {
-			if (comunication.isValid(comunication.getEvnt12())) {
-				comunication.setEvnt12(null);
+		// Escuchador para edicion de rol por doble click en fila
+		$scope.$watch(function ( ) { return comunication.getEvnt16() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt16())) {
+				comunication.setEvnt16(null);
 				//Se obtienen motivos
 				$scope.update();
 			}
@@ -175,16 +160,16 @@
 //Detalle de entidad
 (function ( ) {
 	"use strict";
-	angular.module("processApp").controller('DetailSensorCtrl',
-			DetailSensorCtrl);
+	angular.module("processApp").controller('DetailRoleCtrl',
+			DetailRoleCtrl);
 
-	DetailSensorCtrl.$inject = [ '$scope', '$uibModalInstance',
+	DetailRoleCtrl.$inject = [ '$scope', '$uibModalInstance',
 			'comunication' ];
-	function DetailSensorCtrl ( $scope, $uibModalInstance,
+	function DetailRoleCtrl ( $scope, $uibModalInstance,
 			comunication ) {
 		
 		//Sensor seleccionqeo
-		$scope.sensor = comunication.getData09();
+		$scope.role = comunication.getData13();
 		
 		$scope.cancel = function ( ) {
 			$uibModalInstance.dismiss(false);
@@ -195,13 +180,13 @@
 // Eliminacion de entidad
 (function ( ) {
 	"use strict";
-	angular.module("processApp").controller("DeleteSensorCtrl",
-			DeleteSensorCtrl);
+	angular.module("processApp").controller("DeleteRoleCtrl",
+			DeleteRoleCtrl);
 
-	DeleteSensorCtrl.$inject = [ '$scope', '$log', '$rootScope',
-			'$uibModalInstance', 'alrts', 'comunication', 'SensorService' ];
-	function DeleteSensorCtrl ( $scope, $log, $rootScope,
-			$uibModalInstance, alrts, comunication, SensorService ) {
+	DeleteRoleCtrl.$inject = [ '$scope', '$log', '$rootScope',
+			'$uibModalInstance', 'alrts', 'comunication', 'RoleService' ];
+	function DeleteRoleCtrl ( $scope, $log, $rootScope,
+			$uibModalInstance, alrts, comunication, RoleService ) {
 		
 		$scope.ok = function ( ) {
 			$scope.cancel();
@@ -213,11 +198,11 @@
 		// Procedimiento a seguir una vez seleccionado el motivo de eliminacion
 		$rootScope.$watch(function ( ) { return comunication.getData05() }, function ( ) {
 			if (comunication.isValid(comunication.getData05())) {
-				SensorService.inactivate(comunication.getData09(), comunication.getData05())
+				RoleService.inactivate(comunication.getData13(), comunication.getData05())
 				.then(function successCallback ( response ) {
 						alrts.successMsg("GENE.RGTR_SUPR");
 						//Recargar lista
-			        	comunication.setEvnt11("emit");
+			        	comunication.setEvnt15("emit");
 				}, function errorCallback ( error ) {
 					$log.error(response);
 				});
@@ -234,14 +219,14 @@
 // Edicion de entidad
 (function ( ) {
 	"use strict";
-	angular.module("processApp").controller('UpdateSensorCtrl',
-			UpdateSensorCtrl);
+	angular.module("processApp").controller('UpdateRoleCtrl',
+			UpdateRoleCtrl);
 
-	UpdateSensorCtrl.$inject = [ '$scope', '$uibModalInstance',
-			'SensorService', 'comunication' ];
-	function UpdateSensorCtrl ( $scope, $uibModalInstance,
-			SensorService, comunication ) {
-		$scope.sensor = angular.copy(comunication.getData09());
+	UpdateRoleCtrl.$inject = [ '$scope', '$uibModalInstance',
+			'RoleService', 'comunication' ];
+	function UpdateRoleCtrl ( $scope, $uibModalInstance,
+			RoleService, comunication ) {
+		$scope.role = angular.copy(comunication.getData13());
 		
 		//Se asigna al sensor la estación una vez seleccionada
 		$scope.$watch(function ( ) { return comunication.getData10() }, function ( ) {
@@ -261,7 +246,7 @@
 		
 		$scope.update = function ( form ) {
 			if (form.$valid) {
-				SensorService.update($scope.sensor, $uibModalInstance, 1, $scope);
+				RoleService.update($scope.role, $uibModalInstance, 1, $scope);
 			}
 		};
 		$scope.cancel = function ( ) {
@@ -273,12 +258,12 @@
 //Controlador para crear sensor
 (function() {
 	"use strict";
-	angular.module("processApp").controller('CreateSensorCtrl',
-			CreateSensorCtrl);
+	angular.module("processApp").controller('CreateRoleCtrl',
+			CreateRoleCtrl);
 
-	CreateSensorCtrl.$inject = [ '$scope', '$rootScope', 'comunication', '$uibModalInstance','SensorService', '$log' ];
-	function CreateSensorCtrl($scope, $rootScope, comunication, $uibModalInstance, SensorService, $log) {
-		$scope.sensor = new Object();
+	CreateRoleCtrl.$inject = [ '$scope', '$rootScope', 'comunication', '$uibModalInstance','RoleService', '$log' ];
+	function CreateRoleCtrl($scope, $rootScope, comunication, $uibModalInstance, RoleService, $log) {
+		$scope.role = new Object();
 		
 		//Se asigna al sensor la estación una vez seleccionada
 		$scope.$watch(function ( ) { return comunication.getData10() }, function ( ) {
@@ -298,7 +283,7 @@
 		
 		$scope.save = function(form) {
 			if( form.$valid ) {
-				SensorService.update($scope.sensor, $uibModalInstance, 0, $scope);
+				RoleService.update($scope.role, $uibModalInstance, 0, $scope);
 			}
 		}
 
@@ -308,9 +293,9 @@
 	}
 })();
 
-//Componente de creacion de sensor
-angular.module('processApp').component('createSensorComponent',
+//Componente de creacion de rol
+angular.module('processApp').component('createRoleComponent',
 {
-	templateUrl : 'resources/views/forms/sensor/create.jsp',
-	controller : 'SensorCtrl'
+	templateUrl : 'resources/views/forms/role/create.jsp',
+	controller : 'RoleCtrl'
 });

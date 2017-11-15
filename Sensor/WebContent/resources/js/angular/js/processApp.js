@@ -87,6 +87,17 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
         	},
         } 
      })
+     .state('role', {
+        url: "/role",
+        views:{
+        	"widgets":{
+                template: "<widgets02-component />"
+        	},
+        	"mstr":{
+                templateUrl: "/Sensor/resources/views/masters/mstrRole.jsp"
+        	},
+        } 
+     })
      .state('parameters', {
         url: "/admin/parameters",
         views:{

@@ -18,9 +18,6 @@ import com.asc.dao.interfaces.generic.AbstractHibernateDao;
 import com.asc.entities.abstracts.GenericObject;
 import com.asc.process.entities.Sensor;
 import com.asc.process.entities.Sensor_;
-import com.asc.process.entities.UTI1006;
-import com.asc.process.entities.UTI1006_;
-import com.iss.enums.ReasonType;
 
 //DAO: Sensor
 @Repository

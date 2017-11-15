@@ -17,82 +17,82 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.asc.commons.entities.Role;
 import com.asc.commons.entities.UTI1001;
 import com.asc.entities.abstracts.GenericObject;
 import com.asc.exceptions.MyWebException;
-import com.asc.process.entities.Sensor;
 import com.asc.process.entities.UTI1006;
-import com.asc.service.interfaces.ISensorService;
+import com.asc.service.interfaces.IRolesService;
 import com.asc.utils.JsonResponse;
-import com.asc.validators.SensorValidator;
+import com.asc.validators.RoleValidator;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-// CONTROLADOR Sensor
+// CONTROLADOR ENTIDAD ROLE O DOMINIO
 
 @RestController()
-@RequestMapping("/Sensor")
-public class SensorController extends Base<Sensor> {
+@RequestMapping("/Role")
+public class RoleController extends Base<Role> {
 
 	@Autowired
-	private ISensorService				sensorServ;
+	private IRolesService roleServ;
 	
 	@Autowired
-	private SensorValidator validator;
+	private RoleValidator validator;
 
 	private static final ObjectMapper	JSON_MAPPER	= new ObjectMapper();
 
 	@Autowired
-	public SensorController(ISensorService sensorServ) {
-		super(sensorServ);
+	public RoleController(IRolesService roleServ) {
+		super(roleServ);
 	}
 
 	@RequestMapping(value = "/check", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public JsonResponse check(@RequestBody Sensor entity, BindingResult result) {
+	public JsonResponse check(@RequestBody Role entity, BindingResult result) {
 		validator.validate(entity, result);
 		JsonResponse jr = converErrorsToJson(result);
 		return jr;
 	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Sensor>> find() throws IOException, MyWebException {
-		ArrayList<Sensor> sensors = (ArrayList<Sensor>) sensorServ.findActive();
-		return new ResponseEntity<List<Sensor>>(sensors, HttpStatus.OK);
+	public ResponseEntity<List<Role>> find() throws IOException, MyWebException {
+		ArrayList<Role> roles = (ArrayList<Role>) roleServ.findActive();
+		return new ResponseEntity<List<Role>>(roles, HttpStatus.OK);
 	}
 			
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public ResponseEntity<Sensor> update(@RequestBody Sensor entity, BindingResult result, ModelMap modelMap)
+	public ResponseEntity<Role> update(@RequestBody Role entity, BindingResult result, ModelMap modelMap)
 			throws Exception {
 		if ( entity.getId() != null ) {
-			if ( service.getById(entity.getId()) == null ) { throw new Exception("Sensor not found"); }
+			if ( service.getById(entity.getId()) == null ) { throw new Exception("Role not found"); }
 		}
 
-		sensorServ.merge(entity);
-		return new ResponseEntity<Sensor>(entity, HttpStatus.OK);
+		roleServ.merge(entity);
+		return new ResponseEntity<Role>(entity, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Sensor> create(@RequestBody Sensor entity, BindingResult result, ModelMap modelMap)
+	public ResponseEntity<Role> create(@RequestBody Role entity, BindingResult result, ModelMap modelMap)
 			throws Exception {
 		
 		if ( null != entity.getId() ) {
 			if ( service.getById(entity.getId()) != null ) { throw new Exception(getMess("gene.duplicated")); }
 		}
 		
-		sensorServ.myOwnerAdd(entity);
-		return new ResponseEntity<Sensor>(entity, HttpStatus.OK);
+		roleServ.myOwnerAdd(entity);
+		return new ResponseEntity<Role>(entity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/inactivate", method = RequestMethod.DELETE, produces = "application/json; charset=UTF-8")
 	public ResponseEntity<Void> inactivate(@RequestParam("obj") String obj, @RequestParam("uti1006") String moti)
 			throws MyWebException, JsonParseException, JsonMappingException, IOException {
-		Sensor entity = JSON_MAPPER.readValue(obj, Sensor.class);
+		Role entity = JSON_MAPPER.readValue(obj, Role.class);
 		UTI1006 motive = JSON_MAPPER.readValue(moti, UTI1006.class);
 
-		sensorServ.inactivateWithMotivo(entity, motive, getClassCurrentUserByLogin());
+		roleServ.inactivateWithMotivo(entity, motive, getClassCurrentUserByLogin());
 
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
@@ -100,13 +100,13 @@ public class SensorController extends Base<Sensor> {
 	@RequestMapping(value = "/externalPagination", method = RequestMethod.POST)
 	public ResponseEntity<String> externalPagination(@RequestParam ( "uti1001" ) String json) throws MyWebException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
-		GenericObject<Sensor> objectGen;
+		GenericObject<Role> objectGen;
 
 		UTI1001 entity;
 		try {
 			entity = JSON_MAPPER.readValue(json, UTI1001.class);
 			
-			objectGen = sensorServ.findSubsetSimpleSensor(entity.getGrid());
+			objectGen = roleServ.findSubsetSimpleRole(entity.getGrid());
 
 			if (objectGen.getListData().isEmpty()) {
 				return new ResponseEntity<String>(mapper.writeValueAsString(objectGen), HttpStatus.NO_CONTENT);

@@ -8,7 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.asc.commons.entities.CNF1002;
+import com.asc.commons.entities.Role;
 import com.asc.commons.entities.MAE1001;
 import com.asc.controller.abstracts.Configuration;
 import com.asc.exceptions.MyWebException;
@@ -51,10 +51,10 @@ public class UserValidator extends Configuration implements Validator {
 				errors.rejectValue("roles", "roles.req", getMess("roles.req"));
 			} else {
 				Boolean band = Boolean.TRUE;
-				Iterator<CNF1002> it = user.getRoles().iterator();
-				CNF1002 rol = null, out = null;
+				Iterator<Role> it = user.getRoles().iterator();
+				Role rol = null, out = null;
 				while (it.hasNext() && band) {
-					rol = (CNF1002) it.next();
+					rol = (Role) it.next();
 					try {
 						out = rolesService.findbyRol(rol.getRole_name());
 						if (null == out) {

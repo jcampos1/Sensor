@@ -95,7 +95,7 @@ public class MAE1001 extends AbstractEntityID {
 	@Enumerated(EnumType.ORDINAL)
 	LanguageEnum lang;
 
-	private List<CNF1002> roles = new ArrayList<CNF1002>(0);
+	private List<Role> roles = new ArrayList<Role>(0);
 
 	// Crear orden manual
 	@Column(name = "ornd", nullable = false, columnDefinition = "boolean default false")
@@ -330,11 +330,11 @@ public class MAE1001 extends AbstractEntityID {
 	@JoinTable(name = "rel1001", joinColumns = {
 			@JoinColumn(name = "idus", nullable = false, updatable = true, insertable = true) }, inverseJoinColumns = {
 					@JoinColumn(name = "idrl", nullable = false, updatable = true, insertable = true) })
-	public List<CNF1002> getRoles() {
+	public List<Role> getRoles() {
 		return this.roles;
 	}
 
-	public void setRoles(List<CNF1002> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 }

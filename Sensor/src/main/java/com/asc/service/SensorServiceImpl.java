@@ -34,7 +34,7 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor> implements
 		this.myDao = (ISensorDao) genericDao;
 	}
 	
-	// Eliminacion logica de la estacion
+	// Eliminacion logica del sensor
 	@Override
 	@Transactional
 	public void inactivateWithMotivo(Sensor sensor, UTI1006 moti, MAE1001 userna) throws MyWebException {

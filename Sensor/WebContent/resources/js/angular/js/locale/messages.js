@@ -167,6 +167,8 @@ angular.module('messages').config([ '$translateProvider',
 					"AST":				"(*)",
 					"TYSENSOR":			"Type of sensor",
 					"TYSENSORS":		"Type of sensors",
+					"ROLES":			"Roles",
+					"ROLE":				"Role",
 				},
 				
 				"URL": {
@@ -619,6 +621,8 @@ angular.module('messages').config([ '$translateProvider',
 					"AST":				"(*)",
 					"TYSENSOR":			"Tipo de sensor",
 					"TYSENSORS":		"Tipo de sensores",
+					"ROLES":			"Roles",
+					"ROLE":				"Rol",
 				},
 				
 				"URL": {

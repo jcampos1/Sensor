@@ -246,6 +246,18 @@ var="anguspin" />
 	var="TypesensorController" />
 <!---------------------------------------------------->
 
+<!--------------------- Role  ---------------------->
+<spring:url value="/resources/js/angular/js/services/GridRoleService.js"
+	var="RoleConfigurationGrid" />
+	
+<spring:url value="/resources/js/angular/js/services/RoleService.js"
+	var="RoleService" />
+
+<spring:url
+	value="/resources/js/angular/js/controllers/RoleController.js"
+	var="RoleController" />
+<!---------------------------------------------------->
+
 <!--------------------- PAR1001  ---------------------->
 <spring:url
 	value="/resources/js/angular/js/components/PAR1001/current-parameter.js"
@@ -731,6 +743,12 @@ var="CPREC" />
 <script type="text/javascript" src="${TypesensorService}"></script>
 <script type="text/javascript" src="${GridSelectTypesensor}"></script>
 <script type="text/javascript" src="${TypesensorController}"></script>
+<!-------------------------------------------------->
+
+<!--------------------- Role -------------------->
+<script type="text/javascript" src="${RoleConfigurationGrid}"></script>
+<script type="text/javascript" src="${RoleService}"></script>
+<script type="text/javascript" src="${RoleController}"></script>
 <!-------------------------------------------------->
 
 <!--**********************************************************************************-->

@@ -21,7 +21,7 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import org.springframework.stereotype.Repository;
 
-import com.asc.commons.entities.CNF1002;
+import com.asc.commons.entities.Role;
 import com.asc.commons.entities.CNF1002_;
 import com.asc.commons.entities.IdsDelete;
 import com.asc.commons.entities.MAE1001;
@@ -101,7 +101,7 @@ public class UserDAOImpl extends AbstractHibernateDao<MAE1001> implements IUserD
 			Root<MAE1001> root = criteria.from(MAE1001.class);
 			
 			/*Se define la busqueda en la lista de usuarios por roles*/
-			ListJoin<MAE1001, CNF1002> rol = root.joinList("roles");
+			ListJoin<MAE1001, Role> rol = root.joinList("roles");
 			root.fetch("roles");
 			Predicate pred = builder.equal(rol.get(CNF1002_.role_name).as(String.class), "ROLE_ADMIN");
 			

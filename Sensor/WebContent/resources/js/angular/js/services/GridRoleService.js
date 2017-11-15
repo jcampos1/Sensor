@@ -1,9 +1,9 @@
 "use strict";
-angular.module('processApp').service('SensorConfigurationGrid',
-		SensorConfigurationGrid);
-SensorConfigurationGrid.$inject = [ '$log', '$uibModal',
+angular.module('processApp').service('RoleConfigurationGrid',
+		RoleConfigurationGrid);
+RoleConfigurationGrid.$inject = [ '$log', '$uibModal',
 		'uiGridConstants', '$translate', 'auxServiceSensor', 'comunication'];
-function SensorConfigurationGrid($log, $uibModal,
+function RoleConfigurationGrid($log, $uibModal,
 		uiGridConstants, $translate, auxServiceSensor, comunication) {
 	/** ********************** VARIABLES PRIVADAS ******************* */
 	var paginationOptions = {
@@ -36,23 +36,23 @@ function SensorConfigurationGrid($log, $uibModal,
 				enableRowSelection : true,
 				enableSelectAll : false,
 				enableFullRowSelection : true,
-				rowTemplate : '<div ng-click="grid.appScope.selected(row)" ng-dblclick="grid.appScope.sensorSelected(row)" style="cursor: pointer" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell> </div>'
+				rowTemplate : '<div ng-click="grid.appScope.selected(row)" ng-dblclick="grid.appScope.roleSelected(row)" style="cursor: pointer" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell> </div>'
 			};
 			
-			//Devuelve el sensor a editar/eliminar/ver en detalle
+			//Devuelve el rol a editar/eliminar/ver en detalle
 			$scope.selected = function(row) {
-				//Guarda el sensor seleccionado
-				$scope.sensselected = row.entity;
-				//Guarda el sensor seleccionado
-				comunication.setData09(row.entity);
+				//Guarda el rol seleccionado
+				$scope.rolselected = row.entity;
+				//Guarda el rol seleccionado
+				comunication.setData13(row.entity);
 			};
 			
-			//Acciona la edicion del sensor
-			$scope.sensorSelected = function(row) {
-				//Guarda el motivo seleccionado
-				comunication.setData09(row.entity);
-				//Se dispara evento para edicion de sensores
-				comunication.setEvnt12("emit");
+			//Acciona la edicion del rol
+			$scope.roleSelected = function(row) {
+				//Guarda el rol seleccionado
+				comunication.setData13(row.entity);
+				//Se dispara evento para edicion de roles
+				comunication.setEvnt16("emit");
 			};
 
 			return null;
@@ -86,15 +86,15 @@ function SensorConfigurationGrid($log, $uibModal,
 		obj.grid.page = paginationOptions.pageNumber;
 		obj.grid.pageSize = paginationOptions.pageSize;
 		
-		auxServiceSensor.getSubset(obj).then(function(response) {
+		auxServiceRole.getSubset(obj).then(function(response) {
 			initGrid(response, $scope);
 		}).catch(function(error) {
 			initGrid(null, $scope);
-			$log.error("Se produjo un error en la obtencion de sensores");
+			$log.error("Se produjo un error en la obtencion de roles");
         });
 	}
 
-	//Carga grilla con motivos
+	//Carga grilla con roles
 	function initGrid(json, $scope) {
 		if (json.listData) {
 			$scope.gridOptions.data = json.listData;
@@ -109,11 +109,11 @@ function SensorConfigurationGrid($log, $uibModal,
 	/** ************************************************************* */
 }
 
-//Servicio para la obtencion de motivos
+//Servicio para la obtencion de roles
 "use strict";
-angular.module('processApp').service('auxServiceSensor', auxServiceSensor);
-auxServiceSensor.$inject = [ '$http', '$q', 'alrts', '$translate' ];
-function auxServiceSensor($http, $q, alrts, $translate) {
+angular.module('processApp').service('auxServiceRole', auxServiceRole);
+auxServiceRole.$inject = [ '$http', '$q', 'alrts', '$translate' ];
+function auxServiceRole($http, $q, alrts, $translate) {
 	return {
 		getSubset : function(obj) { 
 			return getSubset(obj);
@@ -125,7 +125,7 @@ function auxServiceSensor($http, $q, alrts, $translate) {
 		var promise = defered.promise;
 		
 		$http({
-			url : "/Sensor/Sensor/externalPagination",
+			url : "/Sensor/Role/externalPagination",
 			method : "POST",
 			params : {
 				uti1001 : obj

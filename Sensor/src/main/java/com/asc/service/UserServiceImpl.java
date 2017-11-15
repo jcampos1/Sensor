@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.asc.commons.entities.CNF1002;
+import com.asc.commons.entities.Role;
 import com.asc.commons.entities.IdsDelete;
 import com.asc.commons.entities.MAE1001;
 import com.asc.commons.entities.UTI1002;
@@ -84,7 +84,7 @@ public class UserServiceImpl extends AbstractGenericService<MAE1001> implements 
 			entity.setCrte_date(LocalDateTime.now());
 			entity.setValk(StringUtil.getGenKey());
 			entity.setUser_pass(MD5Encrypter.encrypt(entity.getConf_pass()));
-			List<CNF1002> roles = new ArrayList<CNF1002>(0);
+			List<Role> roles = new ArrayList<Role>(0);
 			roles.add(rolesDao.findbyRol(Constants.ROLE_USER));
 			entity.setRoles(roles);
 			
@@ -101,8 +101,8 @@ public class UserServiceImpl extends AbstractGenericService<MAE1001> implements 
 	@Transactional(rollbackFor = MyWebException.class)
 	public void updateClient(MAE1001 entity) throws MyWebException {
 		try {
-			List<CNF1002> roles = new ArrayList<CNF1002>(0);
-			for (CNF1002 rol : entity.getRoles()) {
+			List<Role> roles = new ArrayList<Role>(0);
+			for (Role rol : entity.getRoles()) {
 				roles.add(rolesDao.findbyRol(rol.getRole_name()));
 			}
 			

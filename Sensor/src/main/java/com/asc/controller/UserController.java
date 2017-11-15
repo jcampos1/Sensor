@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.asc.commons.entities.CNF1002;
+import com.asc.commons.entities.Role;
 import com.asc.commons.entities.IdsDelete;
 import com.asc.commons.entities.MAE1001;
 import com.asc.commons.entities.UTI1001;
@@ -99,13 +99,13 @@ public class UserController extends Base<MAE1001> {
 	}
 	
 	@RequestMapping(value = "/roles", method = RequestMethod.POST)
-	public ResponseEntity<List<CNF1002>> getRoles()
+	public ResponseEntity<List<Role>> getRoles()
 			throws Exception {
-		List<CNF1002> lst = rolServ.list();
+		List<Role> lst = rolServ.list();
 		if (lst.isEmpty()) {
 			throw new Exception("Roles not found");
 		}
-		return new ResponseEntity<List<CNF1002>>(lst, HttpStatus.OK);
+		return new ResponseEntity<List<Role>>(lst, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/currentUser", method = RequestMethod.POST)

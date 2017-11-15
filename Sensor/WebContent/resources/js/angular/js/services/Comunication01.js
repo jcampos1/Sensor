@@ -43,6 +43,8 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
     evnt12: null, //Evento para edicion de sensores
     evnt13: null, //Actualizacion lista de tipos de sensores
     evnt14: null, //Evento para edicion de tipos de sensores
+    evnt15: null, //Actualizacion lista de roles
+    evnt16: null, //Evento para edicion de roles
     
     data02: null, //Entidad a detallar
     data03: null, //Estacion a eliminar
@@ -54,6 +56,7 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
     data10: null, //Estacion a asociar a entidad (Por ejemplo a sensor)
     data11: null, //Tipo de sensor seleccionado para operaciones (detalle, edicion, eliminacion)
     data12: null, //Tipo de sensor a asociar a entidad (Por ejemplo a sensor)
+    data13: null, //Rol seleccionado para operaciones (detalle, edicion, eliminacion)
     
     /*USADO PARA FILTRAR POR STATUS DE ORDEN EN MAESTRO DE CABECERA*/
     stat: null,
@@ -272,6 +275,18 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	setEvnt14: function(data) {
 	    this.evnt14 = data;
 	},
+	getEvnt15: function() {
+        return this.evnt15;
+	},
+	setEvnt15: function(data) {
+	    this.evnt15 = data;
+	},
+	getEvnt16: function() {
+        return this.evnt16;
+	},
+	setEvnt16: function(data) {
+	    this.evnt16 = data;
+	},
 	
 	getLine_dele: function() {
         return this.line_dele;
@@ -373,6 +388,12 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	},
 	setData12: function(data) {
 	    this.data12 = data;
+	},
+	getData13: function() {
+        return this.data13;
+	},
+	setData13: function(data) {
+	    this.data13 = data;
 	},
 	
 	isValid: function(data) {

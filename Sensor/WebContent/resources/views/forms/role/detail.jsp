@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="detailSensor.html">
+<script type="text/ng-template" id="detailSensor.html"></script>
 <div class="modal-header">
 	<h3 class="box-title">
 		<span class="glyphicon glyphicon-zoom-in"></span>&nbsp; {{
@@ -11,7 +11,7 @@
 			<h5>
 				<strong>{{ 'GENE.NAME' | translate }}</strong>
 			</h5>
-			{{sensor.namese}}
+			{{role.name}}
 		</div>
 		<div class="col-sm-4 col-xs-4">
 			<h5>
@@ -49,4 +49,3 @@
 		</a>
 	</div>
 </div>
-</script>

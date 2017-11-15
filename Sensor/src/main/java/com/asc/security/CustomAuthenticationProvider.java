@@ -15,7 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.asc.commons.entities.CNF1002;
+import com.asc.commons.entities.Role;
 import com.asc.commons.entities.MAE1001;
 import com.asc.dao.interfaces.IUserDAO;
 import com.asc.exceptions.LockedCredentialsException;
@@ -109,7 +109,7 @@ public class CustomAuthenticationProvider extends AbstractService implements Aut
 	private List<GrantedAuthority> getGrantedAuthorities(MAE1001 us) {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		
-		for (CNF1002 rl : us.getRoles()) {
+		for (Role rl : us.getRoles()) {
 			authorities.add(new SimpleGrantedAuthority(rl.getRole_name()));
 		}
 		

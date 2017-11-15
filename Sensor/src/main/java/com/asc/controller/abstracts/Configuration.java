@@ -22,7 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
-import com.asc.commons.entities.CNF1002;
+import com.asc.commons.entities.Role;
 import com.asc.commons.entities.MAE1001;
 import com.asc.commons.entities.Options;
 import com.asc.commons.entities.UTI1003;
@@ -211,10 +211,10 @@ public class Configuration {
 	public Boolean hasRole(String role_name) throws MyWebException {
 		Boolean band = Boolean.FALSE;
 		MAE1001 user = getClassCurrentUserByLogin();
-		Iterator<CNF1002> it = user.getRoles().iterator();
-		CNF1002 rol = null;
+		Iterator<Role> it = user.getRoles().iterator();
+		Role rol = null;
 		while (it.hasNext() && band.equals(Boolean.FALSE)) {
-			rol = (CNF1002) it.next();
+			rol = (Role) it.next();
 			if (rol.getRole_name().equals(role_name)) {
 				band = Boolean.TRUE;
 			}
