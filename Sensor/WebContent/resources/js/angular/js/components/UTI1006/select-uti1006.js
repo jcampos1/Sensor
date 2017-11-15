@@ -33,18 +33,14 @@ angular.module('selectUTI1006', [ 'ui.bootstrap', 'messages', 'ui.grid',
 			UTI1006ConfigurationGrid.getPage($scope, comunication.getData04());
 
 			function language_grid() {
-				$scope.columns = [ {
-					name : 'id',
-					visible : false,
-					width : '8%'
-				}, {
+				$scope.columns = [{
 					name : 'code_m',
 					displayName : $scope.translation['GENE.CODE'],
 					width : '30%'
 				}, {
 					field : 'dsca_m',
 					displayName : $scope.translation['GENE.DSCA'],
-					width : '59%'
+					width : '70%'
 				}];
 			}
 

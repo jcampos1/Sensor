@@ -32,7 +32,7 @@ function UTI1006ConfigurationGrid($log, $uibModal,
 				showGridFooter : true,
 				columnDefs : $scope.columns,
 
-				selectionRowHeaderWidth : '2%',
+				selectionRowHeaderWidth : '5%',
 
 				enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
 				enableColumnMenus : false,
@@ -64,7 +64,7 @@ function UTI1006ConfigurationGrid($log, $uibModal,
 				showGridFooter : true,
 				columnDefs : $scope.columns,
 
-				selectionRowHeaderWidth : '2%',
+				selectionRowHeaderWidth : '4%',
 
 				enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
 				enableColumnMenus : false,

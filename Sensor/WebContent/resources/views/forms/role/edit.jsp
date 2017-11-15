@@ -17,7 +17,7 @@
 				</h5>
 				<input name="name" id="name" class="form-control"
 					placeholder="{{ 'GENE.NAME' | translate }}"
-					ng-model="role.name ng-maxlength="50" required /> <span
+					ng-model="role.name" ng-maxlength="50" required /> <span
 					ng-show="!SensorEditForm.name.$pristine && SensorEditForm.name.$error.required"
 					class="logError has-error"><label class="control-label"
 					for="name"><i class="fa fa-times-circle-o"></i> {{

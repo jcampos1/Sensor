@@ -72,6 +72,17 @@
 			});
 		};
 		
+		//Seleccion de multiples estaciones
+		$scope.gridStationMultiple = function() {
+			var modalInstance = $uibModal.open({
+				animation : true,
+				templateUrl : 'selectStationMultipleComponent.html',
+				controller : 'SelectStationMultipleCtrl',
+				size : "md",
+				backdrop: false
+			});
+		};
+		
 		$scope.remove = function ( ) {
 			if(comunication.getData08()!=null){
 				var modalInstance = $uibModal.open({
@@ -258,7 +269,6 @@
 		var toTrans = new Array();
 		toTrans.push('GENE.NAME');
 		toTrans.push('GENE.PHONE');
-		toTrans.push('GENE.STATUS');
 		
 		$translate(toTrans).then(function(translation) {
 			$scope.translation = translation;
@@ -324,6 +334,84 @@
 	}
 })();
 
+//Controlador configuracion de grilla para seleccion de multiples estaciones
+(function() {
+	"use strict";
+	angular.module("processApp").controller('SelectStationMultipleCtrl',
+			SelectStationMultipleCtrl);
+
+	SelectStationMultipleCtrl.$inject = [ '$scope', '$rootScope',
+			'$uibModalInstance', 'GridSelectStation', 'comunication', 'uiGridConstants', 'i18nService', '$translate', '$window', 'translations', 'OK', 'NOT_CONTENT', 'NOT_FOUND' ];
+	function SelectStationMultipleCtrl($scope, $rootScope, $uibModalInstance, GridSelectStation, comunication, uiGridConstants, i18nService, $translate, $window, translations, OK, NOT_CONTENT, NOT_FOUND) {
+		
+		var toTrans = new Array();
+		toTrans.push('GENE.NAME');
+		toTrans.push('GENE.PHONE');
+		
+		$translate(toTrans).then(function(translation) {
+			$scope.translation = translation;
+			$scope.columns = [];
+			language_grid();
+			
+			/** ******************************************************************************** */
+
+			/* ********************** CONFIGURACION DE UI-GRID ************** */
+			GridSelectStation.initializeGridOptionsMultiple($scope, $uibModalInstance);
+			GridSelectStation.registerPaginationChanged($scope);
+			
+			/** **************************************************************** */
+
+			GridSelectStation.getPage($scope, comunication.getData04());
+
+			function language_grid() {
+				$scope.columns = [ {
+					name : 'namest',
+					displayName : $scope.translation['GENE.NAME'],
+					width : '50%'
+				}, {
+					field : 'phonst',
+					displayName : $scope.translation['GENE.PHONE'],
+					width : '50%'
+				}];
+			}
+
+			
+			function trans(lang) {
+				$translate.use(lang);
+				$scope.lang = lang;
+				$translate(toTrans).then(function(translation) {
+					$scope.translation = translation;
+					language_grid();
+					$scope.gridOptions.columnDefs = $scope.columns;
+				});
+			}
+			
+			translations.getLanguage().then(function(response) {
+				if(response.status == NOT_CONTENT) {
+					var lang = ($window.navigator.language || $window.navigator.userLanguage).indexOf("es") == 0 ? "es" : "en"; 
+				}else {
+					var lang = response.data;
+				}
+				//Se establece el lenguaje del lado del cliente
+				trans(lang);
+				//Se establece el lenguaje del lado del servidor
+				translations.setLocale(lang).then(function(response) {
+				})
+		        .catch(function(error) {
+		        	$log.error(error);
+		        });
+	        })
+	        .catch(function(error) {
+	        	$log.error(error);
+	        });
+		});
+		
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss(false);
+		};
+	}
+})();
+
 //Componente de creacion de estacion
 angular.module('processApp').component('createStationComponent',
 {
@@ -335,5 +423,12 @@ angular.module('processApp').component('createStationComponent',
 angular.module('processApp').component('selectStationComponent',
 {
 	templateUrl : 'resources/views/forms/station/select.jsp',
+	controller : 'StationCtrl'
+});
+
+//Componente de selección d múltiples estaciones
+angular.module('processApp').component('selectStationMultipleComponent',
+{
+	templateUrl : 'resources/views/forms/station/selectMultiple.jsp',
 	controller : 'StationCtrl'
 });

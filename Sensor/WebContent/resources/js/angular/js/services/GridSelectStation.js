@@ -25,7 +25,7 @@ function GridSelectStation($log, uiGridConstants, $translate, auxServiceStation,
 				showGridFooter : true,
 				columnDefs : $scope.columns,
 
-				selectionRowHeaderWidth : '2%',
+				selectionRowHeaderWidth : '5%',
 
 				enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
 				enableColumnMenus : false,
@@ -43,6 +43,43 @@ function GridSelectStation($log, uiGridConstants, $translate, auxServiceStation,
 			$scope.stationSelected = function(row) {
 				//Guarda estacion a asociar a entidad (Por ejemplo a entidad sensor)
 				comunication.setData10(row.entity);
+				$uibModalInstance.dismiss(false);
+			};
+
+			return null;
+		},
+		
+		//Se pueden seleccionar multiples estaciones y se almacenar en una lista
+		initializeGridOptionsMultiple : function($scope, $uibModalInstance) {
+			$scope.gridOptions = {
+				enableGridMenu : true,
+				paginationPageSizes : [ 10, 20, 50 ],
+				paginationPageSize : paginationOptions.pageSize,
+				useExternalPagination : true,
+
+				rowHeight : 30,
+				showGridFooter : true,
+				columnDefs : $scope.columns,
+
+				selectionRowHeaderWidth : '5%',
+
+				enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
+				enableColumnMenus : false,
+				minRowsToShow : 11,
+
+				multiSelect : true,
+				enableRowSelection : true,
+				enableSelectAll : false,
+				enableFullRowSelection : true,
+				rowTemplate : '<div ng-dblclick="grid.appScope.stationSelected(row)" style="cursor: pointer" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell> </div>'
+			};
+
+			
+			//Acciona la obtención de estaciones y se dispara evento de recolección de estaciones
+			$scope.saveStations = function( ) {
+				//Lista de estaciones seleccionadas en grilla
+				comunication.setData14(angular.copy($scope.gridApi.selection.getSelectedRows()));
+				$log.info("LISTA DE STACIONES SON:");$log.info($scope.gridApi.selection.getSelectedRows());
 				$uibModalInstance.dismiss(false);
 			};
 

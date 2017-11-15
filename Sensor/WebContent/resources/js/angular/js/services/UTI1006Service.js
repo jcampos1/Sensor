@@ -109,14 +109,6 @@ function uti1006($http, $q, alrts, $translate, comunication) {
 						"Content-Type" : "application/json;charset=utf-8"
 					}
 				});
-				/*{
-			url : "/Sensor/UTI1006/inactivate",
-			method : "DELETE",
-			params : {
-				namest : namest,
-				uti1006 : moti
-			},
-		});*/
 	}
 	
 	function showMsg(opc) {

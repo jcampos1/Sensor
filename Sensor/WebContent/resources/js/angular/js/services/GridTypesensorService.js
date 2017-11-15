@@ -26,7 +26,7 @@ function TypesensorConfigurationGrid($log, $uibModal,
 				showGridFooter : true,
 				columnDefs : $scope.columns,
 
-				selectionRowHeaderWidth : '2%',
+				selectionRowHeaderWidth : '4%',
 
 				enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
 				enableColumnMenus : false,

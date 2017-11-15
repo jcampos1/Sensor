@@ -37,8 +37,6 @@
 		<!-- Seleccion de motivo de eliminacion -->
 		<select-uti1006-component />
 
-		<br />
-
 		<!-- Titulo -->
 		<div class="row">
 			<div class="col-lg-12" style="text-align: center;">

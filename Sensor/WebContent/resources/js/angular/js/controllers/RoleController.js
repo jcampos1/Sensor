@@ -55,7 +55,7 @@
 		};
 		
 		$scope.remove = function ( ) {
-			if(comunication.getData09()!=null){
+			if(comunication.getData13()!=null){
 				var modalInstance = $uibModal.open({
 					animation : true,
 					templateUrl : "confirm.html",
@@ -265,11 +265,16 @@
 	function CreateRoleCtrl($scope, $rootScope, comunication, $uibModalInstance, RoleService, $log) {
 		$scope.role = new Object();
 		
-		//Se asigna al sensor la estación una vez seleccionada
-		$scope.$watch(function ( ) { return comunication.getData10() }, function ( ) {
-			if (comunication.isValid(comunication.getData10())) {
-				$scope.sensor.station = comunication.getData10();
-				comunication.setData10(null);
+		//Se asignan las estaciones al role
+		$scope.$watch(function ( ) { return comunication.getData14() }, function ( ) {
+			if (comunication.isValid(comunication.getData14())) {
+				$scope.role.stations = comunication.getData14();
+				comunication.setData14(null);
+				$scope.stations = "";
+				//Se contruye expresion de estaciones para mostrar en vista
+				angular.forEach($scope.role.stations, function(station, key){
+					$scope.stations += " | " + station.namest;
+				});
 			}
 		});
 		

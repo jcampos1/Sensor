@@ -57,6 +57,7 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
     data11: null, //Tipo de sensor seleccionado para operaciones (detalle, edicion, eliminacion)
     data12: null, //Tipo de sensor a asociar a entidad (Por ejemplo a sensor)
     data13: null, //Rol seleccionado para operaciones (detalle, edicion, eliminacion)
+    data14: null, //Lista de estaciones seleccionadas en grilla
     
     /*USADO PARA FILTRAR POR STATUS DE ORDEN EN MAESTRO DE CABECERA*/
     stat: null,
@@ -394,6 +395,12 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	},
 	setData13: function(data) {
 	    this.data13 = data;
+	},
+	getData14: function() {
+        return this.data14;
+	},
+	setData14: function(data) {
+	    this.data14 = data;
 	},
 	
 	isValid: function(data) {
