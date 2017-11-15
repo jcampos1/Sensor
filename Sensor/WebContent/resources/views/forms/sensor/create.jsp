@@ -44,6 +44,20 @@
 			</div>
 		</div>
 		<div class="row">
+			<!-- Tipo de sensor -->
+			<div class="col-sm-6">
+				<h5>
+					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'GENE.TYSENSOR' |
+						translate }}</strong>
+				</h5>
+				<p class="input-group">
+					<input name="typesensor" id="typesensor" class="form-control"
+						placeholder="{{ 'GENE.TYSENSOR' | translate }}"
+						ng-model="sensor.typesensor.namety" required readOnly /> <span
+						class="input-group-btn"> <select-typesensor-component />
+					</span> </input>
+				</p>
+			</div>
 			<!-- Estacion -->
 			<div class="col-sm-6">
 				<h5>
@@ -52,8 +66,9 @@
 				</h5>
 				<p class="input-group">
 					<input name="station" id="station" class="form-control"
-						placeholder="{{ 'GENE.STN' | translate }}" ng-model="sensor.station.namest"
-						required readOnly/> <span class="input-group-btn"> <select-station-component />
+						placeholder="{{ 'GENE.STN' | translate }}"
+						ng-model="sensor.station.namest" required readOnly /> <span
+						class="input-group-btn"> <select-station-component />
 					</span> </input>
 				</p>
 			</div>

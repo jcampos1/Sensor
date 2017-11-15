@@ -18,7 +18,7 @@
 
 	</properties>
 
-	<pluginRepositories>
+	<pluginRepositories> 
 		<pluginRepository>
 			<id>maven-annotation</id>
 			<url>http://maven-annotation-plugin.googlecode.com/svn/trunk/mavenrepo</url>

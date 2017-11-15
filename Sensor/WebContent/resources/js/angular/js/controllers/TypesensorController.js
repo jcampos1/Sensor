@@ -55,6 +55,17 @@
 			});
 		};
 		
+		//Seleccion de tipo de sensor
+		$scope.gridTypesensor = function() {
+			var modalInstance = $uibModal.open({
+				animation : true,
+				templateUrl : 'selectTypesensorComponent.html',
+				controller : 'SelectTypesensorCtrl',
+				size : "md",
+				backdrop: false
+			});
+		};
+		
 		$scope.remove = function ( ) {
 			if(comunication.getData11()!=null){
 				var modalInstance = $uibModal.open({
@@ -266,9 +277,94 @@
 	}
 })();
 
+//Controlador configuracion de grilla para seleccion de tipo de sensor
+(function() {
+	"use strict";
+	angular.module("processApp").controller('SelectTypesensorCtrl',
+			SelectTypesensorCtrl);
+
+	SelectTypesensorCtrl.$inject = [ '$scope', '$rootScope',
+			'$uibModalInstance', 'GridSelectTypesensor', 'comunication', 'uiGridConstants', 'i18nService', '$translate', '$window', 'translations', 'OK', 'NOT_CONTENT', 'NOT_FOUND' ];
+	function SelectTypesensorCtrl($scope, $rootScope, $uibModalInstance, GridSelectTypesensor, comunication, uiGridConstants, i18nService, $translate, $window, translations, OK, NOT_CONTENT, NOT_FOUND) {
+		
+		var toTrans = new Array();
+		toTrans.push('GENE.NAME');
+		toTrans.push('GENE.DSCA');
+		
+		$translate(toTrans).then(function(translation) {
+			$scope.translation = translation;
+			$scope.columns = [];
+			language_grid();
+			
+			/** ******************************************************************************** */
+
+			/* ********************** CONFIGURACION DE UI-GRID ************** */
+			GridSelectTypesensor.initializeGridOptions($scope, $uibModalInstance);
+			GridSelectTypesensor.registerPaginationChanged($scope);
+
+			/** **************************************************************** */
+
+			GridSelectTypesensor.getPage($scope);
+
+			function language_grid() {
+				$scope.columns = [ {
+					name : 'namety',
+					displayName : $scope.translation['GENE.NAME'],
+					width : '50%'
+				}, {
+					field : 'descty',
+					displayName : $scope.translation['GENE.DSCA'],
+					width : '50%'
+				}];
+			}
+
+			
+			function trans(lang) {
+				$translate.use(lang);
+				$scope.lang = lang;
+				$translate(toTrans).then(function(translation) {
+					$scope.translation = translation;
+					language_grid();
+					$scope.gridOptions.columnDefs = $scope.columns;
+				});
+			}
+			
+			translations.getLanguage().then(function(response) {
+				if(response.status == NOT_CONTENT) {
+					var lang = ($window.navigator.language || $window.navigator.userLanguage).indexOf("es") == 0 ? "es" : "en"; 
+				}else {
+					var lang = response.data;
+				}
+				//Se establece el lenguaje del lado del cliente
+				trans(lang);
+				//Se establece el lenguaje del lado del servidor
+				translations.setLocale(lang).then(function(response) {
+				})
+		        .catch(function(error) {
+		        	$log.error(error);
+		        });
+	        })
+	        .catch(function(error) {
+	        	$log.error(error);
+	        });
+		});
+		
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss(false);
+		};
+	}
+})();
+
 //Componente de creacion de sensor
 angular.module('processApp').component('createTypesensorComponent',
 {
 	templateUrl : 'resources/views/forms/typesensor/create.jsp',
+	controller : 'TypesensorCtrl'
+});
+
+//Componente de selección de tipos de sensores
+angular.module('processApp').component('selectTypesensorComponent',
+{
+	templateUrl : 'resources/views/forms/typesensor/select.jsp',
 	controller : 'TypesensorCtrl'
 });

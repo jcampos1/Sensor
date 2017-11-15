@@ -7,9 +7,9 @@
 
 <script type="text/ng-template" id="NewUTI1006Ctrl.html">
 <div class="modal-header">
-	<div class="modal-header">
-		<h3 class="box-title"><i class="fa fa-plus-square"></i>&nbsp;{{ ('GENE.NEW' | translate) }}</h3>
-	</div>
+	<h3 class="box-title">
+		<i class="fa fa-plus-square"></i>&nbsp;{{ ('GENE.NEW' | translate) }}
+	</h3>
 </div>
 <div id="FATH_FORM" class="modal-body">
 	<form id="UTI1006Form" name="UTI1006Form" novalidate="true">

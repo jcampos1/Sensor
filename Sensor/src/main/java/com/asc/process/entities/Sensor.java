@@ -1,5 +1,7 @@
 package com.asc.process.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +18,7 @@ import com.asc.entities.abstracts.AbstractEntityID;
 
 @Entity
 @Table(name = "sensort")
-public class Sensor extends AbstractEntityID {
+public class Sensor extends AbstractEntityID implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -24,6 +26,8 @@ public class Sensor extends AbstractEntityID {
 	private String nomenc;
 	private String rango;
 	private REL1002 evento;
+	private Station station;
+	private Typesensor typesensor;
 	
 //	private List<MAE1014> lines = new ArrayList<MAE1014>(0);
 	
@@ -78,6 +82,24 @@ public class Sensor extends AbstractEntityID {
 		this.active = active;
 	}
 	
+	@ManyToOne
+	public Station getStation() {
+		return station;
+	}
+
+	public void setStation(Station station) {
+		this.station = station;
+	}
+
+	@ManyToOne
+	public Typesensor getTypesensor() {
+		return typesensor;
+	}
+
+	public void setTypesensor(Typesensor typesensor) {
+		this.typesensor = typesensor;
+	}
+
 	@ManyToOne(cascade= CascadeType.ALL)
 	public REL1002 getEvento() {
 		return evento;

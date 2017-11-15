@@ -236,6 +236,10 @@ var="anguspin" />
 	
 <spring:url value="/resources/js/angular/js/services/TypesensorService.js"
 	var="TypesensorService" />
+	
+<spring:url
+	value="/resources/js/angular/js/services/GridSelectTypesensor.js"
+	var="GridSelectTypesensor" />
 
 <spring:url
 	value="/resources/js/angular/js/controllers/TypesensorController.js"
@@ -725,6 +729,7 @@ var="CPREC" />
 <!--------------------- Tipo de sensor -------------------->
 <script type="text/javascript" src="${TypesensorConfigurationGrid}"></script>
 <script type="text/javascript" src="${TypesensorService}"></script>
+<script type="text/javascript" src="${GridSelectTypesensor}"></script>
 <script type="text/javascript" src="${TypesensorController}"></script>
 <!-------------------------------------------------->
 

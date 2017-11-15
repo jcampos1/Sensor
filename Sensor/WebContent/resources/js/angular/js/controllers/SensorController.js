@@ -253,11 +253,19 @@
 	function CreateSensorCtrl($scope, $rootScope, comunication, $uibModalInstance, SensorService, $log) {
 		$scope.sensor = new Object();
 		$scope.sensor.station = new Object();
-		//Se asigna la estación una vez seleccionada al sensor
+		//Se asigna al sensor la estación una vez seleccionada
 		$scope.$watch(function ( ) { return comunication.getData10() }, function ( ) {
 			if (comunication.isValid(comunication.getData10())) {
 				$scope.sensor.station = comunication.getData10();
 				comunication.setData10(null);
+			}
+		});
+		
+		//Se asigna al sensor el tipo de sensor una vez seleccionado
+		$scope.$watch(function ( ) { return comunication.getData12() }, function ( ) {
+			if (comunication.isValid(comunication.getData12())) {
+				$scope.sensor.typesensor = comunication.getData12();
+				comunication.setData12(null);
 			}
 		});
 		

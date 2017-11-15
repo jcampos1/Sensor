@@ -61,6 +61,7 @@
 			});
 		};
 		
+		//Seleccion de estacion
 		$scope.gridStation = function() {
 			var modalInstance = $uibModal.open({
 				animation : true,
