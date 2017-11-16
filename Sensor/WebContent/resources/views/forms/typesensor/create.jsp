@@ -16,7 +16,10 @@
 			<div class="col-sm-12">
 				<h5>
 					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'GENE.NAME' |
-						translate }}</strong>
+						translate }}</strong>&nbsp;<i
+						uib-tooltip="{{'TLTPS.TP09'| translate}}"
+						tooltip-trigger="focus" class="fa fa-info-circle"
+						aria-hidden="true"></i>
 				</h5>
 				<input name="namety" id="namety" class="form-control"
 					placeholder="{{ 'GENE.NAME' | translate }}"

@@ -41,7 +41,7 @@
 		<div class="row">
 			<div class="col-lg-12" style="text-align: center;">
 				<h3>
-					<i class="fa fa-home"></i>&nbsp;<strong>{{"GENE.ROLES" |
+					<strong>{{"GENE.ROLES" |
 						translate}}</strong>
 				</h3>
 			</div>

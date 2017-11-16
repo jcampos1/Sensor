@@ -24,21 +24,22 @@
 						'GENE.REQ' | translate }}</label></span>
 				<div id="ERROR_name" class="logError"></div>
 			</div>
-			<!-- Nomenclatura -->
-			<!--  <div class="col-sm-6">
+			<!-- Estaciones -->
+			<div class="col-sm-6">
 				<h5>
-					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'GENE.NOMENC' |
-						translate }}</strong>
+					<strong>{{ 'GENE.STNS' |
+						translate }}</strong>&nbsp;<i
+						uib-tooltip="{{'TLTPS.TP10'| translate}}"
+						tooltip-trigger="focus" class="fa fa-info-circle"
+						aria-hidden="true"></i>
 				</h5>
-				<input name="nomenc" id="nomenc" class="form-control"
-					placeholder="{{ 'GENE.NOMENC' | translate }}"
-					ng-model="sensor.nomenc" ng-maxlength="20" required /> <span
-					ng-show="!SensorEditForm.nomenc.$pristine && SensorEditForm.nomenc.$error.required"
-					class="logError has-error"><label class="control-label"
-					for="nomenc"><i class="fa fa-times-circle-o"></i> {{
-						'GENE.REQ' | translate }}</label></span>
-				<div id="ERROR_nomenc" class="logError"></div>
-			</div>-->
+				<p class="input-group">
+					<input name="stations" id="stations" class="form-control"
+						placeholder="{{ 'GENE.STNS' | translate }}" ng-model="stations"
+						readOnly /> <span class="input-group-btn"> <select-station-multiple-component />
+					</span> </input>
+				</p>
+			</div>
 		</div>
 		<%--<div class="row">
 			<!-- Tipo de sensor -->

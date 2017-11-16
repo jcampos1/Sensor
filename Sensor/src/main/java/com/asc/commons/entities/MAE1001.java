@@ -16,6 +16,7 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -26,6 +27,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.asc.controller.abstracts.Configuration;
 import com.asc.entities.abstracts.AbstractEntityID;
+import com.asc.process.entities.REL1002;
 import com.asc.serializers.LocalDateTimeDeserializer;
 import com.asc.serializers.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -40,94 +42,26 @@ public class MAE1001 extends AbstractEntityID {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "frst_name", nullable = false, length = Configuration.SIZE_EIGHTEEN)
 	private String frst_name;
-
-	@Column(name = "last_name", nullable = false, length = Configuration.SIZE_THIRTY)
 	private String last_name;
-
-	@NotNull
-	@Column(name = "user_mail", unique = true, nullable = false, length = Configuration.SIZE_FIFTY_FOUR)
 	private String user_mail;
-
+	private String user_pass;
+	private String phone;
+	private String valk;
+	private LocalDateTime crte_date;
+	private LocalDateTime date_acti;
+	private int atmt;
+	private Boolean user_bloq;
+	private Boolean user_dltd;
+	LanguageEnum lang;
+	private REL1002 evento;
+	private List<Role> roles = new ArrayList<Role>(0);
+	
 	@Transient
 	private String conf_mail;
-
-	@NotNull
-	@Column(name = "user_pass", nullable = false, length = Configuration.SIZE_HUNDRED)
-	private String user_pass;
-
-	@NotNull
-	@Column(name = "phone", nullable = false, length = Configuration.SIZE_PHON)
-	private String phone;
-
+	
 	@Transient
 	private String conf_pass;
-
-	// Validation Key
-	@Column(name = "valk", nullable = false, length = Configuration.SIZE_THIRTY)
-	private String valk;
-
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	@Column(name = "crte_date", nullable = false)
-	private LocalDateTime crte_date;
-
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	@Column(name = "date_acti", nullable = false)
-	private LocalDateTime date_acti;
-
-	// Fail Attemps
-	@Column(name = "atmt", nullable = false)
-	private int atmt;
-
-	// User bloqued
-	@Column(name = "user_bloq", nullable = false, columnDefinition = "boolean default false")
-	private Boolean user_bloq;
-
-	// User deleted
-	@Column(name = "user_dltd", nullable = false, columnDefinition = "boolean default false")
-	private Boolean user_dltd;
-
-	@Enumerated(EnumType.ORDINAL)
-	LanguageEnum lang;
-
-	private List<Role> roles = new ArrayList<Role>(0);
-
-	// Crear orden manual
-	@Column(name = "ornd", nullable = false, columnDefinition = "boolean default false")
-	private Boolean ornd;
-	
-	// Realizar pesaje
-	@Column(name = "pesaje", nullable = false, columnDefinition = "boolean default false")
-	private Boolean pesaje;
-
-	// Ingresar pesos manual
-	@Column(name = "ingr", nullable = false, columnDefinition = "boolean default false")
-	private Boolean ingr;
-
-	// Eliminar pesos
-	@Column(name = "dele", nullable = false, columnDefinition = "boolean default false")
-	private Boolean dele;
-
-	// Aprobar diferencia
-	@Column(name = "apro", nullable = false, columnDefinition = "boolean default false")
-	private Boolean apro;
-
-	// Anular pedido
-	@Column(name = "anul", nullable = false, columnDefinition = "boolean default false")
-	private Boolean anul;
-
-	// Aprobar devolución (Mal estado)
-	@Column(name = "peso", nullable = false, columnDefinition = "boolean default false")
-	private Boolean peso;
-
-	// Generar OV devolución (Mal estado)
-	@Column(name = "geov", nullable = false, columnDefinition = "boolean default false")
-	private Boolean geov;
 
 	public MAE1001() {
 	}
@@ -139,6 +73,7 @@ public class MAE1001 extends AbstractEntityID {
 		return this.id;
 	}
 
+	@Column(name = "frst_name", nullable = false, length = Configuration.SIZE_EIGHTEEN)
 	public String getFrst_name() {
 		return frst_name;
 	}
@@ -147,6 +82,7 @@ public class MAE1001 extends AbstractEntityID {
 		this.frst_name = frst_name;
 	}
 
+	@Column(name = "last_name", nullable = false, length = Configuration.SIZE_THIRTY)
 	public String getLast_name() {
 		return last_name;
 	}
@@ -155,6 +91,8 @@ public class MAE1001 extends AbstractEntityID {
 		this.last_name = last_name;
 	}
 
+	@NotNull
+	@Column(name = "user_mail", unique = true, nullable = false, length = Configuration.SIZE_FIFTY_FOUR)
 	public String getUser_mail() {
 		return user_mail;
 	}
@@ -163,15 +101,8 @@ public class MAE1001 extends AbstractEntityID {
 		this.user_mail = user_mail;
 	}
 
-	@Transient
-	public String getConf_mail() {
-		return conf_mail;
-	}
-
-	public void setConf_mail(String conf_mail) {
-		this.conf_mail = conf_mail;
-	}
-
+	@NotNull
+	@Column(name = "user_pass", nullable = false, length = Configuration.SIZE_HUNDRED)
 	public String getUser_pass() {
 		return user_pass;
 	}
@@ -180,15 +111,8 @@ public class MAE1001 extends AbstractEntityID {
 		this.user_pass = user_pass;
 	}
 
-	@Transient
-	public String getConf_pass() {
-		return conf_pass;
-	}
-
-	public void setConf_pass(String conf_pass) {
-		this.conf_pass = conf_pass;
-	}
-
+	@NotNull
+	@Column(name = "phone", nullable = false, length = Configuration.SIZE_PHON)
 	public String getPhone() {
 		return phone;
 	}
@@ -197,6 +121,8 @@ public class MAE1001 extends AbstractEntityID {
 		this.phone = phone;
 	}
 
+	// Validation Key
+	@Column(name = "valk", nullable = false, length = Configuration.SIZE_THIRTY)
 	public String getValk() {
 		return valk;
 	}
@@ -205,6 +131,10 @@ public class MAE1001 extends AbstractEntityID {
 		this.valk = valk;
 	}
 
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	@Column(name = "crte_date", nullable = false)
 	public LocalDateTime getCrte_date() {
 		return crte_date;
 	}
@@ -213,6 +143,10 @@ public class MAE1001 extends AbstractEntityID {
 		this.crte_date = crte_date;
 	}
 
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	@Column(name = "date_acti", nullable = false)
 	public LocalDateTime getDate_acti() {
 		return date_acti;
 	}
@@ -221,6 +155,8 @@ public class MAE1001 extends AbstractEntityID {
 		this.date_acti = date_acti;
 	}
 
+	// Fail Attemps
+	@Column(name = "atmt", nullable = false)
 	public int getAtmt() {
 		return atmt;
 	}
@@ -229,6 +165,8 @@ public class MAE1001 extends AbstractEntityID {
 		this.atmt = atmt;
 	}
 
+	// Fail Attemps
+		@Column(name = "atmt", nullable = false)
 	public Boolean getUser_bloq() {
 		return user_bloq;
 	}
@@ -246,6 +184,8 @@ public class MAE1001 extends AbstractEntityID {
 		this.active = active;
 	}
 
+	// User deleted
+		@Column(name = "user_dltd", nullable = false, columnDefinition = "boolean default false")
 	public Boolean getUser_dltd() {
 		return user_dltd;
 	}
@@ -254,6 +194,7 @@ public class MAE1001 extends AbstractEntityID {
 		this.user_dltd = user_dltd;
 	}
 
+	@Enumerated(EnumType.ORDINAL)
 	public LanguageEnum getLang() {
 		return lang;
 	}
@@ -261,80 +202,41 @@ public class MAE1001 extends AbstractEntityID {
 	public void setLang(LanguageEnum lang) {
 		this.lang = lang;
 	}
-
-	public Boolean getOrnd() {
-		return ornd;
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	public REL1002 getEvento() {
+		return evento;
 	}
 
-	public void setOrnd(Boolean ornd) {
-		this.ornd = ornd;
-	}
-
-	public Boolean getPesaje() {
-		return pesaje;
-	}
-
-	public void setPesaje(Boolean pesaje) {
-		this.pesaje = pesaje;
-	}
-
-	public Boolean getIngr() {
-		return ingr;
-	}
-
-	public void setIngr(Boolean ingr) {
-		this.ingr = ingr;
-	}
-
-	public Boolean getDele() {
-		return dele;
-	}
-
-	public void setDele(Boolean dele) {
-		this.dele = dele;
-	}
-
-	public Boolean getApro() {
-		return apro;
-	}
-
-	public void setApro(Boolean apro) {
-		this.apro = apro;
-	}
-
-	public Boolean getAnul() {
-		return anul;
-	}
-
-	public void setAnul(Boolean anul) {
-		this.anul = anul;
-	}
-
-	public Boolean getPeso() {
-		return peso;
-	}
-
-	public void setPeso(Boolean peso) {
-		this.peso = peso;
-	}
-
-	public Boolean getGeov() {
-		return geov;
-	}
-
-	public void setGeov(Boolean geov) {
-		this.geov = geov;
+	public void setEvento(REL1002 evento) {
+		this.evento = evento;
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "rel1001", joinColumns = {
-			@JoinColumn(name = "idus", nullable = false, updatable = true, insertable = true) }, inverseJoinColumns = {
-					@JoinColumn(name = "idrl", nullable = false, updatable = true, insertable = true) })
+	@JoinTable(name = "rel1001", joinColumns = { @JoinColumn(name = "idus", nullable = false, updatable = true, insertable = true) }, inverseJoinColumns = { @JoinColumn(name = "idrl", nullable = false, updatable = true, insertable = true) })
 	public List<Role> getRoles() {
 		return this.roles;
 	}
 
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
+	}
+	
+	@Transient
+	public String getConf_mail() {
+		return conf_mail;
+	}
+
+	public void setConf_mail(String conf_mail) {
+		this.conf_mail = conf_mail;
+	}
+	
+	@Transient
+	public String getConf_pass() {
+		return conf_pass;
+	}
+
+	public void setConf_pass(String conf_pass) {
+		this.conf_pass = conf_pass;
 	}
 }

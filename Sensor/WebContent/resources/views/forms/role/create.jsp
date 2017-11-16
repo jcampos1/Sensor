@@ -31,12 +31,15 @@
 			<div class="col-sm-6">
 				<h5>
 					<strong>{{ 'GENE.STNS' |
-						translate }}</strong>
+						translate }}</strong>&nbsp;<i
+						uib-tooltip="{{'TLTPS.TP10'| translate}}"
+						tooltip-trigger="focus" class="fa fa-info-circle"
+						aria-hidden="true"></i>
 				</h5>
 				<p class="input-group">
 					<input name="stations" id="stations" class="form-control"
 						placeholder="{{ 'GENE.STNS' | translate }}" ng-model="stations"
-						required readOnly /> <span class="input-group-btn"> <select-station-multiple-component />
+						readOnly /> <span class="input-group-btn"> <select-station-multiple-component />
 					</span> </input>
 				</p>
 			</div>

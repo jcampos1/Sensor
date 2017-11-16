@@ -6,10 +6,17 @@ angular.module("widgets02", [ 'messages', 'localytics.directives', 'MAE1001Servi
 	angular.module('widgets02').controller('widgets02Controller',
 			widgets02Controller);
 	widgets02Controller.$inject = [ 'comunication02', 'mae1001Service', '$scope',
-			'uiGridConstants', 'i18nService', '$translate', 'translations', '$log' ];
-	function widgets02Controller(comunication02, mae1001Service, $scope, uiGridConstants, i18nService, $translate, translations, $log) {
+			'uiGridConstants', 'i18nService', '$translate', 'translations', '$log', 'stationService' ];
+	function widgets02Controller(comunication02, mae1001Service, $scope, uiGridConstants, i18nService, $translate, translations, $log, stationService) {
 		var vm = this;
 		
+		stationService.find().then(function successCallback ( stations ) {
+			$scope.cantst = stations.data.length;
+			$log.info(stations);
+			$log.info(stations.data.length);
+		}, function errorCallback ( response ) {
+			$log.error("Error al obtener estaciones de trabajo");
+		});
 		/* ****************ESCUCHADORES***************** */
 		$scope.$watch(function() { return comunication02.getEvnt01() }, function() {
 			if( comunication02.isValid(comunication02.getEvnt01()) ){

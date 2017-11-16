@@ -28,7 +28,10 @@
 			<div class="col-sm-6">
 				<h5>
 					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'GENE.NOMENC' |
-						translate }}</strong>
+						translate }}</strong>&nbsp;<i
+						uib-tooltip="{{'TLTPS.TP07'| translate}}"
+						tooltip-trigger="focus" class="fa fa-info-circle"
+						aria-hidden="true"></i>
 				</h5>
 				<input name="nomenc" id="nomenc" class="form-control"
 					placeholder="{{ 'GENE.NOMENC' | translate }}"
@@ -85,7 +88,10 @@
 			<div class="col-sm-12">
 				<h5>
 					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'GENE.RANGO' |
-						translate }}</strong>
+						translate }}</strong>&nbsp;<i
+						uib-tooltip="{{'TLTPS.TP08'| translate}}"
+						tooltip-trigger="focus" class="fa fa-info-circle"
+						aria-hidden="true"></i>
 				</h5>
 				<textarea rows="3" name="rango" id="rango" class="form-control"
 					placeholder="{{ 'GENE.RANGO' | translate }}"

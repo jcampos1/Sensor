@@ -2,9 +2,9 @@
 angular.module('processApp').service('RoleConfigurationGrid',
 		RoleConfigurationGrid);
 RoleConfigurationGrid.$inject = [ '$log', '$uibModal',
-		'uiGridConstants', '$translate', 'auxServiceRole', 'comunication'];
+		'uiGridConstants', '$translate', 'auxServiceRole', 'comunication', '$interval'];
 function RoleConfigurationGrid($log, $uibModal,
-		uiGridConstants, $translate, auxServiceRole, comunication) {
+		uiGridConstants, $translate, auxServiceRole, comunication, $interval) {
 	/** ********************** VARIABLES PRIVADAS ******************* */
 	var paginationOptions = {
 		pageNumber : 1,
@@ -65,6 +65,7 @@ function RoleConfigurationGrid($log, $uibModal,
 		registerPaginationChanged : function($scope) {
 			$scope.gridOptions.onRegisterApi = function(gridApi) {
 				$scope.gridApi = gridApi;
+				windowsGridResize( $scope );
 				gridApi.pagination.on.paginationChanged($scope, function(
 						newPage, pageSize) {
 					paginationOptions.pageNumber = newPage;
@@ -105,6 +106,12 @@ function RoleConfigurationGrid($log, $uibModal,
 			$scope.gridOptions.totalItems = 0;
 			$scope.gridApi.selection.clearSelectedRows();
 		}
+	}
+	
+	function windowsGridResize ( $scope ) {
+		$interval( function() {
+			$scope.gridApi.core.handleWindowResize();
+		}, 12, 502);
 	}
 	/** ************************************************************* */
 }

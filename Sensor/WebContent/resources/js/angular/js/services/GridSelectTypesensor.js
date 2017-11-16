@@ -25,7 +25,7 @@ function GridSelectTypesensor($log, uiGridConstants, $translate, auxServiceTypes
 				showGridFooter : true,
 				columnDefs : $scope.columns,
 
-				selectionRowHeaderWidth : '4%',
+				selectionRowHeaderWidth : '5%',
 
 				enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
 				enableColumnMenus : false,

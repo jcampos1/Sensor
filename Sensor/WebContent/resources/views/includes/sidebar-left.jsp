@@ -52,7 +52,7 @@
 						<li ui-sref-active="active" class="grow"><a ui-sref="display"><i
 								class="fa fa-circle-o"></i> {{'GENE.DISP' | translate}}</a></li>
 						<li ui-sref-active="active" class="grow"><a ui-sref="role"><i
-								class="fa fa-circle-o"></i> {{'GENE.ROLE' | translate}}</a></li>
+								class="fa fa-circle-o"></i> {{'GENE.ROLES' | translate}}</a></li>
 						<li ui-sref-active="active" class="grow"><a ui-sref="station"><i
 								class="fa fa-circle-o"></i> {{'GENE.STNS' | translate}}</a></li>
 						<li ui-sref-active="active" class="grow"><a ui-sref="sensor"><i

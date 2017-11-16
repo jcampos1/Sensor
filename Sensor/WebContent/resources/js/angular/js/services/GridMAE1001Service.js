@@ -1,10 +1,10 @@
 "use strict";
-angular.module('processApp').service('TypesensorConfigurationGrid',
-		TypesensorConfigurationGrid);
-TypesensorConfigurationGrid.$inject = [ '$log', '$uibModal',
-		'uiGridConstants', '$translate', 'auxServiceTypesensor', 'comunication'];
-function TypesensorConfigurationGrid($log, $uibModal,
-		uiGridConstants, $translate, auxServiceTypesensor, comunication) {
+angular.module('processApp').service('MAE1001ConfigurationGrid',
+		MAE1001ConfigurationGrid);
+MAE1001ConfigurationGrid.$inject = [ '$log', '$uibModal',
+		'uiGridConstants', '$translate', 'auxServiceMAE1001', 'comunication', '$interval'];
+function MAE1001ConfigurationGrid($log, $uibModal,
+		uiGridConstants, $translate, auxServiceMAE1001, comunication, $interval) {
 	/** ********************** VARIABLES PRIVADAS ******************* */
 	var paginationOptions = {
 		pageNumber : 1,
@@ -36,23 +36,23 @@ function TypesensorConfigurationGrid($log, $uibModal,
 				enableRowSelection : true,
 				enableSelectAll : false,
 				enableFullRowSelection : true,
-				rowTemplate : '<div ng-click="grid.appScope.selected(row)" ng-dblclick="grid.appScope.dobleSelected(row)" style="cursor: pointer" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell> </div>'
+				rowTemplate : '<div ng-click="grid.appScope.selected(row)" ng-dblclick="grid.appScope.roleSelected(row)" style="cursor: pointer" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell> </div>'
 			};
 			
-			//Devuelve el tipo de sensor a editar/eliminar/ver en detalle
+			//Devuelve el usuario a editar/eliminar/ver en detalle
 			$scope.selected = function(row) {
-				//Guarda el tipo de sensor seleccionado
-				$scope.typesensorselected = row.entity;
-				//Guarda el tipo de sensor seleccionado
-				comunication.setData11(row.entity);
+				//Guarda el usuario seleccionado
+				$scope.userselected = row.entity;
+				//Guarda el usuario seleccionado
+				comunication.setData15(row.entity);
 			};
 			
-			//Acciona la edicion de tipos de sensores
-			$scope.dobleSelected = function(row) {
-				//Guarda el tipo de sensor seleccionado
-				comunication.setData11(row.entity);
-				//Se dispara evento para edicion de tipos de sensores
-				comunication.setEvnt14("emit");
+			//Acciona la edicion del usuario
+			$scope.userSelected = function(row) {
+				//Guarda el usuario seleccionado
+				comunication.setData15(row.entity);
+				//Se dispara evento para edicion de usuario
+				comunication.setEvnt17("emit");
 			};
 
 			return null;
@@ -65,6 +65,7 @@ function TypesensorConfigurationGrid($log, $uibModal,
 		registerPaginationChanged : function($scope) {
 			$scope.gridOptions.onRegisterApi = function(gridApi) {
 				$scope.gridApi = gridApi;
+				windowsGridResize( $scope );
 				gridApi.pagination.on.paginationChanged($scope, function(
 						newPage, pageSize) {
 					paginationOptions.pageNumber = newPage;
@@ -86,15 +87,15 @@ function TypesensorConfigurationGrid($log, $uibModal,
 		obj.grid.page = paginationOptions.pageNumber;
 		obj.grid.pageSize = paginationOptions.pageSize;
 		
-		auxServiceTypesensor.getSubset(obj).then(function(response) {
+		auxServiceMAE1001.getSubset(obj).then(function(response) {
 			initGrid(response, $scope);
 		}).catch(function(error) {
 			initGrid(null, $scope);
-			$log.error("Se produjo un error en la obtencion de los tipos de sensores");
+			$log.error("Se produjo un error en la obtencion de usuarios");
         });
 	}
 
-	//Carga grilla con motivos
+	//Carga grilla con roles
 	function initGrid(json, $scope) {
 		if (json.listData) {
 			$scope.gridOptions.data = json.listData;
@@ -106,14 +107,20 @@ function TypesensorConfigurationGrid($log, $uibModal,
 			$scope.gridApi.selection.clearSelectedRows();
 		}
 	}
+	
+	function windowsGridResize ( $scope ) {
+		$interval( function() {
+			$scope.gridApi.core.handleWindowResize();
+		}, 12, 502);
+	}
 	/** ************************************************************* */
 }
 
-//Servicio para la obtencion de motivos
+//Servicio para la obtencion de roles
 "use strict";
-angular.module('processApp').service('auxServiceTypesensor', auxServiceTypesensor);
-auxServiceTypesensor.$inject = [ '$http', '$q', 'alrts', '$translate' ];
-function auxServiceTypesensor($http, $q, alrts, $translate) {
+angular.module('processApp').service('auxServiceMAE1001', auxServiceMAE1001);
+auxServiceMAE1001.$inject = [ '$http', '$q', 'alrts', '$translate' ];
+function auxServiceMAE1001($http, $q, alrts, $translate) {
 	return {
 		getSubset : function(obj) { 
 			return getSubset(obj);
@@ -125,7 +132,7 @@ function auxServiceTypesensor($http, $q, alrts, $translate) {
 		var promise = defered.promise;
 		
 		$http({
-			url : "/Sensor/Typesensor/externalPagination",
+			url : "/Sensor/MAE1001/externalPagination",
 			method : "POST",
 			params : {
 				uti1001 : obj

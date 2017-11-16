@@ -405,6 +405,12 @@ angular.module('messages').config([ '$translateProvider',
 				},
 				
 				"TLTPS": {
+					"TP07":				"Example: T1, TS1, H1, ...",
+					"TP08":				"Example: -10 to 50CC, 0 to 239 kpa, Atmosférico 400ppm, ...",
+					"TP09":				"Example: Temperature, gas, ultraviolet, ...",
+					"TP10":				"Stations accessed through the domain",
+					
+					
 					"CHAR_UNIT_TP":		"Unit of measure with which the indicator will work. Example: kg",
 					"CHAR_SEPA_TP":		"Character separador of the different groups that make up a chain. Example: the comma (,) in the chain ST,GS,+0008900kg",
 					"CHAR_STAB_TP":		"Character that indicates the stability of the weight. Example: 'ST' in ST,GS,+0008900kg",
@@ -854,6 +860,11 @@ angular.module('messages').config([ '$translateProvider',
 				},
 				
 				"TLTPS": {
+					"TP07":				"Ejemplo: T1, TS1, H1, ...",
+					"TP08":				"Ejemplo: -10 a 50CC, 0 a 239 kpa, Atmosférico 400ppm, ...",
+					"TP09":				"Ejemplo: Temperatura, gas, ultravioleta, ...",
+					"TP10":				"Estaciones accedidas a través del dominio",
+					
 					"CHAR_UNIT_TP":		"Unidad de medida con la que trabajará el indicador. Ejemplo: kg",
 					"CHAR_SEPA_TP":		"Carácter separador de los distintos grupos que conforman a una cadena. Ejemplo: la coma(,) en la cadena ST,GS,+0008900kg",
 					"CHAR_STAB_TP":		"Carácter que indica la estabilidad del peso. Ejemplo: 'ST' en la cadena ST,GS,+0008900kg",
