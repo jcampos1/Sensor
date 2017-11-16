@@ -1,5 +1,5 @@
 'use strict';
-angular.module("processApp", [ 'MEDIOAPP',  'myApp', 'widgets01', 'widgets02', 'GRIDUTI1006', 'MAE1008APP', 'MAE1007APP', 'UTI1006APP', 'PAR1001APP', 'MAE1013APP', 'MAE1014APP', 'MAE1015APP', 'selectMAE1016', 'selectMAE1017', 'selectMAE1018', 'desgloseMAE1010', 'CMAE1010_01', 'commons', 'localytics.directives', 'ui.router', 'CTRLPESAJE', 'dynamicNumber', 'Comunication02']);
+angular.module("processApp", [ 'MEDIOAPP', 'widgets01', 'GRIDUTI1006', 'MAE1008APP', 'MAE1007APP', 'UTI1006APP', 'PAR1001APP', 'MAE1013APP', 'MAE1014APP', 'MAE1015APP', 'selectMAE1016', 'selectMAE1017', 'selectMAE1018', 'desgloseMAE1010', 'CMAE1010_01', 'commons', 'localytics.directives', 'ui.router', 'CTRLPESAJE', 'dynamicNumber', 'Comunication02']);
 
 angular.module("processApp").config(['dynamicNumberStrategyProvider', function(dynamicNumberStrategyProvider){
   dynamicNumberStrategyProvider.addStrategy('general', {
@@ -27,7 +27,7 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
                  template: "<widgets02-component />"
             },
             "mstr":{
-                 templateUrl: "/Sensor/resources/views/masters/mstrUser.jsp"
+                 templateUrl: "/Sensor/resources/views/masters/mstrMAE1001.jsp"
             },
         } 
     })

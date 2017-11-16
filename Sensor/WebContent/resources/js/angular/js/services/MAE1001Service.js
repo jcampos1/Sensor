@@ -1,12 +1,8 @@
-/* ************** DECLARACION DE MODULOS ****************** */
-'use strict';
-angular.module("MAE1001Service", ['notify', 'messages', 'SimulatorService']);
-
 /* *********************** SERVICIOS ********************** */
 "use strict";
-angular.module('MAE1001Service').service('mae1001Service', mae1001);
-mae1001.$inject = [ '$http', '$log', '$q', 'alrts', '$translate', 'comunication' ];
-function mae1001($http, $log, $q, alrts, $translate, comunication) {
+angular.module('processApp').service('mae1001Service', mae1001Service);
+mae1001Service.$inject = [ '$http', '$log', '$q', 'alrts', '$translate', 'comunication' ];
+function mae1001Service($http, $log, $q, alrts, $translate, comunication) {
 	return {
 		getRolesList: function() {
 			return getRolesList();
@@ -29,11 +25,11 @@ function mae1001($http, $log, $q, alrts, $translate, comunication) {
 			        	showMsg(opc);
 			        	if(opc ==0){
 			        		$scope.user = new Object();
-			        		//Recargar lista de usuarios
-				        	comunication.setEvnt18("emit");
-			        	}else{
 			        		//Recargar lista de usuarios pendientes por aprobacion
 				        	comunication.setEvnt19("emit");
+			        	}else{
+			        		//Recargar lista de usuarios
+				        	comunication.setEvnt18("emit");
 			        	}
 			        })
 			        .catch(function(error) {
@@ -41,11 +37,12 @@ function mae1001($http, $log, $q, alrts, $translate, comunication) {
 			        	$log.error(error);
 			        });
 	        	}else {
+	        		$log.error(response.flds);
 	        		window.showErrors(response.flds);
 	        	}
 	        })
 	        .catch(function(response) {
-	        	log.error(response.error);
+	        	$log.error(response.error);
 	        });
 		},
 		

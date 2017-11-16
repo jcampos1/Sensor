@@ -171,6 +171,12 @@
 		//Sensor seleccionqeo
 		$scope.role = comunication.getData13();
 		
+		$scope.stations = "";
+		//Se contruye expresion de estaciones para mostrar en vista
+		angular.forEach($scope.role.stations, function(station, key){
+			$scope.stations += " | " + station.namest;
+		});
+		
 		$scope.cancel = function ( ) {
 			$uibModalInstance.dismiss(false);
 		};
@@ -227,20 +233,22 @@
 	function UpdateRoleCtrl ( $scope, $uibModalInstance,
 			RoleService, comunication ) {
 		$scope.role = angular.copy(comunication.getData13());
-		
-		//Se asigna al sensor la estación una vez seleccionada
-		$scope.$watch(function ( ) { return comunication.getData10() }, function ( ) {
-			if (comunication.isValid(comunication.getData10())) {
-				$scope.sensor.station = comunication.getData10();
-				comunication.setData10(null);
-			}
+		$scope.stations = "";
+		//Se contruye expresion de estaciones para mostrar en vista
+		angular.forEach($scope.role.stations, function(station, key){
+			$scope.stations += " | " + station.namest;
 		});
 		
-		//Se asigna al sensor el tipo de sensor una vez seleccionado
-		$scope.$watch(function ( ) { return comunication.getData12() }, function ( ) {
-			if (comunication.isValid(comunication.getData12())) {
-				$scope.sensor.typesensor = comunication.getData12();
-				comunication.setData12(null);
+		//Se asignan las estaciones al role
+		$scope.$watch(function ( ) { return comunication.getData14() }, function ( ) {
+			if (comunication.isValid(comunication.getData14())) {
+				$scope.role.stations = comunication.getData14();
+				comunication.setData14(null);
+				$scope.stations = "";
+				//Se contruye expresion de estaciones para mostrar en vista
+				angular.forEach($scope.role.stations, function(station, key){
+					$scope.stations += " | " + station.namest;
+				});
 			}
 		});
 		
@@ -255,7 +263,7 @@
 	}
 })();
 
-//Controlador para crear sensor
+//Controlador para crear rol
 (function() {
 	"use strict";
 	angular.module("processApp").controller('CreateRoleCtrl',
@@ -275,14 +283,6 @@
 				angular.forEach($scope.role.stations, function(station, key){
 					$scope.stations += " | " + station.namest;
 				});
-			}
-		});
-		
-		//Se asigna al sensor el tipo de sensor una vez seleccionado
-		$scope.$watch(function ( ) { return comunication.getData12() }, function ( ) {
-			if (comunication.isValid(comunication.getData12())) {
-				$scope.sensor.typesensor = comunication.getData12();
-				comunication.setData12(null);
 			}
 		});
 		

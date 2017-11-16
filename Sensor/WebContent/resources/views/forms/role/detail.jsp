@@ -13,35 +13,15 @@
 			</h5>
 			{{role.name}}
 		</div>
-		<!-- <div class="col-sm-4 col-xs-4">
-			<h5>
-				<strong>{{ 'GENE.NOMENC' | translate }}</strong>
-			</h5>
-			{{sensor.nomenc}}
-		</div> -->
-	</div>
-	<%--<div class="row">
-		<div class="col-sm-4 col-xs-4">
-			<h5>
-				<strong>{{ 'GENE.STN' | translate }}</strong>
-			</h5>
-			{{sensor.station.namest}}
-		</div>
-		<div class="col-sm-4 col-xs-4">
-			<h5>
-				<strong>{{ 'GENE.TYSENSOR' | translate }}</strong>
-			</h5>
-			{{sensor.typesensor.namety}}
-		</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-12">
+		<div class="col-sm-4 col-xs-4">
 			<h5>
-				<strong>{{ 'GENE.RANGO' | translate }}</strong>
+				<strong>{{ 'GENE.STNS' | translate }}</strong>
 			</h5>
-			{{sensor.rango}}
+			{{stations}}
 		</div>
-	</div> --%>
+	</div>
 	<br />
 	<div class="modal-footer">
 		<a ng-click="cancel()" class="btn btn-app btn btn-warning"> <i

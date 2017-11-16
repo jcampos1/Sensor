@@ -1,9 +1,6 @@
-'use strict';
-angular.module("widgets02", [ 'messages', 'localytics.directives', 'MAE1001Service', 'Comunication02']);
-
 (function() {
 	"use strict";
-	angular.module('widgets02').controller('widgets02Controller',
+	angular.module('processApp').controller('widgets02Controller',
 			widgets02Controller);
 	widgets02Controller.$inject = [ 'comunication02', 'mae1001Service', '$scope',
 			'uiGridConstants', 'i18nService', '$translate', 'translations', '$log', 'stationService' ];
@@ -46,7 +43,7 @@ angular.module("widgets02", [ 'messages', 'localytics.directives', 'MAE1001Servi
 })();
 
 angular
-.module('widgets02')
+.module('processApp')
 .component(
 		'widgets02Component',
 		{

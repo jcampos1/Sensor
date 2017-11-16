@@ -91,8 +91,6 @@
 
 <spring:url value="/resources/js/angular/js/services/GenericService.js"
 	var="servicesJs" />
-<spring:url value="/resources/js/angular/js/services/UserService.js"
-	var="ServJs" />
 
 <spring:url value="/resources/js/angular/js/services/MAE1013Service.js"
 	var="mae1013ServJs" />
@@ -125,9 +123,6 @@
 <link href="/Sensor/resources/css/bootstrap/animate.css"
 	rel="stylesheet">
 	
-<spring:url value="/resources/js/angular/js/services/UserService.js"
-	var="userService" />
-	
 	<!--------------------- MAE1001  ---------------------->
 <spring:url
 	value="/resources/js/angular/js/services/MAE1001Service.js"
@@ -141,11 +136,9 @@
 <spring:url
 	value="/resources/js/angular/js/controllers/UserController.js"
 	var="mainControllersJs" />
-<spring:url
+<!--<spring:url
 	value="/resources/js/angular/js/controllers/UserValidation.js"
-	var="userValJs" />
-<spring:url value="/resources/js/angular/js/services/UserService.js"
-	var="userServJs" />
+	var="userValJs" />  -->
 
 <spring:url
 	value="/resources/js/angular/js/components/usuario/user-for-aprob.js"
@@ -256,6 +249,18 @@ var="anguspin" />
 <spring:url
 	value="/resources/js/angular/js/controllers/RoleController.js"
 	var="RoleController" />
+<!---------------------------------------------------->
+
+<!--------------------- MAE1001  ---------------------->
+<spring:url value="/resources/js/angular/js/services/GridMAE1001Service.js"
+	var="MAE1001ConfigurationGrid" />
+	
+<spring:url value="/resources/js/angular/js/services/MAE1001Service.js"
+	var="MAE1001Service" />
+
+<spring:url
+	value="/resources/js/angular/js/controllers/MAE1001Controller.js"
+	var="MAE1001Controller" />
 <!---------------------------------------------------->
 
 <!--------------------- PAR1001  ---------------------->
@@ -593,12 +598,12 @@ var="CPREC" />
 <!------------------------------------------------------>
 
 <!-- USER -->
-<script type="text/javascript" src="${mae1001service}"></script>
+<!--  <script type="text/javascript" src="${mae1001service}"></script>
 <script type="text/javascript" src="${userServJs}"></script>
 <script type="text/javascript" src="${newUserJs}"></script>
 <script type="text/javascript" src="${userForAprobationJs}"></script>
 <script type="text/javascript" src="${mainControllersJs}"></script>
-<script type="text/javascript" src="${userValJs}"></script>
+<script type="text/javascript" src="${userValJs}"></script>-->
 <!------------->
 
 <!-- UTI1006 -->
@@ -607,10 +612,6 @@ var="CPREC" />
 <script type="text/javascript" src="${uti1006ServJs}"></script>
 <script type="text/javascript" src="${mstrUTI1006Js}"></script>
 <!------------->
-
-<!---------------------- Widgets02 --------------------->
-<script type="text/javascript" src="${widgets02}"></script>
-<!------------------------------------------------------>
 
 <!------------------- medio -------------------------->
 <script type="text/javascript" src="${medioAPP}"></script>
@@ -750,6 +751,16 @@ var="CPREC" />
 <script type="text/javascript" src="${RoleService}"></script>
 <script type="text/javascript" src="${RoleController}"></script>
 <!-------------------------------------------------->
+
+<!--------------------- MAE1001 -------------------->
+<script type="text/javascript" src="${MAE1001ConfigurationGrid}"></script>
+<script type="text/javascript" src="${MAE1001Service}"></script>
+<script type="text/javascript" src="${MAE1001Controller}"></script>
+<!-------------------------------------------------->
+
+<!---------------------- Widgets02 --------------------->
+<script type="text/javascript" src="${widgets02}"></script>
+<!------------------------------------------------------>
 
 <!--**********************************************************************************-->
 

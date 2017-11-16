@@ -1,8 +1,6 @@
 package com.asc.commons.entities;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -42,7 +40,7 @@ public class Role extends AbstractEntityID {
 	private String name;
 	private REL1002 evento;
 	private Set<MAE1001> users = new HashSet<MAE1001>(0);
-	private List<Station> stations = new ArrayList<Station>(0);
+	private Set<Station> stations = new HashSet<Station>();
 
 	public Role() {
 
@@ -95,18 +93,16 @@ public class Role extends AbstractEntityID {
 		this.users = users;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "role_station", joinColumns = {
-			@JoinColumn(name = "idrl", nullable = false, updatable = true, insertable = true) }, inverseJoinColumns = {
-					@JoinColumn(name = "idst", nullable = false, updatable = true, insertable = true) })
-	public List<Station> getStations() {
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="role_station", joinColumns={@JoinColumn(name="idrl")}, inverseJoinColumns={@JoinColumn(name="idst")})
+	public Set<Station> getStations() {
 		return stations;
 	}
 
-	public void setStations(List<Station> stations) {
+	public void setStations(Set<Station> stations) {
 		this.stations = stations;
 	}
-	
+
 	public String toString() {
 		return "Role [name=" + name + "]";
 	}

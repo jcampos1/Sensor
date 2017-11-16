@@ -1,8 +1,7 @@
 /*PUERTO DE COMUNICACION*/
 
 "use strict";
-angular.module('newMAE1008', [ 'ui.bootstrap', 'adminModule', 'messages',
-		'userValidator', 'ngMask', 'MAE1008Service' ]);
+angular.module('newMAE1008', [ 'ui.bootstrap', 'adminModule', 'messages', 'ngMask', 'MAE1008Service' ]);
 
 (function() {
 	"use strict";

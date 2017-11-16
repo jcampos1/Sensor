@@ -22,6 +22,7 @@ import com.asc.service.interfaces.generic.AbstractGenericService;
 @Service
 public class RolesServiceImpl extends AbstractGenericService<Role> implements IRolesService {
 	private IRolesDAO myDao;
+	
 
 	public RolesServiceImpl() {
 
@@ -64,7 +65,7 @@ public class RolesServiceImpl extends AbstractGenericService<Role> implements IR
 	@Transactional
 	public void myOwnerAdd(Role role) throws MyWebException {
 		role.setActive(true);
-		myDao.create(role);
+		myDao.merge(role);
 	}
 
 	@Override

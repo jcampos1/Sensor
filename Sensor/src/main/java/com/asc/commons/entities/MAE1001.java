@@ -56,10 +56,10 @@ public class MAE1001 extends AbstractEntityID {
 	LanguageEnum lang;
 	private REL1002 evento;
 	private List<Role> roles = new ArrayList<Role>(0);
-	
+
 	@Transient
 	private String conf_mail;
-	
+
 	@Transient
 	private String conf_pass;
 
@@ -165,8 +165,7 @@ public class MAE1001 extends AbstractEntityID {
 		this.atmt = atmt;
 	}
 
-	// Fail Attemps
-		@Column(name = "atmt", nullable = false)
+	@Column(name = "user_bloq", nullable = true, columnDefinition = "boolean default false")
 	public Boolean getUser_bloq() {
 		return user_bloq;
 	}
@@ -185,7 +184,7 @@ public class MAE1001 extends AbstractEntityID {
 	}
 
 	// User deleted
-		@Column(name = "user_dltd", nullable = false, columnDefinition = "boolean default false")
+	@Column(name = "user_dltd", nullable = false, columnDefinition = "boolean default false")
 	public Boolean getUser_dltd() {
 		return user_dltd;
 	}
@@ -202,8 +201,8 @@ public class MAE1001 extends AbstractEntityID {
 	public void setLang(LanguageEnum lang) {
 		this.lang = lang;
 	}
-	
-	@ManyToOne(cascade= CascadeType.ALL)
+
+	@ManyToOne(cascade = CascadeType.ALL)
 	public REL1002 getEvento() {
 		return evento;
 	}
@@ -213,7 +212,9 @@ public class MAE1001 extends AbstractEntityID {
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "rel1001", joinColumns = { @JoinColumn(name = "idus", nullable = false, updatable = true, insertable = true) }, inverseJoinColumns = { @JoinColumn(name = "idrl", nullable = false, updatable = true, insertable = true) })
+	@JoinTable(name = "rel1001", joinColumns = {
+			@JoinColumn(name = "idus", nullable = false, updatable = true, insertable = true) }, inverseJoinColumns = {
+					@JoinColumn(name = "idrl", nullable = false, updatable = true, insertable = true) })
 	public List<Role> getRoles() {
 		return this.roles;
 	}
@@ -221,7 +222,7 @@ public class MAE1001 extends AbstractEntityID {
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
-	
+
 	@Transient
 	public String getConf_mail() {
 		return conf_mail;
@@ -230,7 +231,7 @@ public class MAE1001 extends AbstractEntityID {
 	public void setConf_mail(String conf_mail) {
 		this.conf_mail = conf_mail;
 	}
-	
+
 	@Transient
 	public String getConf_pass() {
 		return conf_pass;

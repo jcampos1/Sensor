@@ -2,7 +2,7 @@
 
 "use strict";
 angular.module('newMAE1007', [ 'ui.bootstrap', 'adminModule', 'messages',
-		'userValidator', 'ngMask', 'MAE1007Service', 'SimulatorService' ]);
+		'ngMask', 'MAE1007Service', 'SimulatorService' ]);
 
 (function() {
 	"use strict";

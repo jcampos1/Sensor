@@ -4,7 +4,7 @@
 angular.module("MAE1013APP", [ 'ui.bootstrap', 'ngTouch', 'ui.grid',
 		'ui.grid.selection', 'ui.grid.pagination', 'GRIDMAE1013',
 		'ui.bootstrap.contextMenu', 'ui.grid.exporter','newMAE1013',
-		'constants', 'MAE1013Service', 'abstractService', 'notify', 'angular-ui-grid-translate', 'assignSeals', 'CPREC', 'selectMAE1012', 'INPUTMAE1011', 'INPUTMAE1012', 'INPUTMAE1016', 'INPUTMAE1017', 'INPUTMAE1018', 'selectMAE1011', 'selectUTI1006', 'userValidator' ]);
+		'constants', 'MAE1013Service', 'abstractService', 'notify', 'angular-ui-grid-translate', 'assignSeals', 'CPREC', 'selectMAE1012', 'INPUTMAE1011', 'INPUTMAE1012', 'INPUTMAE1016', 'INPUTMAE1017', 'INPUTMAE1018', 'selectMAE1011', 'selectUTI1006']);
 
 var globalScope;
 
@@ -90,11 +90,11 @@ var globalScope;
 	angular.module("MAE1013APP").controller('mae1013Controller', mae1013Controller);
 	mae1013Controller.$inject = [ 'SweetAlert', '$state', '$scope', '$uibModal', '$log', 'adminService',
 			'uiGridConstants', 'mae1013ConfigurationGrid', 'mae1013Service',
-			'i18nService', '$translate', '$window', '$rootScope', 'translations', 'OK', 'NOT_CONTENT', 'NOT_FOUND', 'userService', 'comunication', 'parameterFactory', '$interval'];
+			'i18nService', '$translate', '$window', '$rootScope', 'translations', 'OK', 'NOT_CONTENT', 'NOT_FOUND', 'comunication', 'parameterFactory', '$interval'];
 
 	function mae1013Controller(SweetAlert, $state, $scope, $uibModal, $log, adminService,
 			uiGridConstants, mae1013ConfigurationGrid, mae1013Service,
-			i18nService, $translate, $window, $rootScope, translations, OK, NOT_CONTENT, NOT_FOUND, userService, comunication, parameterFactory, $interval) {
+			i18nService, $translate, $window, $rootScope, translations, OK, NOT_CONTENT, NOT_FOUND, comunication, parameterFactory, $interval) {
 		
 		/** * ****INICIALIZACION DE VARIABLES Y ESTRUCTURAS * **** */
 		$rootScope.scMAE1013 = $scope;

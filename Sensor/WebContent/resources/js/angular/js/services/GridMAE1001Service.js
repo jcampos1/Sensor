@@ -132,7 +132,7 @@ function auxServiceMAE1001($http, $q, alrts, $translate) {
 		var promise = defered.promise;
 		
 		$http({
-			url : "/Sensor/MAE1001/externalPagination",
+			url : "/Sensor/user/externalPagination",
 			method : "POST",
 			params : {
 				uti1001 : obj
