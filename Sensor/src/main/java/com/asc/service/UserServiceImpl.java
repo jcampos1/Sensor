@@ -99,13 +99,6 @@ public class UserServiceImpl extends AbstractGenericService<MAE1001> implements
 			entity.setCrte_date(LocalDateTime.now());
 			entity.setValk(StringUtil.getGenKey());
 			entity.setUser_pass(MD5Encrypter.encrypt(entity.getConf_pass()));
-			List<Role> roles = new ArrayList<Role>(0);
-
-			for (Role rol : entity.getRoles()) {
-				roles.add(rolesDao.findbyRol(rol.getName()));
-			}
-
-			entity.setRoles(roles);
 
 			this.myDao.create(entity);
 
@@ -120,13 +113,6 @@ public class UserServiceImpl extends AbstractGenericService<MAE1001> implements
 	@Transactional(rollbackFor = MyWebException.class)
 	public void updateClient(MAE1001 entity) throws MyWebException {
 		try {
-			List<Role> roles = new ArrayList<Role>(0);
-			for (Role rol : entity.getRoles()) {
-				roles.add(rolesDao.findbyRol(rol.getName()));
-			}
-
-			entity.setRoles(roles);
-
 			MAE1001 us = myDao.findOne(entity.getId());
 			if (us.getActive().equals(Boolean.FALSE)
 					&& !us.getActive().equals(entity.getActive())) {

@@ -93,7 +93,7 @@
 					<div id="ERROR_conf_mail" class="logError"></div>
 				</div>
 			</div>
-		</div>`
+		</div>
 		<div class="row">
 			<!-- CONTRASEÑA -->
 			<div class="col-sm-6">
@@ -153,6 +153,26 @@
 					for="phone"><i class="fa fa-times-circle-o"></i>&nbsp; {{
 						'VALI.PHON_REQ' | translate }}</label></span>
 				<div id="ERROR_phone" class="logError"></div>
+			</div>
+			
+			<!-- ROLES O DOMINIOS -->
+			<div class="col-sm-6">
+				<h5>
+					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'USER.ROLES' |
+						translate }}</strong>
+				</h5>
+				<select data-placeholder="{{
+						'GENE.SELE_AOPT' | translate }}"
+					chosen="{width: '100%'}" multiple
+					ng-options="role as role.name for role in roles track by role.id"
+					name="roles" ng-model="user.roles" required>
+				</select>
+				<span
+					ng-show="!MAE1001Form.roles.$pristine && MAE1001Form.roles.$error.required"
+					class="logError has-error"><label class="control-label"
+					for="roles"><i class="fa fa-times-circle-o"></i>&nbsp; {{
+						'GENE.REQ' | translate }}</label></span>
+				<div id="ERROR_roles" class="logError"></div>
 			</div>
 		</div>
 		<br />

@@ -54,8 +54,6 @@ function stationService(comunication, $http, $log, $q, alrts) {
 			method : "GET",
 			type: "application/json"
 		});
-		
-		
 	}
 	
 	//Comprobar informacion asociada a la entidad

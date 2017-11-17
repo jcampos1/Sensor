@@ -185,15 +185,6 @@ var="anguspin" />
 	var="currentMAE1007Js" />
 <!---------------------------------------------------->
 
-<!--------------------- Station  ---------------------->
-<spring:url value="resources/js/angular/js/services/StationService.js"
-	var="StationService" />
-
-<spring:url
-	value="resources/js/angular/js/controllers/StationController.js"
-	var="StationController" />
-<!---------------------------------------------------->
-
 <!--------------------- MAE1016  ---------------------->
 <spring:url value="/resources/js/angular/js/components/MAE1016/GRIDMAE1016Service.js"
 	var="gridmae1016serv" />
@@ -332,11 +323,6 @@ var="anguspin" />
 <script type="text/javascript" src="${selectMAE1008Js}"></script>
 <script type="text/javascript" src="${newMAE1008Js}"></script>
 <script type="text/javascript" src="${mstrMAE1008Js}"></script>
-<!------------->
-
-<!-- Station -->
-<script type="text/javascript" src="${StationService}"></script>
-<script type="text/javascript" src="${StationController}"></script>
 <!------------->
 
 <!-- MAE1007 -->

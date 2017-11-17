@@ -40,6 +40,11 @@ function RoleService(comunication, $http, $log, $q, alrts) {
 		inactivate: function(obj, moti) {
 			return inactivate(obj, moti);
 		},
+		
+		//Obtiene todos los roles activos
+		find: function() {
+			return find();
+		},
 	}
 	
 	//Comprobar informacion asociada a la entidad
@@ -84,6 +89,14 @@ function RoleService(comunication, $http, $log, $q, alrts) {
 				obj : obj,
 				uti1006 : moti
 			},
+		});
+	}
+	
+	function find() {
+		return $http({
+			url : "/Sensor/Role/find",
+			method : "GET",
+			type: "application/json"
 		});
 	}
 	

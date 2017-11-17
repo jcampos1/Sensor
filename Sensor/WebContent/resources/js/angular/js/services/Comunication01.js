@@ -62,6 +62,7 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
     data13: null, //Rol seleccionado para operaciones (detalle, edicion, eliminacion)
     data14: null, //Lista de estaciones seleccionadas en grilla
     data15: null, //Usuario seleccionado para operaciones (detalle, edicion, eliminacion)
+    data16: null, //Roles activos del sistema
     
     /*USADO PARA FILTRAR POR STATUS DE ORDEN EN MAESTRO DE CABECERA*/
     stat: null,
@@ -429,6 +430,12 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	},
 	setData15: function(data) {
 	    this.data15 = data;
+	},
+	getData16: function() {
+        return this.data16;
+	},
+	setData16: function(data) {
+	    this.data16 = data;
 	},
 	
 	isValid: function(data) {

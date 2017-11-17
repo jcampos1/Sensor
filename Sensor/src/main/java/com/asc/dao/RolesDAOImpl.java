@@ -32,7 +32,7 @@ public class RolesDAOImpl extends AbstractHibernateDao<Role> implements IRolesDA
 			Root<Role> root = criteria.from(Role.class);
 			
 			criteria.select(root);
-			criteria.where(builder.equal(root.get("role_name"), rol));
+			criteria.where(builder.equal(root.get(Role_.name), rol));
 			ret = getCurrentSession().createQuery(criteria).getSingleResult();
 		} catch(Exception e) {
 			System.out.println("findbyRol Excep: " + e.toString());

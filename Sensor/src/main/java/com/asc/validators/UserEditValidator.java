@@ -79,7 +79,7 @@ public class UserEditValidator extends Configuration implements Validator {
 			while (it.hasNext() && band) {
 				rol = (Role) it.next();
 				try {
-					out = rolesService.findbyRol(rol.getName());
+					out = rolesService.getById(rol.getId());
 					if (null == out) {
 						errors.rejectValue("roles", "gene.required",
 								getMess("gene.required"));

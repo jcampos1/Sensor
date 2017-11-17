@@ -64,13 +64,6 @@
 	function MAE1001Ctrl($scope, $uibModal, $log, uiGridConstants, MAE1001ConfigurationGrid,
 			i18nService, $translate, $window, $rootScope, translations, OK, NOT_CONTENT, NOT_FOUND, mae1001Service, comunication) {
 		
-		/*mae1001Service.getRolesList( ).then(function(response){
-			$rootScope.rolesList = response.data;
-		})
-		.catch(function(error) {
-			$log.warn(error);
-		});*/
-		
 		var toTrans = new Array();
 		toTrans = translations.transMstr();
 		toTrans.push('USER.NAME');
@@ -217,17 +210,28 @@
 	angular.module("processApp")
 			.controller('CreateMAE1001Ctrl', CreateMAE1001Ctrl);
 
-	CreateMAE1001Ctrl.$inject = [ '$scope', '$log', '$uibModalInstance', 'mae1001Service', 'comunication'];
-	function CreateMAE1001Ctrl($scope, $log, $uibModalInstance, mae1001Service, comunication) {
+	CreateMAE1001Ctrl.$inject = [ '$scope', '$log', '$uibModalInstance', 'mae1001Service', 'RoleService', 'comunication'];
+	function CreateMAE1001Ctrl($scope, $log, $uibModalInstance, mae1001Service, RoleService, comunication) {
 		
 		$scope.user = new Object();
+		findRoles();
 		
 		$scope.save = function(form) {
 			if( form.$valid ) {
 				$log.info("USUARIO A ENVIAR: ");
 				$log.info($scope.user);
-//				mae1001Service.update($scope.user, $uibModalInstance, 0, $scope);
+				mae1001Service.update($scope.user, $uibModalInstance, 0, $scope);
 			}
+		}
+		
+		//Se encuentran los roles activos
+		function findRoles( ){
+			RoleService.find( ).then(function(roles){
+				$scope.roles = roles.data;
+			})
+			.catch(function(error) {
+				$log.error(error);
+			});
 		}
 		
 		$scope.cancel = function() {

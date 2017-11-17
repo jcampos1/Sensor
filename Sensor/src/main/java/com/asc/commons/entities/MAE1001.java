@@ -2,7 +2,9 @@ package com.asc.commons.entities;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,6 +30,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.asc.controller.abstracts.Configuration;
 import com.asc.entities.abstracts.AbstractEntityID;
 import com.asc.process.entities.REL1002;
+import com.asc.process.entities.Station;
 import com.asc.serializers.LocalDateTimeDeserializer;
 import com.asc.serializers.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -53,9 +56,11 @@ public class MAE1001 extends AbstractEntityID {
 	private int atmt;
 	private Boolean user_bloq;
 	private Boolean user_dltd;
-	LanguageEnum lang;
+	private LanguageEnum lang;
 	private REL1002 evento;
-	private List<Role> roles = new ArrayList<Role>(0);
+	private Set<Role> roles = new HashSet<Role>();
+	
+//	private List<Role> roles = new ArrayList<Role>(0);
 
 	@Transient
 	private String conf_mail;
@@ -146,7 +151,7 @@ public class MAE1001 extends AbstractEntityID {
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	@Column(name = "date_acti", nullable = false)
+	@Column(name = "date_acti", nullable = true)
 	public LocalDateTime getDate_acti() {
 		return date_acti;
 	}
@@ -211,15 +216,25 @@ public class MAE1001 extends AbstractEntityID {
 		this.evento = evento;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "rel1001", joinColumns = {
-			@JoinColumn(name = "idus", nullable = false, updatable = true, insertable = true) }, inverseJoinColumns = {
-					@JoinColumn(name = "idrl", nullable = false, updatable = true, insertable = true) })
-	public List<Role> getRoles() {
-		return this.roles;
+//	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//	@JoinTable(name = "rel1001", joinColumns = {
+//			@JoinColumn(name = "idus", nullable = false, updatable = true, insertable = true) }, inverseJoinColumns = {
+//					@JoinColumn(name = "idrl", nullable = false, updatable = true, insertable = true) })
+//	public List<Role> getRoles() {
+//		return this.roles;
+//	}
+//
+//	public void setRoles(List<Role> roles) {
+//		this.roles = roles;
+//	}
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="rel1001", joinColumns={@JoinColumn(name="idus")}, inverseJoinColumns={@JoinColumn(name="idrl")})
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 

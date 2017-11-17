@@ -11,7 +11,7 @@ angular.module("generalApp").config(function($stateProvider, $urlRouterProvider)
                      template: "<widgets02-component />"
                 },
                 "mstr":{
-                     templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrUser.jsp"
+                     templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrMAE1001.jsp"
                 },
             } 
         })
