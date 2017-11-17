@@ -1,7 +1,6 @@
 package com.asc.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.asc.commons.entities.IdsDelete;
 import com.asc.commons.entities.MAE1001;
-import com.asc.commons.entities.Role;
 import com.asc.commons.entities.UTI1002;
 import com.asc.commons.entities.UTI1004;
 import com.asc.controller.LoginControllerMVC;
@@ -129,11 +126,14 @@ public class UserServiceImpl extends AbstractGenericService<MAE1001> implements
 				String body = getMess(
 						"P1.mail.acti",
 						new Object[] { entity.getFrst_name(),
-								entity.getUser_mail(), entity.getConf_pass(),
+								entity.getUser_mail(), entity.getUser_pass(),
 								link });
 
 				mess.setMail_mess(body);
 				this.emailDAO.create(mess);
+				
+				//Se coloca fecha de activación
+				entity.setDate_acti(LocalDateTime.now());
 			}
 
 			myDao.merge(entity);

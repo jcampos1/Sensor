@@ -50,6 +50,15 @@ function mae1001Service($http, $log, $q, alrts, $translate, comunication) {
 		inactivate: function(obj, moti) {
 			return inactivate(obj, moti);
 		},
+		
+		//Activa un usuario
+		activate: function(obj) {
+			return activate(obj);
+		},
+		
+		forAprobation: function(){
+			return forAprobation();
+		},
 	}
 	
 	// Comprobar informacion asociada a la entidad
@@ -96,6 +105,17 @@ function mae1001Service($http, $log, $q, alrts, $translate, comunication) {
 		return promise;
 	}
 	
+	function activate(entity) {
+		var defered = $q.defer();
+		var promise = defered.promise;
+		$http.post('/Sensor/user/activate', entity).success(function(data) {
+			defered.resolve(data);
+		}).error(function(err) {
+			defered.reject(err);
+		});
+		return promise;
+	}
+	
 	function inactivate(obj, moti) {
 		return $http({
 			url : "/Sensor/user/inactivate",
@@ -121,6 +141,11 @@ function mae1001Service($http, $log, $q, alrts, $translate, comunication) {
 			url: url, 
 			method: "POST"
 		});
+	}
+	
+	//Usuarios por aprobacion
+	function forAprobation( ){
+		return $http.get("/Sensor/user/forAprobation");
 	}
 	
 	// Muestra mensaje de operación realizada exitosamente

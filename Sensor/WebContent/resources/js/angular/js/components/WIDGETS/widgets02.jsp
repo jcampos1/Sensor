@@ -20,7 +20,7 @@
 			<div class="inner">
 				<h3>3</h3>
 
-				<p>{{'USER.FOR_APROB' | translate}}</p>
+				<p>{{'GENE.USER' | translate}}</p>
 			</div>
 			<div class="icon">
 				<i class="ion ion-pie-graph"></i>
@@ -37,7 +37,7 @@
 			<div class="inner">
 				<h3>5</h3>
 
-				<p>{{'USER.FOR_APROB' | translate}}</p>
+				<p>{{'GENE.SENSORS' | translate}}</p>
 			</div>
 			<div class="icon">
 				<i class="ion ion-pie-graph"></i>
@@ -54,7 +54,7 @@
 			<div class="inner">
 				<h3>8</h3>
 
-				<p>{{'USER.FOR_APROB' | translate}}</p>
+				<p>{{'GENE.MOTI' | translate}}</p>
 			</div>
 			<div class="icon">
 				<i class="ion ion-pie-graph"></i>

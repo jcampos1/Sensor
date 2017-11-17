@@ -46,7 +46,7 @@ public class UserController extends Base<MAE1001> {
 
 	@Autowired
 	private UserValidator validator;
-	
+
 	@Autowired
 	private UserEditValidator validatorEdit;
 
@@ -77,8 +77,20 @@ public class UserController extends Base<MAE1001> {
 
 	// Actualizacion
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public ResponseEntity<MAE1001> edit(@RequestBody MAE1001 entity,
-			BindingResult result, ModelMap modelMap) throws Exception {
+	public ResponseEntity<MAE1001> edit(@RequestBody MAE1001 entity, BindingResult result, ModelMap modelMap)
+			throws Exception {
+		if (entity.getId() == null || service.getById(entity.getId()) == null) {
+			throw new Exception("User not found");
+		} else {
+			userService.updateClient(entity);
+		}
+		return new ResponseEntity<MAE1001>(entity, HttpStatus.OK);
+	}
+
+	// Actualizacion
+	@RequestMapping(value = "/activate", method = RequestMethod.POST)
+	public ResponseEntity<MAE1001> activate(@RequestBody MAE1001 entity, BindingResult result, ModelMap modelMap)
+			throws Exception {
 		if (entity.getId() == null || service.getById(entity.getId()) == null) {
 			throw new Exception("User not found");
 		} else {
@@ -89,8 +101,8 @@ public class UserController extends Base<MAE1001> {
 
 	// Creacion
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ResponseEntity<MAE1001> create(@RequestBody MAE1001 entity,
-			BindingResult result, ModelMap modelMap) throws Exception {
+	public ResponseEntity<MAE1001> create(@RequestBody MAE1001 entity, BindingResult result, ModelMap modelMap)
+			throws Exception {
 
 		if (entity.getId() != null) {
 			if (service.getById(entity.getId()) == null) {
@@ -114,25 +126,22 @@ public class UserController extends Base<MAE1001> {
 	// Usuario logueado
 	@RequestMapping(value = "/currentUser", method = RequestMethod.POST)
 	public ResponseEntity<MAE1001> getCurrentUser() throws Exception {
-		return new ResponseEntity<MAE1001>(getClassCurrentUserByLogin(),
-				HttpStatus.OK);
+		return new ResponseEntity<MAE1001>(getClassCurrentUserByLogin(), HttpStatus.OK);
 	}
 
 	// Inactivar
 	@RequestMapping(value = "/inactivate", method = RequestMethod.DELETE, produces = "application/json; charset=UTF-8")
-	public ResponseEntity<Void> inactivate(@RequestParam("obj") String obj,
-			@RequestParam("uti1006") String moti) throws MyWebException,
-			JsonParseException, JsonMappingException, IOException {
+	public ResponseEntity<Void> inactivate(@RequestParam("obj") String obj, @RequestParam("uti1006") String moti)
+			throws MyWebException, JsonParseException, JsonMappingException, IOException {
 		MAE1001 entity = JSON_MAPPER.readValue(obj, MAE1001.class);
 		UTI1006 motive = JSON_MAPPER.readValue(moti, UTI1006.class);
 
-		userService.inactivateWithMotivo(entity, motive,
-				getClassCurrentUserByLogin());
+		userService.inactivateWithMotivo(entity, motive, getClassCurrentUserByLogin());
 
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/forAprobation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/forAprobation", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<MAE1001>> listActive() throws MyWebException {
 		List<MAE1001> lst;
 		lst = userService.getUsersPendings();
@@ -167,8 +176,7 @@ public class UserController extends Base<MAE1001> {
 
 	// Asigna lenguaje a usuario
 	@RequestMapping(value = "/create_language", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-	public ResponseEntity<String> setLanguage(@RequestBody String lang)
-			throws MyWebException {
+	public ResponseEntity<String> setLanguage(@RequestBody String lang) throws MyWebException {
 		MAE1001 us = getCurrentUserByLogin();
 		if (us == null) {
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
@@ -181,16 +189,14 @@ public class UserController extends Base<MAE1001> {
 
 	// Cambia lenguaje del lado del servidor
 	@RequestMapping(value = "/locale", method = RequestMethod.GET)
-	public ResponseEntity<String> setLocale(
-			@RequestParam(value = "locale", required = false) String var1)
+	public ResponseEntity<String> setLocale(@RequestParam(value = "locale", required = false) String var1)
 			throws MyWebException {
 		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
 	}
 
 	@RequestMapping(value = "/externalPagination", method = RequestMethod.POST)
-	public ResponseEntity<String> externalPagination(
-			@RequestParam("uti1001") String json) throws MyWebException,
-			JsonProcessingException {
+	public ResponseEntity<String> externalPagination(@RequestParam("uti1001") String json)
+			throws MyWebException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		GenericObject<MAE1001> objectGen;
 
@@ -201,13 +207,10 @@ public class UserController extends Base<MAE1001> {
 			objectGen = userService.findSubsetSimpleMAE1001(entity.getGrid());
 
 			if (objectGen.getListData().isEmpty()) {
-				return new ResponseEntity<String>(
-						mapper.writeValueAsString(objectGen),
-						HttpStatus.NO_CONTENT);
+				return new ResponseEntity<String>(mapper.writeValueAsString(objectGen), HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<String>(
-					mapper.writeValueAsString(objectGen), HttpStatus.OK);
+			return new ResponseEntity<String>(mapper.writeValueAsString(objectGen), HttpStatus.OK);
 		} catch (IOException e) {
 			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
 		}

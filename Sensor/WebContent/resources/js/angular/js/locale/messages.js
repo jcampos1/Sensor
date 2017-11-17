@@ -169,6 +169,7 @@ angular.module('messages').config([ '$translateProvider',
 					"TYSENSORS":		"Type of sensors",
 					"ROLES":			"Roles",
 					"ROLE":				"Role",
+					"NEWMEMB":			"News members",
 				},
 				
 				"URL": {
@@ -364,6 +365,8 @@ angular.module('messages').config([ '$translateProvider',
 					"ALRT01":			"Order successfully confirmed",
 					"ALRT02":			"Seals successfully assigned",
 					"ALRT03":			"Once confirmed the order will not be able to undo this operation",
+					
+					"ALRT04":			"Are you sure to perform this operation?",
 				},
 				
 				"DOMAIN": {
@@ -629,6 +632,7 @@ angular.module('messages').config([ '$translateProvider',
 					"TYSENSORS":		"Tipo de sensores",
 					"ROLES":			"Roles",
 					"ROLE":				"Rol",
+					"NEWMEMB":			"Nuevos miembros",
 				},
 				
 				"URL": {
@@ -819,6 +823,8 @@ angular.module('messages').config([ '$translateProvider',
 					"ALRT01":			"Orden confirmada exitosamente",
 					"ALRT02":			"Precinto asignado exitosamente",
 					"ALRT03":			"Una vez confirmado el pedido no podrá deshacer esta operación",
+				
+					"ALRT04":			"¿Esta seguro de realizar esta operación?",
 				},
 				
 				"DOMAIN": {

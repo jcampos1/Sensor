@@ -1,4 +1,9 @@
 <div id="mstr_user" style="position: relative;">
+	<div class="row">
+		<div class="col-sm-12">
+			<aprobation-mae1001-component />
+		</div>
+	</div>
 	<div ng-controller="MAE1001Ctrl">
 		<!-- Lista de operaciones -->
 		<div class="row">
@@ -26,14 +31,14 @@
 		<!-- Vista detalle -->
 		<%@ include file="/resources/views/forms/MAE1001/detail.jsp"%>
 		
+		<!-- Vista edicion -->
+		<%@ include file="/resources/views/forms/MAE1001/edit.jsp"%>
+
+		<!-- Vista de confirmacion de eliminacion -->
 		<script type="text/ng-template" id="myModalContent.html">
 			<%@ include file="/resources/views/commons/confirm.jsp" %>
     	</script>
-		<!--  <div class="row">
-			<div class="col-sm-12">
-				<user-for-aprob-component></user-for-aprob-component>
-			</div>
-		</div>-->
+
 		<%-- <div class="row">
 			<div class="col-sm-2 col-xs-2">
 				<div class="input-group">
@@ -53,7 +58,16 @@
 							<%@ include file="/resources/views/forms/users/detail.jsp" %>
 						</script>
 			</div>--%>
-		<br>
+
+		<!-- Titulo -->
+		<div class="row">
+			<div class="col-lg-12" style="text-align: center;">
+				<h3>
+					<strong>{{"GENE.USER" | translate}}</strong>
+				</h3>
+			</div>
+		</div>
+
 		<div class="row" ui-i18n="{{ lang }}">
 			<!--  -->
 			<div class="col-sm-12">

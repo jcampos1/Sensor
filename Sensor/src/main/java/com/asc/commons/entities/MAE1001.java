@@ -1,9 +1,7 @@
 package com.asc.commons.entities;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -30,7 +28,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.asc.controller.abstracts.Configuration;
 import com.asc.entities.abstracts.AbstractEntityID;
 import com.asc.process.entities.REL1002;
-import com.asc.process.entities.Station;
 import com.asc.serializers.LocalDateTimeDeserializer;
 import com.asc.serializers.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

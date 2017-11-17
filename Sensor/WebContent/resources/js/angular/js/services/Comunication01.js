@@ -48,6 +48,7 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
     evnt17: null, //Evento para edicion de usuarios
     evnt18: null, //Actualizacion lista de usuarios
     evnt19: null, //Actualizacion lista de usuarios pendientes por aprobacion
+    evnt20: null, //Evento para mostrar detalle de usuario
     
     data02: null, //Entidad a detallar
     data03: null, //Estacion a eliminar
@@ -310,6 +311,12 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	},
 	setEvnt19: function(data) {
 	    this.evnt19 = data;
+	},
+	getEvnt20: function() {
+        return this.evnt20;
+	},
+	setEvnt20: function(data) {
+	    this.evnt20 = data;
 	},
 	
 	getLine_dele: function() {

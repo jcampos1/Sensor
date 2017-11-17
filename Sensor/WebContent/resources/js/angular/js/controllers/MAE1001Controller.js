@@ -30,30 +30,7 @@
 		};
 	}
 })();
-
-(function() {
-	"use strict";
-	angular.module("myApp")
-			.controller('modalEditUserCtrl', modal_edit_entity);
-
-	modal_edit_entity.$inject = [ '$scope', '$uibModalInstance',
-			'adminService', '$http', 'basicConfig', 'parentScope',
-			'basicConfigurationGrid', 'userService', 'functions' ];
-	function modal_edit_entity($scope, $uibModalInstance, adminService, $http,
-			basicConfig, parentScope, basicConfigurationGrid, userService, functions) {
-		
-		$scope.user = angular.copy(parentScope.rowEdit);
-		$scope.user.conf_mail = $scope.user.user_mail;
-		
-		$scope.submitForm = function(user) {
-			userService.update(user, $uibModalInstance, 1, $scope, basicConfigurationGrid, globalScope);
-		};
-		
-		$scope.cancel = function() {
-			$uibModalInstance.dismiss(false);
-		};
-	}
-})();*/
+*/
 
 (function() {
 	"use strict";
@@ -79,6 +56,20 @@
 					animation : true,
 					templateUrl : "detailMAE1001.html",
 					controller : "DetailMAE1001Ctrl",
+					size : "md"
+				});
+			}else{
+				showAlerts("GENE.ERROR01");
+			}
+		}
+		
+		// Actualizacion de Usuario
+		$scope.update = function ( ) {
+			if(comunication.getData15()!=null){
+				var modalInstance = $uibModal.open({
+					animation : true,
+					templateUrl : "updateMAE1001.html",
+					controller : "UpdateMAE1001Ctrl",
 					size : "md"
 				});
 			}else{
@@ -162,6 +153,23 @@
 					});
 			});
 		}
+		
+		//Escuchador para detalle de usuario
+		$scope.$watch(function ( ) { return comunication.getEvnt20() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt20())) {
+				comunication.setEvnt20(null)
+				$scope.detail();
+			}
+		});
+		
+		//Escuchador para recargar lista de usuario
+		$scope.$watch(function ( ) { return comunication.getEvnt18() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt18())) {
+				comunication.setEvnt18(null)
+				//Se obtienen usuarios
+				MAE1001ConfigurationGrid.getPage($scope);
+			}
+		});
 	}
 })();
 
@@ -182,6 +190,7 @@
 	}
 })();
 
+/***CONTROLADORES COMPONENTE CREACION DE USUARIOS****/
 //Controlador principal de componente de creacion
 (function() {
 	"use strict";
@@ -218,8 +227,6 @@
 		
 		$scope.save = function(form) {
 			if( form.$valid ) {
-				$log.info("USUARIO A ENVIAR: ");
-				$log.info($scope.user);
 				mae1001Service.update($scope.user, $uibModalInstance, 0, $scope);
 			}
 		}
@@ -239,8 +246,130 @@
 		};
 	}
 })();
+/**************************************************/
 
+(function() {
+	"use strict";
+	angular.module("processApp")
+			.controller('UpdateMAE1001Ctrl', UpdateMAE1001Ctrl);
+
+	UpdateMAE1001Ctrl.$inject = [ '$scope', '$log', '$uibModalInstance', 'mae1001Service', 'RoleService', 'comunication'];
+	function UpdateMAE1001Ctrl($scope, $log, $uibModalInstance, mae1001Service, RoleService, comunication) {
+		
+		//Usuario a editar
+		$scope.user = comunication.getData15();
+		$scope.user.conf_mail = comunication.getData15().user_mail;
+		findRoles();
+		
+		$scope.update = function(form) {
+			if( form.$valid ) {
+				mae1001Service.update($scope.user, $uibModalInstance, 1, $scope);
+			}
+		}
+		
+		//Se encuentran los roles activos
+		function findRoles( ){
+			RoleService.find( ).then(function(roles){
+				$scope.roles = roles.data;
+			})
+			.catch(function(error) {
+				$log.error(error);
+			});
+		}
+		
+		$scope.cancel = function() {
+			$uibModalInstance.dismiss(false);
+		};
+	}
+})();
+
+/***CONTROLADORES COMPONENTE APROBACION DE USUARIOS****/
+//Controlador principal de componente de creacion
+(function() {
+	"use strict";
+	angular.module("processApp")
+			.controller('Mae1001AprobationComponentCtrl', Mae1001AprobationComponentCtrl);
+
+	Mae1001AprobationComponentCtrl.$inject = [ '$scope', '$log', 'mae1001Service', '$translate', 'SweetAlert', 'alrts', 'comunication'];
+	function Mae1001AprobationComponentCtrl($scope, $log, mae1001Service, $translate, SweetAlert, alrts, comunication) {
+		
+		//Lista de usuarios por aprobar
+		$scope.loadUserPendings = function( ) {
+			mae1001Service.forAprobation()
+			.then(function(users){
+				$scope.users = users.data;
+				$scope.lastMembers = users.data.length;
+			})
+			.catch(function(error){
+				$log.error(error);
+			});
+		}
+		
+		//Detalle de usuario
+		$scope.detail = function( user ) {
+			comunication.setData15(user);
+			comunication.setEvnt20("emit");
+		}
+		
+		$scope.activate = function( user ) {
+			confirm("ALRT.ALRT04", user);
+		}
+		
+		//Confirmacion de activacion
+		function confirm(toTraslate, user) {
+			var toTrans = new Array();
+			toTrans.push(toTraslate);
+			$translate(toTrans).then(function(tr) {
+				SweetAlert.swal({
+					  title: "Info!",
+					  text: tr[toTraslate],
+					  type: "info",
+					  showCancelButton: true,
+					  closeOnConfirm: true,
+					  confirmButtonText: "Ok"
+					},
+					function(isConfirm){
+						if ( isConfirm ) {
+							$log.info("Se activa");
+							$log.info(user);
+							user.active = true;
+							mae1001Service.activate(user)
+							.then(function(data) {
+								alrts.successMsg("GENE.RGTR_UPDT");
+								$scope.loadUserPendings( );
+								comunication.setEvnt18("emit");
+							})
+							.catch(function(error){
+								$log.error(error);
+							});
+						}
+					}
+				);
+			});
+		}
+		
+		$scope.loadUserPendings();
+		
+		//Escuchador para recargar lista de usuarios pendiente por aprobacion
+		$scope.$watch(function ( ) { return comunication.getEvnt19() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt19())) {
+				comunication.setEvnt19(null)
+				//Se obtienen usuarios
+				$scope.loadUserPendings();
+			}
+		});
+	}
+})();
+/*****************************************************/
+
+//Componente creacion de usuario
 angular.module('processApp').component('createMae1001Component',{
 	templateUrl : 'resources/views/forms/MAE1001/create.jsp',
 	controller : 'Mae1001ComponentCtrl'
+});
+
+//Componente usuarios por aprobar
+angular.module('processApp').component('aprobationMae1001Component',{
+	templateUrl : 'resources/views/forms/MAE1001/aprobation.jsp',
+	controller : 'Mae1001AprobationComponentCtrl'
 });
