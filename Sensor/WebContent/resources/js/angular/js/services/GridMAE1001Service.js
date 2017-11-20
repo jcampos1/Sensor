@@ -36,7 +36,7 @@ function MAE1001ConfigurationGrid($log, $uibModal,
 				enableRowSelection : true,
 				enableSelectAll : false,
 				enableFullRowSelection : true,
-				rowTemplate : '<div ng-click="grid.appScope.selected(row)" ng-dblclick="grid.appScope.roleSelected(row)" style="cursor: pointer" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell> </div>'
+				rowTemplate : '<div ng-click="grid.appScope.selected(row)" ng-dblclick="grid.appScope.userSelected(row)" style="cursor: pointer" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ui-grid-cell> </div>'
 			};
 			
 			//Devuelve el usuario a editar/eliminar/ver en detalle

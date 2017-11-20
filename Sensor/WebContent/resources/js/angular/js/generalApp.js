@@ -1,5 +1,5 @@
 'use strict';
-angular.module("generalApp", [ 'myApp', 'MAE1008APP', 'MAE1007APP', 'PAR1001APP', 'Comunication01', 'UTI1006APP', 'messages', 'notify', 'localytics.directives', 'ui.router', 'ngLoadingSpinner', 'widgets02']);
+angular.module("generalApp", [ 'myApp', 'MAE1008APP', 'MAE1007APP', 'PAR1001APP', 'Comunication01', 'messages', 'notify', 'localytics.directives', 'ui.router', 'ngLoadingSpinner', 'widgets02']);
 
 angular.module("generalApp").config(function($stateProvider, $urlRouterProvider) {
 
@@ -45,17 +45,6 @@ angular.module("generalApp").config(function($stateProvider, $urlRouterProvider)
             	},
             	"mstr":{
                     templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrPAR1001.jsp"
-            	},
-            } 
-        })
-        .state('reasons', {
-            url: "/reasons",
-            views:{
-            	"widgets":{
-                    template: "<widgets02-component />"
-            	},
-            	"mstr":{
-                    templateUrl: "/WeighBridgeStandAlone/resources/views/masters/mstrUTI1006.jsp"
             	},
             } 
         })

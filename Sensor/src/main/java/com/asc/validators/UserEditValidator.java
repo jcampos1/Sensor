@@ -55,19 +55,6 @@ public class UserEditValidator extends Configuration implements Validator {
 					"gene.required", getMess("gene.required"));
 		}
 
-		if (!StringUtil.isEmptyOrNullValue(user.getUser_pass())
-				&& !StringUtil.isEmptyOrNullValue(user.getConf_pass())) {
-			if (!user.getUser_pass().equals(user.getConf_pass())) {
-				errors.rejectValue("conf_pass", "conf_pass.nomatch",
-						getMess("conf_pass.nomatch"));
-			}
-		} else {
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "user_pass",
-					"gene.required", getMess("gene.required"));
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "conf_pass",
-					"gene.required", getMess("gene.required"));
-		}
-
 		if (user.getRoles().isEmpty()) {
 			errors.rejectValue("roles", "gene.required", getMess("gene.required"));
 		} else {

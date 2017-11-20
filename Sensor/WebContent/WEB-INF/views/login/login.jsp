@@ -11,9 +11,11 @@
 <html>
 <%@ include file="/resources/views/includes/head.jsp"%>
 <body class="bg_login" ng-app="registerApp">
+
+	<img alt="" src="./resources/images/img-bg.jpg" style=" filter: blur(2px);width: 100%; height: 100%; position: absolute; z-index: -1000;">
 	<div ng-controller="loginController">
 		<div class="container">
-			<div id="loginbox" style="margin-top: 50px;"
+			<div id="loginbox" style="margin-top: 80px;"
 				class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 				<div class="panel panel-info">
 					<div class="panel-heading">

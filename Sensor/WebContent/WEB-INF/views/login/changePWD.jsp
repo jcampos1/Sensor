@@ -10,9 +10,9 @@
 <!DOCTYPE html>
 <html>
 <%@ include file="/resources/views/includes/head.jsp"%>
-<body ng-app="registerApp" class="bg_login content">
-	<div ng-controller="userController">
-
+<body ng-app="registerApp" class="bg_login">
+	<div ng-controller="loginController">
+	<img alt="" src="./resources/images/img-bg.jpg" style="filter: blur(2px); } 	width: 100%; height: 100%; position: absolute; z-index: -1000;">
 		<div class="container">
 			<div id="loginbox" style="margin-top: 50px;"
 				class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
@@ -58,7 +58,7 @@
 										<form:input path="conf_pass" type='password'
 											class="form-control"
 											placeholder="{{ 'USER.CONF_PSWD' | translate }}"
-											ng-maxlength="100" pw-check='pass' ng-model="conf_pass"
+											ng-maxlength="100" match='pass' ng-model="conf_pass"
 											required="true" />
 										<span
 											ng-show="!changePWD.conf_pass.$pristine && changePWD.conf_pass.$error.required"
@@ -70,7 +70,7 @@
 										<div class='logError msg-block  has-error'
 											ng-show='changePWD.$error'>
 											<span class='msg-error has-error'
-												ng-show='!changePWD.conf_pass.$pristine && changePWD.conf_pass.$error.pwmatch'>
+												ng-show='!changePWD.conf_pass.$pristine && changePWD.conf_pass.$error.match'>
 												<label class="control-label" for="conf_pass"><i
 													class="fa fa-times-circle-o"></i> {{'VALI.PAS_NEQU' |
 													translate }}</label>

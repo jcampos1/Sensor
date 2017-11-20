@@ -10,8 +10,9 @@
 <!DOCTYPE html>
 <html>
 <%@ include file="/resources/views/includes/head.jsp"%>
-<body ng-app="registerApp" class="bg_login content">
+<body ng-app="registerApp" class="bg_login">
 	<div ng-controller="loginController">
+		<img alt="" src="./resources/images/img-bg.jpg" style="filter: blur(2px); width: 100%; height: 100%; position: absolute; z-index: -1000;">
 		<div class="container">
 			<div id="loginbox" style="margin-top: 50px;"
 				class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
@@ -23,22 +24,12 @@
 						<div style="display: none" id="login-alert"
 							class="alert alert-danger col-sm-12"></div>
 						<div class="logAlert">
-							<c:if test="${error != null}">
-								<strong><spring:message code="warning" /></strong> ${error}
-							</c:if>
 						</div>
 						<div class="modal-header">
 							<h3 class="box-title">{{ 'USER.FORG_PSWD' | translate }}</h3>
 							<p>{{ 'LOGI.MAIL_ADDR' | translate }}</p>
 						</div>
 						<div id="FATH_FORM" class="modal-body">
-							<!--  -->
-							<c:if test="${error != null}">
-								<div class="logAlert">
-									<strong>{{ 'VALI.WARN' | translate }}</strong> {{
-									'VALI.USER_NVAL' | translate }}
-								</div>
-							</c:if>
 							<div class="logFormInputs">
 								<form:form id="forgotPasswd" name="forgotPasswd"
 									action="forgotPasswd" method="POST" commandName="email">

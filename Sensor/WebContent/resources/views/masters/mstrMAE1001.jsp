@@ -35,29 +35,12 @@
 		<%@ include file="/resources/views/forms/MAE1001/edit.jsp"%>
 
 		<!-- Vista de confirmacion de eliminacion -->
-		<script type="text/ng-template" id="myModalContent.html">
+		<script type="text/ng-template" id="confirm.html">
 			<%@ include file="/resources/views/commons/confirm.jsp" %>
     	</script>
-
-		<%-- <div class="row">
-			<div class="col-sm-2 col-xs-2">
-				<div class="input-group">
-					<div ng-controller="newUserController">
-						<script type="text/ng-template" id="modalNewEntity.html">
-							<%@ include file="/resources/views/forms/users/register.jsp" %>
-						</script>
-						<new-user-component />
-					</div>
-				</div>
-				<div class="input-group">
-					<script type="text/ng-template" id="modalEditEntity.html">
-							<%@ include file="/resources/views/forms/users/edit.jsp" %>
-						</script>
-				</div>
-				<script type="text/ng-template" id="modalDetailEntity.html">
-							<%@ include file="/resources/views/forms/users/detail.jsp" %>
-						</script>
-			</div>--%>
+    	
+    	<!-- Seleccion de motivo de eliminacion -->
+		<select-uti1006-component />
 
 		<!-- Titulo -->
 		<div class="row">

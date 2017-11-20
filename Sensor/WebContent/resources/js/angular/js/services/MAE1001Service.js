@@ -59,7 +59,11 @@ function mae1001Service($http, $log, $q, alrts, $translate, comunication) {
 		forAprobation: function(){
 			return forAprobation();
 		},
-	}
+		
+		login: function(username, password){
+			return login(username, password);
+		}, 
+ 	}
 	
 	// Comprobar informacion asociada a la entidad
 	function check(entity, opc) {
@@ -146,6 +150,17 @@ function mae1001Service($http, $log, $q, alrts, $translate, comunication) {
 	//Usuarios por aprobacion
 	function forAprobation( ){
 		return $http.get("/Sensor/user/forAprobation");
+	}
+	
+	function login(username, password) {
+		return $http({
+			url : "/Sensor/login",
+			method : "POST",
+			params : {
+				username : username,
+				password : password
+			},
+		});
 	}
 	
 	// Muestra mensaje de operación realizada exitosamente

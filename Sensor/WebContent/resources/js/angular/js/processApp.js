@@ -1,22 +1,6 @@
 'use strict';
 angular.module("processApp", [ 'MEDIOAPP', 'widgets01', 'GRIDUTI1006', 'MAE1008APP', 'MAE1007APP', 'UTI1006APP', 'PAR1001APP', 'MAE1013APP', 'MAE1014APP', 'MAE1015APP', 'selectMAE1016', 'selectMAE1017', 'selectMAE1018', 'desgloseMAE1010', 'CMAE1010_01', 'commons', 'localytics.directives', 'ui.router', 'CTRLPESAJE', 'dynamicNumber', 'Comunication02']);
 
-angular.module("processApp").config(['dynamicNumberStrategyProvider', function(dynamicNumberStrategyProvider){
-  dynamicNumberStrategyProvider.addStrategy('general', {
-    numFract: 2,
-    numSep: separator.sepade,
-    numFixed: true,
-    numThousand: true
-  });
-  dynamicNumberStrategyProvider.addStrategy('pedido', {
-  	numInt: 11,
-    numFract: 2,
-    numSep: separator.sepade,
-    numNeg: false,
-    numThousand: true
-  });
-}]);
-
 angular.module("processApp").config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/header');
     $stateProvider
@@ -191,4 +175,20 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
                 },
             } 
         })
+});
+
+
+angular.module("processApp").directive("match", function() {
+	return {
+		require : 'ngModel',
+		link : function(scope, elem, attrs, ctrl) {
+			var firstPassword = '#' + attrs.match;
+			$(elem).add(firstPassword).on('keyup', function() {
+				scope.$apply(function() {
+					var v = elem.val() === $(firstPassword).val();
+					ctrl.$setValidity('match', v);
+				});
+			});
+		}
+	}
 });

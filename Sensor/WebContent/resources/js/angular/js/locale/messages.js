@@ -209,7 +209,7 @@ angular.module('messages').config([ '$translateProvider',
 					"CRTE_DATE":		"Creation date",
 					"DATE_ACTI":		"Activation date",
 					"ROLES":			"Role",
-					"FOR_APROB":		"Requests pending by approval",
+					"FOR_APROB":		"by approval",
 					"NORD":				"Create manual order",
 					"INGR":				"Enter manual weights",
 					"DELE":				"Remove weights",
@@ -674,7 +674,7 @@ angular.module('messages').config([ '$translateProvider',
 					"CRTE_DATE":		"Fecha de creación",
 					"DATE_ACTI":		"Fecha de activación",
 					"ROLES":			"Rol(es)",
-					"FOR_APROB":		"Solicitudes pendientes por aprobación",
+					"FOR_APROB":		"Por aprobación",
 					"NORD":				"Crear orden manual",
 					"INGR":				"Ingresar pesos manual",
 					"DELE":				"Eliminar pesos",
@@ -924,7 +924,7 @@ angular.module('messages').config([ '$translateProvider',
 				
 			});
 			
-			$translateProvider.preferredLanguage('en');
+			$translateProvider.preferredLanguage('es');
 			$translateProvider.useSanitizeValueStrategy('escape');
 		} ]);
 

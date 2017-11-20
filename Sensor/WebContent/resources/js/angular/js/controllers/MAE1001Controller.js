@@ -77,6 +77,20 @@
 			}
 		}
 		
+		//Eliminacion de usuario
+		$scope.remove = function ( ) {
+			if(comunication.getData15()!=null){
+				var modalInstance = $uibModal.open({
+					animation : true,
+					templateUrl : "confirm.html",
+					controller : "DeleteMAE1001Ctrl",
+					size : "sm"
+				});
+			}else{
+				showAlerts("GENE.ERROR01");
+			}
+		}
+		
 		$translate(toTrans).then(function(translation) {
 			$scope.translation = translation;
 			$scope.columns = [];
@@ -159,6 +173,14 @@
 			if (comunication.isValid(comunication.getEvnt20())) {
 				comunication.setEvnt20(null)
 				$scope.detail();
+			}
+		});
+		
+		//Escuchador para edicion de usuario por doble click en fila
+		$scope.$watch(function ( ) { return comunication.getEvnt17() }, function ( ) {
+			if (comunication.isValid(comunication.getEvnt17())) {
+				comunication.setEvnt17(null);
+				$scope.update();
 			}
 		});
 		
@@ -283,6 +305,45 @@
 	}
 })();
 
+//Eliminacion de entidad
+(function ( ) {
+	"use strict";
+	angular.module("processApp").controller("DeleteMAE1001Ctrl",
+			DeleteMAE1001Ctrl);
+
+	DeleteMAE1001Ctrl.$inject = [ '$scope', '$log', '$rootScope',
+			'$uibModalInstance', 'alrts', 'comunication', 'mae1001Service' ];
+	function DeleteMAE1001Ctrl ( $scope, $log, $rootScope,
+			$uibModalInstance, alrts, comunication, mae1001Service ) {
+		
+		$scope.ok = function ( ) {
+			$scope.cancel();
+			// Se elige motivo de eliminacion
+			comunication.setData04("ELIM");
+			comunication.setEvnt07("emit");
+		};
+		
+		// Procedimiento a seguir una vez seleccionado el motivo de eliminacion
+		$rootScope.$watch(function ( ) { return comunication.getData05() }, function ( ) {
+			if (comunication.isValid(comunication.getData05())) {
+				mae1001Service.inactivate(comunication.getData15(), comunication.getData05())
+				.then(function successCallback ( response ) {
+						alrts.successMsg("GENE.RGTR_SUPR");
+						//Recargar lista
+			        	comunication.setEvnt18("emit");
+				}, function errorCallback ( error ) {
+					$log.error(response);
+				});
+				comunication.setData05(null);
+			}
+		});
+
+		$scope.cancel = function ( ) {
+			$uibModalInstance.dismiss(false);
+		};
+	}
+})();
+
 /***CONTROLADORES COMPONENTE APROBACION DE USUARIOS****/
 //Controlador principal de componente de creacion
 (function() {
@@ -361,6 +422,35 @@
 	}
 })();
 /*****************************************************/
+
+/****************CONTROLADORES AUTENTICACIÓN**********/
+(function() {
+	"use strict";
+	angular.module("processApp").controller('LoginComponentCtrl', LoginComponentCtrl);
+	LoginComponentCtrl.$inject = [ 'mae1001Service', '$scope', 'i18nService', '$log', 'alrts', '$translate' ];
+
+	function LoginComponentCtrl(mae1001Service, $scope, i18nService, $log, alrts, $translate) {
+
+		/** * ****INICIALIZACION DE VARIABLES Y ESTRUCTURAS * **** */
+		$scope.login = function() {
+			$log.info("usuario: "+$scope.username+", clave: "+$scope.password);
+			mae1001Service.login($scope.username, $scope.password)
+			.then(function(data){
+				$log.info("RESPUESTA DEL SERVIDOR: ");$log.info(data);
+			})
+			.catch(function(error){
+				$log.error(error);
+			});
+		};
+	}
+})();
+/*************************************************************/
+
+//Componente login de usuario
+angular.module('processApp').component('loginComponent',{
+	templateUrl : 'resources/views/forms/MAE1001/login.jsp',
+	controller : 'LoginComponentCtrl'
+});
 
 //Componente creacion de usuario
 angular.module('processApp').component('createMae1001Component',{

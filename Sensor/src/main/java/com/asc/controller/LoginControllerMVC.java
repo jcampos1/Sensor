@@ -111,6 +111,7 @@ public class LoginControllerMVC extends Configuration {
 				MAE1001 sf = userServ.findbyEmail(mail.getLogin());
 				if (null != sf) {
 					userServ.sendChangePass(sf);
+					model.addAttribute(ERROR, null);
 				} else {
 					model.addAttribute(HEAD_TITLE, getMess("P3.title.error"));
 					model.addAttribute(MESSAGE, getMess("P3.erro.mess.1"));

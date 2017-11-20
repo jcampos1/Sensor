@@ -69,7 +69,7 @@
 				<input name="conf_mail" id="conf_mail" class="form-control"
 					placeholder="{{ 'USER.CONF_MAIL' | translate }}"
 					ng-model="user.conf_mail" type="email" ng-maxlength="54"
-					pw-check='user_mail' required /> <span
+					match='user_mail' required /> <span
 					ng-show="!MAE1001EditForm.conf_mail.$pristine && MAE1001EditForm.conf_mail.$error.email"
 					class="logError has-error"><label class="control-label"
 					for="conf_mail"><i class="fa fa-times-circle-o"></i> {{
@@ -80,7 +80,7 @@
 						translate }}</label></span>
 				<div class='logError msg-block' ng-show='MAE1001EditForm.$error'>
 					<span class='msg-error has-error'
-						ng-show='!MAE1001EditForm.conf_mail.$pristine && MAE1001EditForm.conf_mail.$error.pwmatch'>
+						ng-show='!MAE1001EditForm.conf_mail.$pristine && MAE1001EditForm.conf_mail.$error.match'>
 						<label class="control-label" for="conf_mail"><i
 							class="fa fa-times-circle-o"></i> {{'VALI.MAI_NEQU' | translate
 							}}</label>
