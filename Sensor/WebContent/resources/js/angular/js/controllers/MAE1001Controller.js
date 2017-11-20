@@ -1,37 +1,4 @@
-//Controlador detalle de entidad
-
-/*
-(function() {
-	"use strict";
-	angular.module("myApp").controller('modal_confirmation_delete',
-			modal_confirmation_delete);
-
-	modal_confirmation_delete.$inject = [ '$scope', '$uibModalInstance',
-			'adminService', 'parentScope', 'basicConfigurationGrid', 'alrts', 'comunication02', '$log'];
-	function modal_confirmation_delete($scope, $uibModalInstance, adminService,
-			parentScope, basicConfigurationGrid, alrts, comunication02, $log) {
-		$scope.ok = function() {
-			$log.info("SE EJECUTOOO");
-			adminService
-					.inactivate(globalScope)
-					.then(
-							function successCallback(response) {
-								alrts.successMsg("ALRT.USER_DELE");
-								comunication02.setEvnt01("reloadWidgets");
-								basicConfigurationGrid.getPage(globalScope, 0);
-							},
-							function errorCallback(response) {
-							});
-			$uibModalInstance.close(true);
-		};
-
-		$scope.cancel = function() {
-			$uibModalInstance.dismiss(false);
-		};
-	}
-})();
-*/
-
+//Controlador principal usuario
 (function() {
 	"use strict";
 	angular.module("processApp").controller('MAE1001Ctrl', MAE1001Ctrl);

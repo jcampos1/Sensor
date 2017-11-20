@@ -49,6 +49,7 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
     evnt18: null, //Actualizacion lista de usuarios
     evnt19: null, //Actualizacion lista de usuarios pendientes por aprobacion
     evnt20: null, //Evento para mostrar detalle de usuario
+    evnt21: null, //Actualizacion lista de microcontrolador
     
     data02: null, //Entidad a detallar
     data03: null, //Estacion a eliminar
@@ -64,6 +65,7 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
     data14: null, //Lista de estaciones seleccionadas en grilla
     data15: null, //Usuario seleccionado para operaciones (detalle, edicion, eliminacion)
     data16: null, //Roles activos del sistema
+    data17: null, //Detalle de microcontrolador
     
     /*USADO PARA FILTRAR POR STATUS DE ORDEN EN MAESTRO DE CABECERA*/
     stat: null,
@@ -318,6 +320,12 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	setEvnt20: function(data) {
 	    this.evnt20 = data;
 	},
+	getEvnt21: function() {
+        return this.evnt21;
+	},
+	setEvnt21: function(data) {
+	    this.evnt21 = data;
+	},
 	
 	getLine_dele: function() {
         return this.line_dele;
@@ -443,6 +451,12 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	},
 	setData16: function(data) {
 	    this.data16 = data;
+	},
+	getData17: function() {
+        return this.data17;
+	},
+	setData17: function(data) {
+	    this.data17 = data;
 	},
 	
 	isValid: function(data) {

@@ -9,8 +9,6 @@
 		
 		stationService.find().then(function successCallback ( stations ) {
 			$scope.cantst = stations.data.length;
-			$log.info(stations);
-			$log.info(stations.data.length);
 		}, function errorCallback ( response ) {
 			$log.error("Error al obtener estaciones de trabajo");
 		});

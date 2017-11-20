@@ -89,7 +89,7 @@ angular.module("processApp").config(function($stateProvider, $urlRouterProvider)
                 template: "<widgets02-component />"
         	},
         	"mstr":{
-                templateUrl: "/Sensor/resources/views/masters/mstrPAR1001.jsp"
+                templateUrl: "/Sensor/resources/views/forms/PAR1001/list.jsp"
         	},
         } 
     })

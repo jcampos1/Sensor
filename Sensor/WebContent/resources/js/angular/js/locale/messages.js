@@ -170,6 +170,7 @@ angular.module('messages').config([ '$translateProvider',
 					"ROLES":			"Roles",
 					"ROLE":				"Role",
 					"NEWMEMB":			"News members",
+					"MICRO":			"Microcontroller",
 				},
 				
 				"URL": {
@@ -428,7 +429,7 @@ angular.module('messages').config([ '$translateProvider',
 					"DIBRTE_TP":			"Difference between gross weight and theoretical weight",
 					"POBRTE_TP":			"Difference in percentage between gross weight and theoretical weight",
 					
-					"NAME_PORT_TP":		"Identifier for the port where you will connect the display. Example: in Windows it is possible to connect the display to port 'COM1' or 'COM2'",
+					"NAME_PORT_TP":		"Identifier for the port where you will connect the microcontroller. Example: in Windows it is possible to connect the microcontroller to port 'COM1' or 'COM2'",
 					"DSCA_PORT_TP":		"Description for the port. Example: COM1 serial port",
 					"TIME_OUT_TP":		"Maximum time to wait for port opening (Milliseconds)",
 					"TRACED_TP":		"Allows the WeighBridgeLite4Baan application to log into the log",
@@ -633,6 +634,7 @@ angular.module('messages').config([ '$translateProvider',
 					"ROLES":			"Roles",
 					"ROLE":				"Rol",
 					"NEWMEMB":			"Nuevos miembros",
+					"MICRO":			"Microcontrolador",
 				},
 				
 				"URL": {
@@ -885,7 +887,7 @@ angular.module('messages').config([ '$translateProvider',
 					"DIBRTE_TP":			"Diferencia entre peso bruto y peso teórico",
 					"POBRTE_TP":			"Diferencia en porcentaje entre peso bruto y peso teórico",
 					
-					"NAME_PORT_TP":		"Identificador para el puerto donde conectará el display. Ejemplo: en Windows es posible conectar el display al puerto 'COM1' o 'COM2'",
+					"NAME_PORT_TP":		"Identificador para el puerto donde conectará el microcontrolador. Ejemplo: en Windows es posible conectar el microcontrolador al puerto 'COM1' o 'COM2'",
 					"DSCA_PORT_TP":		"Descripción para el puerto. Ejemplo: Puerto serial COM1",
 					"TIME_OUT_TP":		"Tiempo máximo a esperar por la apertura del puerto (milisegundos)",
 					"TRACED_TP":		"Permite a la aplicación WeighBridgeLite4Baan registrar en el log",

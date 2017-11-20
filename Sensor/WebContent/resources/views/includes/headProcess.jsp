@@ -251,6 +251,15 @@ var="anguspin" />
 	var="RoleController" />
 <!---------------------------------------------------->
 
+<!--------------------- Micro  ---------------------->
+<spring:url value="/resources/js/angular/js/services/MicroService.js"
+	var="MicroService" />
+
+<spring:url
+	value="/resources/js/angular/js/controllers/MicroController.js"
+	var="MicroController" />
+<!---------------------------------------------------->
+
 <!--------------------- MAE1001  ---------------------->
 <spring:url value="/resources/js/angular/js/services/GridMAE1001Service.js"
 	var="MAE1001ConfigurationGrid" />
@@ -750,6 +759,11 @@ var="CPREC" />
 <script type="text/javascript" src="${RoleConfigurationGrid}"></script>
 <script type="text/javascript" src="${RoleService}"></script>
 <script type="text/javascript" src="${RoleController}"></script>
+<!-------------------------------------------------->
+
+<!--------------------- Micro -------------------->
+<script type="text/javascript" src="${MicroService}"></script>
+<script type="text/javascript" src="${MicroController}"></script>
 <!-------------------------------------------------->
 
 <!--------------------- MAE1001 -------------------->

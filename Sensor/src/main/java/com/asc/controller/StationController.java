@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.asc.commons.entities.UTI1001;
 import com.asc.entities.abstracts.GenericObject;
 import com.asc.exceptions.MyWebException;
-import com.asc.process.entities.Sensor;
 import com.asc.process.entities.Station;
 import com.asc.process.entities.UTI1006;
 import com.asc.service.interfaces.IStationService;
