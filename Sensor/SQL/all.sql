@@ -7,4 +7,6 @@ INSERT INTO rel1001 ( idus, idrl) VALUES (1, 2);
 
 INSERT INTO mae1016( idco, dsca, number ) VALUES ( 1, "Proagro C.A.", 100);
 
+INSERT INTO micro( idmi, active, baud, bits_char, bits_stop, port_dsca, port_name, prty, tout_read ) VALUES ( 1, 1, 9600, 8, 1, "Puerto Serial COM8", "COM8", 0, 1000);
+
 INSERT INTO par1001 ( idpa, active, cddp, dsca,fech, lastor, lastse, seri,user_idus, pescon, rep_te, company_idco) VALUES (1, 1, "OP", "Una descripción", '2016-11-11 14:03:00',null,null, "54", 1, 1, 0, 1);

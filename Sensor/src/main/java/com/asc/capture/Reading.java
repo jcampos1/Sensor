@@ -119,7 +119,10 @@ public class Reading extends Thread {
 
 			in = serialport.getInputStream();
 
-			do {
+			while(true) {
+				System.out.println("ST,GS,7800kg");
+			}
+			/*do {
 				while ((data = in.read()) != '\n') {
 					if (data == -1) {
 						break;
@@ -130,7 +133,7 @@ public class Reading extends Thread {
 				chain = new String(buffer, 0, len);
 				chain = chain.trim();
 				System.out.println(chain);
-			} while (true);
+			} while (true);*/
 		} catch (Exception e) {
 			log.error("Error en la lectura del puerto. Método readPort (Reading.java). Detalle: " + e);
 		}
