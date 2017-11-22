@@ -23,6 +23,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.iss.enums.Parity;
 
+import gnu.io.SerialPort;
+
 //CONTROLADOR MICROCONTROLADOR
 
 @RestController()
@@ -34,6 +36,9 @@ public class MicroController extends Base<Micro> {
 
 	@Autowired
 	private MicroValidator validator;
+	
+	@Autowired
+	private Reading reading;
 	
 	private ObjectMapper mapper = new ObjectMapper();
 	
@@ -74,9 +79,17 @@ public class MicroController extends Base<Micro> {
 		if (entity.getId() == null || service.getById(entity.getId()) == null) {
 			throw new Exception("microcontroller not found");
 		}
-
-		//Se dispara proceso de lectura del puerto
-		Reading.getInstance(entity).run();
+		
+		if( reading.serialport instanceof SerialPort ){
+			reading.closePort();
+			reading.join();
+			System.out.println(reading.isAlive());
+		}
+		
+		reading.initialize(entity);
+		
+		Thread thread = new Thread(reading);
+		thread.start();
 		
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}

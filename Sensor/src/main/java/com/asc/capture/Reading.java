@@ -7,6 +7,7 @@ import java.util.Enumeration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.asc.process.entities.Micro;
 import com.asc.service.interfaces.IMicroService;
@@ -14,48 +15,36 @@ import com.asc.service.interfaces.IMicroService;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 
+@Component
 public class Reading extends Thread {
 	static Logger log = LogManager.getLogger(Reading.class);
 
 	private Micro params;
-	private static Reading instance;
-	private SerialPort serialport;
+	public static SerialPort serialport;
+	private static Boolean follow;
 	
 	@Autowired
 	private IMicroService microServ;
 
-	private Reading(Micro micro) {
-		params = micro;
+	public Reading() {
+		loadRxtx();
 	}
-
-	public static Reading getInstance(Micro micro) {
-		if (instance == null) {
-			instance = new Reading(micro);
-		}
-		return instance;
+	
+	//Inicializa parametros del proceso de lectura
+	public void initialize( Micro micro ) {
+		this.params = micro;
+		follow = Boolean.TRUE;
 	}
 
 	@Override
 	public synchronized void run() {
-		loadRxtx();
 		CommPortIdentifier portId = null;
-		// En caso de que haya una instancia utilizando el puerto, se cierra la conexion
-		if (serialport != null) {
-			try {
-				closePort();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 
 		try {
 			portId = findPort();
 			serialport = openPort(portId);
 			if (null != serialport) {
 				readPort();
-				closePort();
-				log.debug("Puerto cerrado. Método run (Reading.java).");
 			}
 		} catch (Exception e) {
 			log.error("Error Run: " + e);
@@ -65,7 +54,9 @@ public class Reading extends Thread {
 	// Carga de libreria para el manejo de puerto
 	private void loadRxtx() {
 		try {
-			System.loadLibrary("rxtxSerial");
+			if(ClassLoader.getSystemResource("rxtxSerial") == null){
+				System.loadLibrary("rxtxSerial");
+			}
 		} catch (UnsatisfiedLinkError u) {
 			log.error("No se pudo cargar la libreria RXTX. Error en método loadRxtx (Reading.java). Detalle: " + u);
 		}
@@ -80,8 +71,11 @@ public class Reading extends Thread {
 		CommPortIdentifier portId = null;
 		while (ports.hasMoreElements() && find == false) {
 			portId = (CommPortIdentifier) ports.nextElement();
+			
 			if (portId.getName().equalsIgnoreCase(params.getPort_name())) {
 				find = true;
+				System.out.println("isCurrentlyOwned: "+portId.isCurrentlyOwned());
+				System.out.println("Propietario: "+portId.getCurrentOwner());
 			}
 		}
 		return portId;
@@ -101,9 +95,13 @@ public class Reading extends Thread {
 	}
 
 	// Cierre del puerto serial
-	private synchronized void closePort() throws IOException {
+	public synchronized static void closePort() throws IOException {
 		try {
+			follow = Boolean.FALSE;
 			serialport.close();
+			serialport = null;
+			Thread.sleep(1000);
+			log.debug("Puerto cerrado. Método run (Reading.java).");
 		} catch (Exception e) {
 			log.error("Error al cerrar puerto serial. Método closePort (Reading.java). Detalle: " + e);
 		}
@@ -119,21 +117,20 @@ public class Reading extends Thread {
 
 			in = serialport.getInputStream();
 
-			while(true) {
-				System.out.println("ST,GS,7800kg");
-			}
-			/*do {
+			do {
 				while ((data = in.read()) != '\n') {
 					if (data == -1) {
 						break;
 					} else {
+						System.out.println("entro");
 						buffer[len++] = (byte) data;
 					}
-				}
+				} 
 				chain = new String(buffer, 0, len);
 				chain = chain.trim();
+				len = 0;
 				System.out.println(chain);
-			} while (true);*/
+			} while (follow);
 		} catch (Exception e) {
 			log.error("Error en la lectura del puerto. Método readPort (Reading.java). Detalle: " + e);
 		}
