@@ -29,6 +29,12 @@
 
 <spring:url value="/resources/js/angular/node_modules/angular.js"
 	var="angularJs" />
+	
+<spring:url value="/resources/js/angular/node_modules/sockjs.min.js"
+	var="sockjs" />
+
+<spring:url value="/resources/js/angular/node_modules/stomp.js"
+	var="stomp" />
 
 <spring:url value="/resources/js/angular/node_modules/sweetalert.min.js"
 	var="SweetAlertMinJs" />
@@ -252,9 +258,10 @@ var="anguspin" />
 <!---------------------------------------------------->
 
 <!--------------------- Micro  ---------------------->
+<spring:url value="/resources/js/angular/js/services/TryReadingService.js"
+	var="TryReadingService" />
 <spring:url value="/resources/js/angular/js/services/MicroService.js"
 	var="MicroService" />
-
 <spring:url
 	value="/resources/js/angular/js/controllers/MicroController.js"
 	var="MicroController" />
@@ -520,6 +527,8 @@ var="CPREC" />
 
 <script type="text/javascript" src="${jquery}"></script>
 <script type="text/javascript" src="${angularJs}"></script>
+<script type="text/javascript" src="${sockjs}"></script>
+<script type="text/javascript" src="${stomp}"></script>
 <script type="text/javascript" src="${NgSweetAlertMinJs}"></script>
 <script type="text/javascript" src="${SweetAlertMinJs}"></script>
 
@@ -762,6 +771,7 @@ var="CPREC" />
 <!-------------------------------------------------->
 
 <!--------------------- Micro -------------------->
+<script type="text/javascript" src="${TryReadingService}"></script>
 <script type="text/javascript" src="${MicroService}"></script>
 <script type="text/javascript" src="${MicroController}"></script>
 <!-------------------------------------------------->

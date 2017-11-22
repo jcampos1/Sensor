@@ -6,7 +6,7 @@
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
-	<properties>   
+	<properties>
 		<!-- Spring -->
 		<spring-framework.version>4.3.1.RELEASE</spring-framework.version>
 		<!-- Spring Security -->
@@ -18,7 +18,7 @@
 
 	</properties>
 
-	<pluginRepositories> 
+	<pluginRepositories>
 		<pluginRepository>
 			<id>maven-annotation</id>
 			<url>http://maven-annotation-plugin.googlecode.com/svn/trunk/mavenrepo</url>
@@ -287,6 +287,18 @@
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>6.4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>4.2.4.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
+			<version>4.2.4.RELEASE</version>
 		</dependency>
 
 

@@ -1,5 +1,6 @@
 package com.asc.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.asc.capture.Reading;
+import com.asc.controller.abstracts.Configuration;
 import com.asc.process.entities.Micro;
 import com.asc.service.interfaces.IMicroService;
 import com.asc.utils.JsonResponse;
@@ -86,6 +89,9 @@ public class MicroController extends Base<Micro> {
 			System.out.println(reading.isAlive());
 		}
 		
+//		RestTemplate restTemplate = new RestTemplate();
+//        URI uri = restTemplate.postForLocation(Configuration.REST_SERVICE_URI_TRY+"/tryReading/", "CMTXSPoouuhST,GS,8900KG", String.class);
+        
 		reading.initialize(entity);
 		
 		Thread thread = new Thread(reading);
