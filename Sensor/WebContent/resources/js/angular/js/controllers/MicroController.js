@@ -99,9 +99,9 @@
 			UpdateMicroCtrl);
 
 	UpdateMicroCtrl.$inject = [ '$scope', '$log', '$uibModalInstance',
-			'MicroService', 'comunication' ];
+			'MicroService', 'comunication', 'TryReadingService' ];
 	function UpdateMicroCtrl ( $scope, $log, $uibModalInstance,
-			MicroService, comunication ) {
+			MicroService, comunication, TryReadingService ) {
 		$scope.micro = angular.copy(comunication.getData17());
 		
 		MicroService.getLstPrty( ).then(function(response){
@@ -137,6 +137,15 @@
 				MicroService.update($scope.micro, $uibModalInstance, 1, $scope);
 			}
 		};
+		
+		$scope.addMessage = function() {
+			  TryReadingService.send();
+		  };
+
+		  TryReadingService.receive().then(null, null, function(message) {
+			  console.log("mensaje recibido es: ");
+			  console.log(message);
+		  });
 		
 		$scope.cancel = function ( ) {
 			$uibModalInstance.dismiss(false);

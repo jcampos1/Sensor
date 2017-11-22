@@ -2,13 +2,16 @@ package com.asc.capture;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.Enumeration;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
+import com.asc.controller.abstracts.Configuration;
 import com.asc.process.entities.Micro;
 import com.asc.service.interfaces.IMicroService;
 

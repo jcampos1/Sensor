@@ -126,8 +126,8 @@
 		</div>
 		<br />
 		<div class="modal-footer">
-			<a ng-click="cancel()" class="btn btn-app btn btn-warning"> <i
-				class="fa fa-close"></i> {{ 'GENE.CANCEL' | translate }}
+			<a ng-click="addMessage()" class="btn btn-app btn btn-warning"> <i
+				class="fa fa-close"></i> {{ 'GENE.ADD' | translate }}
 			</a> <a ng-disabled="!MicroEditForm.$valid"
 				ng-click="update(MicroEditForm)"
 				class="btn btn-app btn btn-primary"> <i class="fa fa-save"></i>

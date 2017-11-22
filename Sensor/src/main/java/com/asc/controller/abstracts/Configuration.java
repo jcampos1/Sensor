@@ -67,6 +67,7 @@ public class Configuration {
 	public final static String HOME = "homePage";
 	public final static String FORGOT = "/forgotPasswd";
 
+	public final static String REST_SERVICE_URI_TRY = "http://localhost:8080/Sensor";
 	public final static String LOCALHOST = "localhost";
 	public final static String GENERATE_OUTPUT = "2";
 	public final static String GENERATE_OUTPUT_NO_ZERO = "3";
