@@ -1,22 +1,34 @@
 package com.asc.capture;
 
+import gnu.io.CommPortIdentifier;
+import gnu.io.SerialPort;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompCommand;
+import org.springframework.messaging.simp.stomp.StompHeaders;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.socket.client.WebSocketClient;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
+import org.springframework.web.socket.sockjs.client.SockJsClient;
+import org.springframework.web.socket.sockjs.client.Transport;
+import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
-import com.asc.controller.abstracts.Configuration;
 import com.asc.process.entities.Micro;
 import com.asc.service.interfaces.IMicroService;
-
-import gnu.io.CommPortIdentifier;
-import gnu.io.SerialPort;
 
 @Component
 public class Reading extends Thread {
@@ -42,7 +54,65 @@ public class Reading extends Thread {
 	@Override
 	public synchronized void run() {
 		CommPortIdentifier portId = null;
-
+		
+		WebSocketClient simpleWebSocketClient = new StandardWebSocketClient();
+		List<Transport> transports = new ArrayList<>(1);
+		transports.add(new WebSocketTransport(simpleWebSocketClient));
+		
+		WebSocketClient transport = new SockJsClient(transports);
+		WebSocketStompClient stompClient = new WebSocketStompClient(transport);
+		
+		
+		/*SockJsClient sockJsClient = new SockJsClient(transports);
+		WebSocketStompClient stompClient = new WebSocketStompClient(sockJsClient);*/
+		stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+		String url = "ws://localhost:8080/Sensor/gs-guide-websocket";
+		StompSessionHandler sessionHandler = new StompSessionHandler() {
+			@Override
+			public void handleFrame(StompHeaders arg0, Object arg1) {
+				// TODO Auto-generated method stub
+				System.out.println("ERROR EN EL HANDLEFRAME");
+			}
+			
+			@Override
+			public Type getPayloadType(StompHeaders arg0) {
+				// TODO Auto-generated method stub
+				System.out.println("ERROR EN EL PAYLOAD");
+				return null;
+			}
+			
+			@Override
+			public void handleTransportError(StompSession arg0, Throwable arg1) {
+				// TODO Auto-generated method stub
+				System.out.println("ERROR EN EL TRANSPORTE");
+				System.out.println(arg1);
+			}
+			
+			@Override
+			public void handleException(StompSession arg0, StompCommand arg1, StompHeaders arg2, byte[] arg3, Throwable arg4) {
+				// TODO Auto-generated method stub
+				System.out.println("ERROR EN EL MANEJADOR");
+			}
+			
+			@Override
+			public void afterConnected(StompSession arg0, StompHeaders arg1) {
+				// TODO Auto-generated method stub
+				System.out.println("ERROR DESPUES DE CONECTAR");
+			}
+		};
+		
+		StompSession session;
+		try {
+			session = stompClient.connect(url, sessionHandler).get();
+			session.send("/app/tryReading", "SE ENVIO PAPA");
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ExecutionException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		try {
 			portId = findPort();
 			serialport = openPort(portId);
@@ -119,7 +189,7 @@ public class Reading extends Thread {
 			byte[] buffer = new byte[1024];
 
 			in = serialport.getInputStream();
-
+			
 			do {
 				while ((data = in.read()) != '\n') {
 					if (data == -1) {
