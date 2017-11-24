@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/signedUp", "C:/Sensor/data/**", "/user/checkUser", "/user/create",
 						"/index", "/language/**", "/resources/**", "/WEB-INF/views/**",
-						"/entity", "/page1/**", "/entity/**", "/" + LoginControllerMVC.FORGOT, "/" + LoginControllerMVC.CHANGE_PWD )
+						"/entity", "/page1/**", "/entity/**", "/" + LoginControllerMVC.FORGOT, "/ws://*", "/" + LoginControllerMVC.CHANGE_PWD )
 				.permitAll()
 				.antMatchers("/MAE1008/create","/MAE1008/update", "/MAE1008/checkMAE1008").access("hasRole('ROLE_ADMIN')").anyRequest().fullyAuthenticated().and()
 				.formLogin().loginPage(LoginControllerMVC.LOGIN).failureUrl(LoginControllerMVC.LOGIN + "?error")
