@@ -2,6 +2,8 @@ package com.asc.controller.abstracts;
 
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +26,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
-import com.asc.capture.Reading;
 import com.asc.commons.entities.MAE1001;
 import com.asc.commons.entities.Options;
 import com.asc.commons.entities.Role;
@@ -31,9 +34,15 @@ import com.asc.commons.entities.UTI1004;
 import com.asc.commons.entities.UTI1007;
 import com.asc.exceptions.MyWebException;
 import com.asc.process.entities.MAE1007;
+import com.asc.process.entities.Medition;
+import com.asc.process.entities.Reading;
+import com.asc.process.entities.Sensor;
+import com.asc.process.entities.Station;
 import com.asc.service.interfaces.IMAE1013Service;
 import com.asc.service.interfaces.IMAE1014Service;
 import com.asc.service.interfaces.IPAR1001Service;
+import com.asc.service.interfaces.ISensorService;
+import com.asc.service.interfaces.IStationService;
 import com.asc.service.interfaces.IUserService;
 import com.asc.utils.JsonResponse;
 import com.asc.utils.StringUtil;
@@ -49,18 +58,24 @@ public class Configuration {
 
 	@Autowired
 	protected IUserService userServ;
-	
+
 	@Autowired
 	public IMAE1013Service headerServ;
-	
+
 	@Autowired
 	public IMAE1014Service itemServ;
-	
+
 	@Autowired
 	private IPAR1001Service paramServ;
 	
-	static NumberFormat numberFormatter;
+	@Autowired
+	protected IStationService stationServ;
+	
+	@Autowired
+	protected ISensorService sensorServ;
 
+	static NumberFormat numberFormatter;
+	
 	public final static String BUNDLE = "bundle";
 	public final static String ACTIVATE = "activateAcc";
 	public final static String SIGNEDUP = "signedUp";
@@ -82,9 +97,9 @@ public class Configuration {
 	public final static String ROUTE_PDF = "C:\\Sensor\\data\\";
 	public final static String FILENAME_PESAJE = "pesaje_";
 	public final static String PESAJE_EXT = ".pdf";
-	
+
 	public final static String DESTFILE = "C:/Sensor/data/pesaje.pdf";
-	
+
 	public final static String FILE_OUT = "\"salida.txt\"";
 	public final static String PRINT_LOG = "\"1\"";
 	public final static String OPER = "\"2\"";
@@ -94,6 +109,15 @@ public class Configuration {
 	public final static String CHAR_SPLI = "\\|";
 	public final static String SPACE = " ";
 
+	// Expresiòn regular para extracciòn de grupos de lecturas por puerto
+	public static final String REGEX = ".*:(\"{1}\\d{10}\"{1}),\"{1}\"{1},(\"{1}\\d{2}/\\d{2}/\\d{2},\\d{2}:\\d{2}:\\d{2}-\\d{2}\"{1})(EST-\\d{1,3})-(.*)";
+	// Formato de fecha leida por puerto
+	public static final String PATTERN_FECREAD = "yy/MM/dd,H:mm:ss-SS";
+	public static final Integer TLF = 1;
+	public static final Integer FEC = 2;
+	public static final Integer STATION = 3;
+	public static final Integer MEDITIONS = 4;
+	
 	public static final int SIZE_FIVE_THOUSAND = 5000;
 
 	public final static int SIZE_ZERO = 0;
@@ -138,7 +162,7 @@ public class Configuration {
 	public final static int SIZE_365 = 365;
 	public final static int MAX_BAUD = 921600;
 	public final static int NCOL_990 = 17;
-	
+
 	public final static int MIN_COMPANY = 0;
 	public final static int MAX_COMPANY = 999;
 
@@ -161,8 +185,8 @@ public class Configuration {
 
 	public final static String OK = "ok";
 	public final static String ERROR = "error";
-	
-	//MEDIO DE TRANSPORTE
+
+	// MEDIO DE TRANSPORTE
 	public final static int DSCA_MT = 100;
 	public final static int MOTR_MT = DSCA_MT;
 
@@ -266,8 +290,7 @@ public class Configuration {
 		SimpleMailMessage email = new SimpleMailMessage();
 		email.setTo(toAddress);
 		email.setSubject("Prueba");
-		email.setText(
-				"Debe esperar a que el administrador acepte su solicitud.  Se le mantendra informado al correo que indico en el formulario.");
+		email.setText("Debe esperar a que el administrador acepte su solicitud.  Se le mantendra informado al correo que indico en el formulario.");
 		mailSender.send(email);
 	}
 
@@ -320,29 +343,30 @@ public class Configuration {
 		email.setText(mess.getMail_mess());
 		mailSender.send(email);
 	}
-	
-	//Para dar formato a números con el locale actual
-	public static NumberFormat getNumberFormat( ) {
+
+	// Para dar formato a números con el locale actual
+	public static NumberFormat getNumberFormat() {
 		numberFormatter = NumberFormat.getNumberInstance(LocaleContextHolder.getLocale());
 		return numberFormatter;
 	}
-	
-	public static UTI1007 getSeparators( ) {
+
+	public static UTI1007 getSeparators() {
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols(LocaleContextHolder.getLocale());
-//		return new UTI1007(null, "", symbols.getGroupingSeparator(), symbols.getDecimalSeparator());
+		// return new UTI1007(null, "", symbols.getGroupingSeparator(),
+		// symbols.getDecimalSeparator());
 		return new UTI1007(null, "", ',', '.');
 	}
 
 	public JsonResponse converErrorsToJson(BindingResult result) {
 		return converErrorsToJson("", result);
 	}
-	
-	public static String routeToPdf( String nord ) {
-		return Configuration.ROUTE_PDF+Configuration.FILENAME_PESAJE+nord+Configuration.PESAJE_EXT;
+
+	public static String routeToPdf(String nord) {
+		return Configuration.ROUTE_PDF + Configuration.FILENAME_PESAJE + nord + Configuration.PESAJE_EXT;
 	}
-	
-	public static String filenamePdf( String nord ) {
-		return Configuration.FILENAME_PESAJE+nord+Configuration.PESAJE_EXT;
+
+	public static String filenamePdf(String nord) {
+		return Configuration.FILENAME_PESAJE + nord + Configuration.PESAJE_EXT;
 	}
 
 	public JsonResponse converErrorsToJson(String fldPre, BindingResult result) {
@@ -475,5 +499,38 @@ public class Configuration {
 		}
 		return numZero;
 
+	}
+
+	// Verifica si el string leido por el puerto es aceptable
+	public Boolean aceptable(String string, Reading reading) throws MyWebException {
+		String[] parts = null;
+		Boolean acept = Boolean.FALSE;
+		Pattern pattern = Pattern.compile(REGEX);
+		Matcher matcher = pattern.matcher(string.replaceAll("\\s|\\n|\\r|@", ""));
+
+		if (matcher.matches()) {
+			reading.setStation(stationServ.getById(matcher.group(Configuration.STATION)));
+			if(reading.getStation() instanceof Station) {
+				acept = Boolean.TRUE;
+				// Se construye el objeto de lectura
+				reading.setFecemi(LocalDateTime.parse(matcher.group(2).replaceAll("'|\"", ""),
+						DateTimeFormatter.ofPattern(PATTERN_FECREAD)));
+				reading.setFeread(LocalDateTime.now());
+				reading.setPhone(matcher.group(1).replaceAll("'|\"", ""));
+
+				parts = matcher.group(4).replaceAll("-", ",").replaceAll(",,", ",-").split(",");
+				Medition medition;
+				for (int i = 0; i < parts.length; i = i + 2) {
+					medition = new Medition();
+					medition.setValue(Double.valueOf(parts[i + 1]));
+					reading.getMeditions().add(medition);
+					System.out.println("Sensor: " + parts[i] + ", medicion: " + Double.valueOf(parts[i + 1]));
+				}
+			}
+		} else {
+			System.out.println("Formato de cadena de lectura no coincide con expresión regular.");
+		}
+
+		return acept;
 	}
 }

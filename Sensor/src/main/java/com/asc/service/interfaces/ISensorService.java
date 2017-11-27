@@ -18,4 +18,6 @@ public interface ISensorService extends IGenericService<Sensor> {
 	void myOwnerAdd(Sensor sensor) throws MyWebException;
 
 	GenericObject<Sensor> findSubsetSimpleSensor(UTI1002 gp);
+
+	List<Sensor> getByNomenclature(String nomenc);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -16,8 +17,11 @@ import com.asc.commons.entities.UTI1002;
 import com.asc.dao.interfaces.ISensorDao;
 import com.asc.dao.interfaces.generic.AbstractHibernateDao;
 import com.asc.entities.abstracts.GenericObject;
+import com.asc.process.entities.MAE1013_;
 import com.asc.process.entities.Sensor;
 import com.asc.process.entities.Sensor_;
+import com.asc.process.entities.Station;
+import com.asc.process.entities.Station_;
 
 //DAO: Sensor
 @Repository
@@ -37,6 +41,23 @@ public class SensorDaoImpl extends AbstractHibernateDao<Sensor> implements ISens
 
 		criteria.select(root);
 		Predicate pred = builder.equal(root.get( Sensor_.active), true);
+		criteria.where(pred);
+
+		return getCurrentSession().createQuery(criteria).getResultList();
+	}
+	
+	@Override
+	public List<Sensor> getByNomenclature(String nomenc, String namest) {
+		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Sensor> criteria = builder.createQuery(Sensor.class);
+		Root<Sensor> root = criteria.from(Sensor.class);
+
+		criteria.select(root);
+		Predicate pred = builder.equal(root.get( Sensor_.active), true);
+		pred = builder.and(pred, builder.equal(root.get( Sensor_.nomenc), nomenc));
+		// Sensor.station is a @ManyToOne
+		Join<Sensor, Station> header = root.join( Sensor_.station );
+		pred = builder.equal(header.get( Station_.namest ), namest);
 		criteria.where(pred);
 
 		return getCurrentSession().createQuery(criteria).getResultList();

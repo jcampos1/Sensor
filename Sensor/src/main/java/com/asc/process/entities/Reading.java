@@ -1,101 +1,105 @@
 package com.asc.process.entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.NaturalId;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import com.asc.commons.entities.Role;
 import com.asc.controller.abstracts.Configuration;
-import com.asc.entities.abstracts.AbstractEntity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.asc.entities.abstracts.AbstractEntityID;
+import com.asc.serializers.LocalDateTimeDeserializer;
+import com.asc.serializers.LocalDateTimeSerializer;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 //ENTIDAD: LECTURA DE DATOS
 
 @Entity
 @Table(name = "reading")
-public class Reading extends AbstractEntity implements Serializable {
+public class Reading extends AbstractEntityID implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String phonere;
-	private Date fecemi;
+	private String phone;
+	private LocalDateTime fecemi;
 	private Station station;
-	private Date fecrea;
-	private Set<Role> roles = new HashSet<Role>(0);
+	private LocalDateTime feread;
+	private Set<Medition> meditions = new HashSet<Medition>(0);
 	
 	public Reading() {
 	}
 	
 	@Id
-	@NaturalId(mutable=true)
-	@Size(min = Configuration.SIZE_ONE, max = Configuration.SIZE_30)
-	@Column(name = "namest", unique = true, nullable = false)
-	public String getNamest() {
-		return namest;
+	@GeneratedValue
+	@Column(name = "idre", unique = true, nullable = false)
+	public Long getId() {
+		return this.id;
 	}
-
-	public void setNamest(String namest) {
-		this.namest = namest;
-	}
-
+	
 	@NotNull
-	@Column(name = "phonst", nullable = false, length = Configuration.SIZE_PHON)
-	public String getPhonst() {
-		return phonst;
+	@Column(name = "phone", nullable = false, length = Configuration.SIZE_PHON)
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setPhonst(String phonst) {
-		this.phonst = phonst;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
-	@Column(name = "status", nullable = false, columnDefinition = "boolean default false")
-	public Boolean getStatus() {
-		return status;
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	@Column(name = "fecemi", nullable = true)
+	public LocalDateTime getFecemi() {
+		return fecemi;
 	}
 
-	public void setStatus(Boolean status) {
-		this.status = status;
+	public void setFecemi(LocalDateTime fecemi) {
+		this.fecemi = fecemi;
+	}
+
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	@Column(name = "feread", nullable = true)
+	public LocalDateTime getFeread() {
+		return feread;
+	}
+
+	public void setFeread(LocalDateTime feread) {
+		this.feread = feread;
 	}
 	
-	@Column(name = "active", nullable = true, columnDefinition = "boolean default true")
-	public Boolean getActive() {
-		return active;
+	@NotNull
+	@ManyToOne
+	public Station getStation() {
+		return station;
 	}
 
-	public void setActive(Boolean active) {
-		this.active = active; 
-	}
-	
-	@ManyToOne(cascade= CascadeType.ALL)
-	public REL1002 getEvento() {
-		return evento;
+	public void setStation(Station station) {
+		this.station = station;
 	}
 
-	public void setEvento(REL1002 evento) {
-		this.evento = evento;
+	@OneToMany(mappedBy="reading",cascade= CascadeType.ALL)
+	@JsonManagedReference
+	public Set<Medition> getMeditions() {
+		return meditions;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "stations")
-	@JsonBackReference
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void setMeditions(Set<Medition> meditions) {
+		this.meditions = meditions;
 	}
 }

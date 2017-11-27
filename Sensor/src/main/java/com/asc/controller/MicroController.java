@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.asc.capture.Reading;
+import com.asc.capture.Readport;
 import com.asc.controller.abstracts.Configuration;
 import com.asc.process.entities.Micro;
 import com.asc.service.interfaces.IMicroService;
@@ -41,7 +41,7 @@ public class MicroController extends Base<Micro> {
 	private MicroValidator validator;
 	
 	@Autowired
-	private Reading reading;
+	private Readport reading;
 	
 	private ObjectMapper mapper = new ObjectMapper();
 	

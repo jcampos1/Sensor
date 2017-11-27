@@ -30,8 +30,6 @@ public class Sensor extends AbstractEntityID implements Serializable {
 	private Station station;
 	private Typesensor typesensor;
 	
-//	private List<MAE1014> lines = new ArrayList<MAE1014>(0);
-	
 	public Sensor() {
 	}
 	

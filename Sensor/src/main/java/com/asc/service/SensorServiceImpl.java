@@ -64,6 +64,12 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor> implements
 		return myDao.findActive();
 	}
 	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Sensor> getByNomenclature(String nomenc) {
+		return myDao.getByNomenclature(nomenc);
+	}
+	
 	@Override
 	@Transactional(readOnly = true)
 	public GenericObject<Sensor> findSubsetSimpleSensor(UTI1002 gp) {
