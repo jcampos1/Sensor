@@ -93,7 +93,7 @@ public class Reading extends AbstractEntityID implements Serializable {
 		this.station = station;
 	}
 
-	@OneToMany(mappedBy="reading",cascade= CascadeType.ALL)
+	@OneToMany(mappedBy="reading",cascade= CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
 	public Set<Medition> getMeditions() {
 		return meditions;

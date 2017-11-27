@@ -1,6 +1,7 @@
 package com.asc.process.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -70,4 +71,22 @@ public class Medition extends AbstractEntityID implements Serializable {
 	public void setReading(Reading reading) {
 		this.reading = reading;
 	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if ( this == o ) {
+            return true;
+        }
+        if ( o == null || getClass() != o.getClass() ) {
+            return false;
+        }
+        Medition medition = (Medition) o;
+        return Objects.equals( sensor.getId(), medition.getSensor().getId() );
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash( getId() );
+    }
+    
 }

@@ -31,4 +31,6 @@ public interface IUserService extends IGenericService<MAE1001> {
 			throws MyWebException;
 
 	GenericObject<MAE1001> findSubsetSimpleMAE1001(UTI1002 gp);
+
+	List<MAE1001> findAdministrators() throws MyWebException;
 }

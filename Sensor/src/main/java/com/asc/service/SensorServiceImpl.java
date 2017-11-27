@@ -66,8 +66,14 @@ public class SensorServiceImpl extends AbstractGenericService<Sensor> implements
 	
 	@Transactional(readOnly = true)
 	@Override
-	public List<Sensor> getByNomenclature(String nomenc) {
-		return myDao.getByNomenclature(nomenc);
+	public Sensor getByStationAndNomenclature(String nomenc, String station) {
+		return myDao.getByStationAndNomenclature(nomenc, station);
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Sensor> getByStation(String station) {
+		return myDao.getByStation(station);
 	}
 	
 	@Override

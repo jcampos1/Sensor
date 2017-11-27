@@ -19,5 +19,7 @@ public interface ISensorService extends IGenericService<Sensor> {
 
 	GenericObject<Sensor> findSubsetSimpleSensor(UTI1002 gp);
 
-	List<Sensor> getByNomenclature(String nomenc);
+	Sensor getByStationAndNomenclature(String nomenc, String station);
+
+	List<Sensor> getByStation(String station);
 }

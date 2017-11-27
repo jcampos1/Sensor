@@ -17,7 +17,6 @@ import com.asc.commons.entities.UTI1002;
 import com.asc.dao.interfaces.ISensorDao;
 import com.asc.dao.interfaces.generic.AbstractHibernateDao;
 import com.asc.entities.abstracts.GenericObject;
-import com.asc.process.entities.MAE1013_;
 import com.asc.process.entities.Sensor;
 import com.asc.process.entities.Sensor_;
 import com.asc.process.entities.Station;
@@ -47,17 +46,35 @@ public class SensorDaoImpl extends AbstractHibernateDao<Sensor> implements ISens
 	}
 	
 	@Override
-	public List<Sensor> getByNomenclature(String nomenc, String namest) {
+	public Sensor getByStationAndNomenclature(String nomenc, String namest) {
 		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<Sensor> criteria = builder.createQuery(Sensor.class);
 		Root<Sensor> root = criteria.from(Sensor.class);
 
 		criteria.select(root);
-		Predicate pred = builder.equal(root.get( Sensor_.active), true);
+		Predicate pred = builder.equal(root.get( Sensor_.active), Boolean.TRUE);
 		pred = builder.and(pred, builder.equal(root.get( Sensor_.nomenc), nomenc));
 		// Sensor.station is a @ManyToOne
-		Join<Sensor, Station> header = root.join( Sensor_.station );
-		pred = builder.equal(header.get( Station_.namest ), namest);
+		Join<Sensor, Station> station = root.join( Sensor_.station );
+		pred = builder.and(pred, builder.equal(station.get( Station_.namest ), namest));
+		pred = builder.and(pred, builder.equal(station.get( Station_.active ), Boolean.TRUE));
+		criteria.where(pred);
+
+		return getCurrentSession().createQuery(criteria).getSingleResult();
+	}
+	
+	@Override
+	public List<Sensor> getByStation(String namest) {
+		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Sensor> criteria = builder.createQuery(Sensor.class);
+		Root<Sensor> root = criteria.from(Sensor.class);
+
+		criteria.select(root);
+		Predicate pred = builder.equal(root.get( Sensor_.active), Boolean.TRUE);
+		// Sensor.station is a @ManyToOne
+		Join<Sensor, Station> station = root.join( Sensor_.station );
+		pred = builder.and(pred, builder.equal(station.get( Station_.namest ), namest));
+		pred = builder.and(pred, builder.equal(station.get( Station_.active ), Boolean.TRUE));
 		criteria.where(pred);
 
 		return getCurrentSession().createQuery(criteria).getResultList();

@@ -55,8 +55,8 @@ public class StationServiceImpl extends AbstractGenericService<Station> implemen
 	@Override
 	@Transactional
 	public void myOwnerAdd(Station station) throws MyWebException {
-		station.setActive(true);
-		station.setStatus(false);
+		station.setActive(Boolean.TRUE);
+		station.setStatus(Boolean.TRUE);
 		myDao.create(station);
 	}
 	

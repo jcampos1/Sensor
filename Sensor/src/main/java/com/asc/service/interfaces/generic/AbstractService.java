@@ -50,6 +50,12 @@ public class AbstractService {
 		return ret;
 	}
 	
+	protected void stationOutService(MAE1001 entity, String namest, Integer minutes) {
+		String body = getMess("P1.st.inactive",
+				new Object[] { entity.getFrst_name(), namest, minutes });
+		pushMail(entity, entity.getUser_mail(), MailType.STATION_INACTIVE, body);
+	}
+	
 	protected void notifyToUserSigned(MAE1001 entity) {
 		String link = getMess("P1.link",
 				new Object[] { appUrl, Configuration.ACTIVATE, entity.getUser_mail(), entity.getValk() });

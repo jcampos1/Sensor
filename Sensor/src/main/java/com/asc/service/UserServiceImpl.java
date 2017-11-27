@@ -174,6 +174,12 @@ public class UserServiceImpl extends AbstractGenericService<MAE1001> implements
 	public List<MAE1001> getUsersPendings() {
 		return this.myDao.getUsersPendings();
 	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<MAE1001> findAdministrators() throws MyWebException {
+		return this.myDao.findAdministrators();
+	}
 
 	@Transactional(readOnly = true)
 	@Override

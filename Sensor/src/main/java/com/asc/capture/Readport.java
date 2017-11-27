@@ -1,19 +1,34 @@
 package com.asc.capture;
 
-import gnu.io.CommPortIdentifier;
-import gnu.io.SerialPort;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.asc.controller.abstracts.Configuration;
+import com.asc.exceptions.MyWebException;
+import com.asc.process.entities.Medition;
 import com.asc.process.entities.Micro;
+import com.asc.process.entities.Reading;
+import com.asc.process.entities.Sensor;
+import com.asc.process.entities.Station;
 import com.asc.service.interfaces.IMicroService;
+import com.asc.service.interfaces.IReadingService;
+import com.asc.service.interfaces.ISensorService;
+import com.asc.service.interfaces.IStationService;
+
+import gnu.io.CommPortIdentifier;
+import gnu.io.SerialPort;
 
 @Component
 public class Readport extends Thread {
@@ -25,6 +40,15 @@ public class Readport extends Thread {
 
 	@Autowired
 	private IMicroService microServ;
+	
+	@Autowired
+	public IStationService stationServ;
+	
+	@Autowired
+	public ISensorService sensorServ;
+	
+	@Autowired
+	public IReadingService readingServ;
 
 	public Readport() {
 		loadRxtx();
@@ -114,11 +138,12 @@ public class Readport extends Thread {
 			String chain = "";
 			int len = 0, data;
 			byte[] buffer = new byte[1024];
+			Reading reading;
 
 			in = serialport.getInputStream();
 
 			do {
-				while ((data = in.read()) != '\n') {
+				while ((data = in.read()) != '@') {
 					if (data == -1) {
 						break;
 					} else {
@@ -128,11 +153,60 @@ public class Readport extends Thread {
 				}
 				chain = new String(buffer, 0, len);
 				chain = chain.trim();
+				reading = new Reading();
+				if( aceptable(chain, reading)) {
+					System.out.println("el objeto es");
+					readingServ.add(reading);
+				}
 				len = 0;
 				System.out.println(chain);
 			} while (follow);
 		} catch (Exception e) {
 			log.error("Error en la lectura del puerto. Método readPort (Reading.java). Detalle: " + e);
 		}
+	}
+
+	// Verifica si el string leido por el puerto es aceptable
+	public Boolean aceptable(String string, Reading reading) throws MyWebException {
+		String[] parts = null;
+		List<Sensor> sensorOfSt;
+		Medition medition;
+		Optional<Sensor> opSensor;
+		Boolean acept = Boolean.FALSE;
+		Pattern pattern = Pattern.compile(Configuration.REGEX);
+		Matcher matcher = pattern.matcher(string.replaceAll("\\s|\\n|\\r|@", ""));
+
+		if (matcher.matches()) {
+			reading.setStation(stationServ.getById(matcher.group(Configuration.STATION)));
+			if (reading.getStation() instanceof Station) {
+				acept = Boolean.TRUE;
+				// Se construye el objeto de lectura
+				reading.setFecemi(LocalDateTime.parse(matcher.group(Configuration.FEC).replaceAll("'|\"", ""),
+						DateTimeFormatter.ofPattern(Configuration.PATTERN_FECREAD)));
+				reading.setFeread(LocalDateTime.now());
+				reading.setPhone(matcher.group(Configuration.TLF).replaceAll("'|\"", ""));
+
+				parts = matcher.group(Configuration.MEDITIONS).replaceAll("-", ",").replaceAll(",,", ",-").split(",");
+
+				sensorOfSt = sensorServ.getByStation(reading.getStation().getNamest());
+				for (int i = 0; i < parts.length; i = i + 2) {
+					String nomenclature = parts[i];
+					opSensor = sensorOfSt.stream().filter(s -> s.getNomenc().equals(nomenclature)).findFirst();
+
+					if (opSensor.isPresent()) {
+						medition = new Medition();
+						medition.setReading(reading);
+						medition.setSensor(opSensor.get());
+						medition.setValue(Double.valueOf(parts[i + 1]));
+						reading.getMeditions().add(medition);
+					}
+					System.out.println("Sensor: " + parts[i] + ", medicion: " + Double.valueOf(parts[i + 1]));
+				}
+			}
+		} else {
+			System.out.println("Formato de cadena de lectura no coincide con expresión regular.");
+		}
+
+		return acept;
 	}
 }

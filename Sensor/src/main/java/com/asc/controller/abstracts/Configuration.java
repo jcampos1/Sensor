@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,10 +70,10 @@ public class Configuration {
 	private IPAR1001Service paramServ;
 	
 	@Autowired
-	protected IStationService stationServ;
+	public IStationService stationServ;
 	
 	@Autowired
-	protected ISensorService sensorServ;
+	public ISensorService sensorServ;
 
 	static NumberFormat numberFormatter;
 	
@@ -504,6 +505,9 @@ public class Configuration {
 	// Verifica si el string leido por el puerto es aceptable
 	public Boolean aceptable(String string, Reading reading) throws MyWebException {
 		String[] parts = null;
+		List<Sensor> sensorOfSt;
+		Medition medition;
+		Optional<Sensor> opSensor;
 		Boolean acept = Boolean.FALSE;
 		Pattern pattern = Pattern.compile(REGEX);
 		Matcher matcher = pattern.matcher(string.replaceAll("\\s|\\n|\\r|@", ""));
@@ -513,17 +517,25 @@ public class Configuration {
 			if(reading.getStation() instanceof Station) {
 				acept = Boolean.TRUE;
 				// Se construye el objeto de lectura
-				reading.setFecemi(LocalDateTime.parse(matcher.group(2).replaceAll("'|\"", ""),
+				reading.setFecemi(LocalDateTime.parse(matcher.group(Configuration.FEC).replaceAll("'|\"", ""),
 						DateTimeFormatter.ofPattern(PATTERN_FECREAD)));
 				reading.setFeread(LocalDateTime.now());
-				reading.setPhone(matcher.group(1).replaceAll("'|\"", ""));
+				reading.setPhone(matcher.group(Configuration.TLF).replaceAll("'|\"", ""));
 
-				parts = matcher.group(4).replaceAll("-", ",").replaceAll(",,", ",-").split(",");
-				Medition medition;
+				parts = matcher.group(Configuration.MEDITIONS).replaceAll("-", ",").replaceAll(",,", ",-").split(",");
+				
+				sensorOfSt = sensorServ.getByStation(reading.getStation().getNamest());
 				for (int i = 0; i < parts.length; i = i + 2) {
-					medition = new Medition();
-					medition.setValue(Double.valueOf(parts[i + 1]));
-					reading.getMeditions().add(medition);
+					String nomenclature = parts[i];
+					opSensor = sensorOfSt.stream().filter(s -> s.getNomenc().equals(nomenclature) )
+			        .findFirst();
+			        
+					if( opSensor.isPresent()) {
+						medition = new Medition();
+						medition.setSensor(opSensor.get());
+						medition.setValue(Double.valueOf(parts[i + 1]));
+						reading.getMeditions().add(medition);
+					}
 					System.out.println("Sensor: " + parts[i] + ", medicion: " + Double.valueOf(parts[i + 1]));
 				}
 			}

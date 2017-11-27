@@ -13,5 +13,7 @@ public interface ISensorDao extends IGenericDao<Sensor> {
 
 	GenericObject<Sensor> findSubsetSimpleSensor(UTI1002 gp);
 
-	List<Sensor> getByNomenclature(String nomenc);
+	Sensor getByStationAndNomenclature(String nomenc, String namest);
+
+	List<Sensor> getByStation(String namest);
 }
