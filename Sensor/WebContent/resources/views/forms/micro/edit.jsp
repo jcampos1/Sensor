@@ -123,6 +123,22 @@
 						'GENE.REQ' | translate }}</label></span>
 				<div id="ERROR_tout_read" class="logError"></div>
 			</div>
+			<!-- TOLERANCIA DE INACTIVIDAD -->
+			<div class="col-sm-6">
+				<h5>
+					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'GENE.TOLEIN' |
+						translate }}</strong>&nbsp;<i
+						uib-tooltip="{{'TLTPS.TP11'| translate}}"
+						tooltip-trigger="focus" class="fa fa-info-circle"
+						aria-hidden="true"></i>
+				</h5>
+				<select chosen="{width: '100%'}" allow-single-deselect="true"
+					placeholder-text-single="'{{::'GENE.SELE_AOPT' | translate}}'"
+					ng-model="micro.tolein" ng-options="tolein for tolein in lstTolein"
+					class="form-control">
+				</select>
+				<div id="ERROR_tolein" class="logError"></div>
+			</div>
 		</div>
 		<br />
 		<div class="modal-footer">

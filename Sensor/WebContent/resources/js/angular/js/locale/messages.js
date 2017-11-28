@@ -171,6 +171,7 @@ angular.module('messages').config([ '$translateProvider',
 					"ROLE":				"Role",
 					"NEWMEMB":			"News members",
 					"MICRO":			"Microcontroller",
+					"TOLEIN":			"Inactivity tolerance",
 				},
 				
 				"URL": {
@@ -413,7 +414,7 @@ angular.module('messages').config([ '$translateProvider',
 					"TP08":				"Example: -10 to 50CC, 0 to 239 kpa, Atmosférico 400ppm, ...",
 					"TP09":				"Example: Temperature, gas, ultraviolet, ...",
 					"TP10":				"Stations accessed through the domain",
-					
+					"TP11":				"Number of maximum minutes to consider station as active",
 					
 					"CHAR_UNIT_TP":		"Unit of measure with which the indicator will work. Example: kg",
 					"CHAR_SEPA_TP":		"Character separador of the different groups that make up a chain. Example: the comma (,) in the chain ST,GS,+0008900kg",
@@ -635,6 +636,7 @@ angular.module('messages').config([ '$translateProvider',
 					"ROLE":				"Rol",
 					"NEWMEMB":			"Nuevos miembros",
 					"MICRO":			"Microcontrolador",
+					"TOLEIN":			"Tolerancia de inactividad",
 				},
 				
 				"URL": {
@@ -872,6 +874,7 @@ angular.module('messages').config([ '$translateProvider',
 					"TP08":				"Ejemplo: -10 a 50CC, 0 a 239 kpa, Atmosférico 400ppm, ...",
 					"TP09":				"Ejemplo: Temperatura, gas, ultravioleta, ...",
 					"TP10":				"Estaciones accedidas a través del dominio",
+					"TP11":				"Cantidad de minutos máximos para considerar estación como activa",
 					
 					"CHAR_UNIT_TP":		"Unidad de medida con la que trabajará el indicador. Ejemplo: kg",
 					"CHAR_SEPA_TP":		"Carácter separador de los distintos grupos que conforman a una cadena. Ejemplo: la coma(,) en la cadena ST,GS,+0008900kg",

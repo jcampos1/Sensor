@@ -2,20 +2,30 @@ package com.asc.capture;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.springframework.web.socket.client.WebSocketClient;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import com.asc.controller.abstracts.Configuration;
+import com.asc.controller.abstracts.MyStompSessionHandler;
 import com.asc.exceptions.MyWebException;
 import com.asc.process.entities.Medition;
 import com.asc.process.entities.Micro;
@@ -49,6 +59,8 @@ public class Readport extends Thread {
 	
 	@Autowired
 	public IReadingService readingServ;
+	
+	private List<SseEmitter> emitters = new CopyOnWriteArrayList<SseEmitter>();
 
 	public Readport() {
 		loadRxtx();
@@ -141,7 +153,7 @@ public class Readport extends Thread {
 			Reading reading;
 
 			in = serialport.getInputStream();
-
+			
 			do {
 				while ((data = in.read()) != '@') {
 					if (data == -1) {
@@ -155,8 +167,11 @@ public class Readport extends Thread {
 				chain = chain.trim();
 				reading = new Reading();
 				if( aceptable(chain, reading)) {
-					System.out.println("el objeto es");
 					readingServ.add(reading);
+					if( !reading.getStation().getStatus()) {
+						reading.getStation().setStatus(Boolean.TRUE);
+						stationServ.merge(reading.getStation());
+					}
 				}
 				len = 0;
 				System.out.println(chain);

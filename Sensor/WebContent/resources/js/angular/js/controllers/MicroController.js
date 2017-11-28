@@ -98,9 +98,9 @@
 	angular.module("processApp").controller('UpdateMicroCtrl',
 			UpdateMicroCtrl);
 
-	UpdateMicroCtrl.$inject = [ '$scope', '$log', '$uibModalInstance',
+	UpdateMicroCtrl.$inject = [ '$scope', '$log', '$http', '$uibModalInstance',
 			'MicroService', 'comunication', 'TryReadingService' ];
-	function UpdateMicroCtrl ( $scope, $log, $uibModalInstance,
+	function UpdateMicroCtrl ( $scope, $log, $http, $uibModalInstance,
 			MicroService, comunication, TryReadingService ) {
 		$scope.micro = angular.copy(comunication.getData17());
 		
@@ -113,6 +113,13 @@
 		
 		MicroService.getLstBaud( ).then(function(response){
 			$scope.lstBaud = response.data;
+		})
+		.catch(function(error) {
+			$log.error(error);
+		});
+		
+		MicroService.getLstTolein( ).then(function(response){
+			$scope.lstTolein = response.data;
 		})
 		.catch(function(error) {
 			$log.error(error);

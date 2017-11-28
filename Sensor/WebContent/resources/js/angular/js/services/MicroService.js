@@ -49,6 +49,10 @@ function MicroService($http, $q, $log, alrts, $translate, comunication) {
 			return getLstBaud();
 		},
 		
+		getLstTolein: function() {
+			return getLstTolein();
+		},
+		
 		getLstBits_char: function() {
 			return getLstBits_char();
 		},
@@ -74,6 +78,13 @@ function MicroService($http, $q, $log, alrts, $translate, comunication) {
 		var url = '/Sensor/Micro/lstBaud';
 		return $http({
 			url: url, 
+			method: "POST",
+		});
+	}
+	
+	function getLstTolein( ) {
+		return $http({
+			url: '/Sensor/Micro/lstTolein', 
 			method: "POST",
 		});
 	}

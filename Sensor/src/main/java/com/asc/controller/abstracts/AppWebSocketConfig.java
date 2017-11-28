@@ -16,6 +16,7 @@ public class AppWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer
 	}
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/gs-guide-websocket").setAllowedOrigins("*").withSockJS();
+		registry.addEndpoint("/gs-guide-websocket");
+		registry.addEndpoint("/gs-guide-websocket").withSockJS();
 	}
 } 

@@ -60,6 +60,13 @@
 			</h5>
 			{{micro.tout_read}}
 		</div>
+		<!-- TOLERANCIA DE INACTIVIDAD -->
+		<div class="col-sm-4 col-xs-4">
+			<h5>
+				<strong>{{ 'GENE.TOLEIN' | translate }}</strong>
+			</h5>
+			{{micro.tolein}}
+		</div>
 	</div>
 	<br />
 	<div class="modal-footer">

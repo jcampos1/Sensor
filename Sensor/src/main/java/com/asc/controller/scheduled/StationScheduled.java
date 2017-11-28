@@ -16,6 +16,7 @@ import com.asc.commons.entities.MAE1001;
 import com.asc.exceptions.MyWebException;
 import com.asc.process.entities.Reading;
 import com.asc.process.entities.Station;
+import com.asc.service.interfaces.IMicroService;
 import com.asc.service.interfaces.IReadingService;
 import com.asc.service.interfaces.IStationService;
 import com.asc.service.interfaces.IUserService;
@@ -33,6 +34,9 @@ public class StationScheduled extends AbstractService {
 	
 	@Autowired
 	private IUserService userServ;
+	
+	@Autowired
+	private IMicroService microServ;
 
 	static Logger log = LogManager.getLogger(StationScheduled.class.getName());
 
@@ -44,28 +48,25 @@ public class StationScheduled extends AbstractService {
 			Integer dif;
 			List<MAE1001> admins;
 			List<Station> stations = stationServ.findActive();
+			Integer tolein = microServ.list().get(0).getTolein();
 
 			for (Station station : stations) {
 				reading = readingServ.findLastReadingOfStation(station.getNamest());
 				if( reading instanceof Reading) {
-					if( (dif = mindif(reading.getFeread())) > 2 ){
+					if( (dif = mindif(reading.getFeread())) > tolein){
 						if(station.getStatus()){
 							station.setStatus(Boolean.FALSE);
-							System.out.println("SE ENVIA CORREO");
+							stationServ.merge(station);
 							admins = userServ.findAdministrators();
 							for (MAE1001 admin : admins) {
 								stationOutService(admin, station.getNamest(), dif);
 							}
 						}
-					}else{
-						if( !station.getStatus()) {
-							station.setStatus(Boolean.TRUE);
-						}
 					}
 				}else{
 					if(station.getStatus()) {
 						station.setStatus(Boolean.FALSE);
-						stationServ.update(station);
+						stationServ.merge(station);
 					}
 				}
 			}

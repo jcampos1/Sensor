@@ -1,12 +1,14 @@
 package com.asc.controller;
 
-import java.net.URI;
 import java.util.List;
+import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.socket.client.WebSocketClient;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import com.asc.capture.Readport;
-import com.asc.controller.abstracts.Configuration;
+import com.asc.controller.abstracts.MyStompSessionHandler;
 import com.asc.process.entities.Micro;
 import com.asc.service.interfaces.IMicroService;
 import com.asc.utils.JsonResponse;
@@ -103,7 +107,24 @@ public class MicroController extends Base<Micro> {
 	@RequestMapping(value = "/lstBaud", method = RequestMethod.POST)
 	public ResponseEntity<List<Integer>> lstBaud()
 			throws Exception {
+		
+		WebSocketClient client = new StandardWebSocketClient();
+		 
+		WebSocketStompClient stompClient = new WebSocketStompClient(client);
+		stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+		 
+		StompSessionHandler sessionHandler = new MyStompSessionHandler();
+		stompClient.connect("ws://localhost:8080/Sensor/gs-guide-websocket", sessionHandler);
+		
+		new Scanner(System.in).nextLine();
+		
 		return new ResponseEntity<List<Integer>>(getListBaud(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/lstTolein", method = RequestMethod.POST)
+	public ResponseEntity<List<Integer>> lstTolein()
+			throws Exception {
+		return new ResponseEntity<List<Integer>>(getListInteger(2, 70, 2), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/lstPrty", method = RequestMethod.POST)

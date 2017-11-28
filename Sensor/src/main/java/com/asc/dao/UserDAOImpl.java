@@ -5,9 +5,11 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.SetJoin;
 
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +22,10 @@ import com.asc.dao.interfaces.IUserDAO;
 import com.asc.dao.interfaces.generic.AbstractHibernateDao;
 import com.asc.entities.abstracts.GenericObject;
 import com.asc.exceptions.MyWebException;
+import com.asc.process.entities.MAE1013;
+import com.asc.process.entities.MAE1013_;
+import com.asc.process.entities.MAE1014;
+import com.asc.process.entities.MAE1014_;
 
 @Repository
 public class UserDAOImpl extends AbstractHibernateDao<MAE1001> implements IUserDAO {
@@ -79,7 +85,7 @@ public class UserDAOImpl extends AbstractHibernateDao<MAE1001> implements IUserD
 			Root<MAE1001> root = criteria.from(MAE1001.class);
 			
 			/*Se define la busqueda en la lista de usuarios por roles*/
-			ListJoin<MAE1001, Role> rol = root.joinList("roles");
+			SetJoin<MAE1001, Role> rol = root.joinSet("roles");
 			root.fetch("roles");
 			Predicate pred = builder.equal(rol.get(Role_.name).as(String.class), "ROLE_ADMIN");
 			
@@ -91,6 +97,7 @@ public class UserDAOImpl extends AbstractHibernateDao<MAE1001> implements IUserD
 		}
 		return lst;
 	}
+	
 	
 	public List<MAE1001> getUsersPendings() {
 		CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();

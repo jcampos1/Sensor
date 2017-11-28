@@ -35,6 +35,7 @@ public class Micro extends AbstractEntityID {
 	private Integer bits_char;
 	private Integer bits_stop;
 	private Integer tout_read;
+	private Integer tolein;
 
 	public Micro() {
 	}
@@ -76,6 +77,16 @@ public class Micro extends AbstractEntityID {
 
 	public void setTout_read(Integer tout_read) {
 		this.tout_read = tout_read;
+	}
+
+	@Min(Configuration.SIZE_ONE)
+	@Column(name = "tolein")
+	public Integer getTolein() {
+		return tolein;
+	}
+
+	public void setTolein(Integer tolein) {
+		this.tolein = tolein;
 	}
 
 	@Min(5)

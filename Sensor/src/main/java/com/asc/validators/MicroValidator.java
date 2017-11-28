@@ -38,5 +38,8 @@ public class MicroValidator extends Configuration implements Validator {
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tout_read", "gene.required",
 				getMess("tout_read.required"));
+		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tolein", "gene.required",
+				getMess("tout_read.required"));
 	}
 }
