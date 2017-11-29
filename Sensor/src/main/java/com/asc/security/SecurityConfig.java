@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// TODO luego quitar testN400 y "addAddress"
 		http.authorizeRequests()
-				.antMatchers("/signedUp", "C:/Sensor/data/**", "/user/checkUser", "/user/create",
+				.antMatchers("/signedUp", "/gs-guide-websocket", "/gs-guide-websocket/**", "C:/Sensor/data/**", "/user/checkUser", "/user/create",
 						"/index", "/language/**", "/resources/**", "/WEB-INF/views/**",
 						"/entity", "/page1/**", "/entity/**", "/" + LoginControllerMVC.FORGOT, "/ws://*", "/" + LoginControllerMVC.CHANGE_PWD )
 				.permitAll()

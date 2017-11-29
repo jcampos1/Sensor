@@ -1,14 +1,15 @@
 package com.asc.capture;
 
+import gnu.io.CommPortIdentifier;
+import gnu.io.SerialPort;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,16 +17,11 @@ import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.simp.stomp.StompSessionHandler;
+import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-import org.springframework.web.socket.client.WebSocketClient;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import com.asc.controller.abstracts.Configuration;
-import com.asc.controller.abstracts.MyStompSessionHandler;
 import com.asc.exceptions.MyWebException;
 import com.asc.process.entities.Medition;
 import com.asc.process.entities.Micro;
@@ -36,9 +32,6 @@ import com.asc.service.interfaces.IMicroService;
 import com.asc.service.interfaces.IReadingService;
 import com.asc.service.interfaces.ISensorService;
 import com.asc.service.interfaces.IStationService;
-
-import gnu.io.CommPortIdentifier;
-import gnu.io.SerialPort;
 
 @Component
 public class Readport extends Thread {
@@ -154,6 +147,7 @@ public class Readport extends Thread {
 
 			in = serialport.getInputStream();
 			
+			StompSession session = Configuration.prepareSend();
 			do {
 				while ((data = in.read()) != '@') {
 					if (data == -1) {
@@ -168,6 +162,7 @@ public class Readport extends Thread {
 				reading = new Reading();
 				if( aceptable(chain, reading)) {
 					readingServ.add(reading);
+					session.send("/topic/tryReading", chain);
 					if( !reading.getStation().getStatus()) {
 						reading.getStation().setStatus(Boolean.TRUE);
 						stationServ.merge(reading.getStation());

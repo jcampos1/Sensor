@@ -17,8 +17,8 @@ public class MyStompSessionHandler extends StompSessionHandlerAdapter {
     	System.out.println("New session established : " + session.getSessionId());
         session.subscribe("/topic/tryReading", this);
         System.out.println("Subscribed to /topic/messages");
-        session.send("/app/tryReading", "+CMT 6135789 17-03-25");
-        System.out.println("Message sent to websocket server");
+       // session.send("/app/tryReading", "+CMT 6135789 17-03-25");
+        //System.out.println("Message sent to websocket server");
     }
 
     @Override

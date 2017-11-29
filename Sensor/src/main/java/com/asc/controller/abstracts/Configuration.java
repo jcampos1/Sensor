@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,11 +22,20 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.socket.client.WebSocketClient;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
+import org.springframework.web.socket.sockjs.client.SockJsClient;
+import org.springframework.web.socket.sockjs.client.Transport;
+import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import com.asc.commons.entities.MAE1001;
 import com.asc.commons.entities.Options;
@@ -544,5 +554,18 @@ public class Configuration {
 		}
 
 		return acept;
+	}
+	
+	public static StompSession prepareSend( ) throws InterruptedException, ExecutionException{
+		List<Transport> transports = new ArrayList<>(1);
+		transports.add(new WebSocketTransport(new StandardWebSocketClient()));
+		
+		WebSocketClient client = new SockJsClient(transports);
+		 
+		WebSocketStompClient stompClient = new WebSocketStompClient(client);
+		stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+		 
+		StompSessionHandler sessionHandler = new MyStompSessionHandler();
+		return stompClient.connect("ws://localhost:8080/Sensor/gs-guide-websocket", sessionHandler).get();
 	}
 }

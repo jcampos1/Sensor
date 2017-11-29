@@ -1,13 +1,17 @@
 package com.asc.controller;
 
+import gnu.io.SerialPort;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,6 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
+import org.springframework.web.socket.sockjs.client.SockJsClient;
+import org.springframework.web.socket.sockjs.client.Transport;
+import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import com.asc.capture.Readport;
 import com.asc.controller.abstracts.MyStompSessionHandler;
@@ -29,8 +36,6 @@ import com.asc.validators.MicroValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.iss.enums.Parity;
-
-import gnu.io.SerialPort;
 
 //CONTROLADOR MICROCONTROLADOR
 
@@ -49,10 +54,13 @@ public class MicroController extends Base<Micro> {
 	
 	private ObjectMapper mapper = new ObjectMapper();
 	
+	private SimpMessagingTemplate template;
+
 	@Autowired
-	public MicroController(IMicroService microService) {
+	public MicroController(IMicroService microService, SimpMessagingTemplate template) {
 		super(microService);
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		this.template = template;
 	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
@@ -107,17 +115,6 @@ public class MicroController extends Base<Micro> {
 	@RequestMapping(value = "/lstBaud", method = RequestMethod.POST)
 	public ResponseEntity<List<Integer>> lstBaud()
 			throws Exception {
-		
-		WebSocketClient client = new StandardWebSocketClient();
-		 
-		WebSocketStompClient stompClient = new WebSocketStompClient(client);
-		stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-		 
-		StompSessionHandler sessionHandler = new MyStompSessionHandler();
-		stompClient.connect("ws://localhost:8080/Sensor/gs-guide-websocket", sessionHandler);
-		
-		new Scanner(System.in).nextLine();
-		
 		return new ResponseEntity<List<Integer>>(getListBaud(), HttpStatus.OK);
 	}
 	
