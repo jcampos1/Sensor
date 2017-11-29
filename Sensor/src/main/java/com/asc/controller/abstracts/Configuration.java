@@ -1,5 +1,6 @@
 package com.asc.controller.abstracts;
 
+import java.io.IOException;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
@@ -37,6 +38,7 @@ import org.springframework.web.socket.sockjs.client.SockJsClient;
 import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
+import com.asc.capture.Readport;
 import com.asc.commons.entities.MAE1001;
 import com.asc.commons.entities.Options;
 import com.asc.commons.entities.Role;
@@ -46,6 +48,7 @@ import com.asc.commons.entities.UTI1007;
 import com.asc.exceptions.MyWebException;
 import com.asc.process.entities.MAE1007;
 import com.asc.process.entities.Medition;
+import com.asc.process.entities.Micro;
 import com.asc.process.entities.Reading;
 import com.asc.process.entities.Sensor;
 import com.asc.process.entities.Station;
@@ -58,6 +61,8 @@ import com.asc.service.interfaces.IUserService;
 import com.asc.utils.JsonResponse;
 import com.asc.utils.StringUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import gnu.io.SerialPort;
 
 public class Configuration {
 
@@ -84,6 +89,9 @@ public class Configuration {
 	
 	@Autowired
 	public ISensorService sensorServ;
+	
+	@Autowired
+	private Readport reading;
 
 	static NumberFormat numberFormatter;
 	
@@ -567,5 +575,38 @@ public class Configuration {
 		 
 		StompSessionHandler sessionHandler = new MyStompSessionHandler();
 		return stompClient.connect("ws://localhost:8080/Sensor/gs-guide-websocket", sessionHandler).get();
+	}
+	
+	public void beginReading( Micro micro, Boolean modeTry) throws InterruptedException, IOException {
+		try {
+			if( reading.getSerialport() instanceof SerialPort ){
+				reading.closePort();
+				reading.join();
+				System.out.println(reading.isAlive());
+			}
+			
+			//Se indica que se ejecuta la lectura en modo prueba
+			reading.setModeTry(modeTry);
+			reading.initialize(micro);
+			
+			Thread thread = new Thread(reading);
+			thread.start();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void stopReading( ) throws InterruptedException, IOException {
+		try {
+			if( reading.getSerialport() instanceof SerialPort ){
+				reading.closePort();
+				reading.join();
+				System.out.println(reading.isAlive());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

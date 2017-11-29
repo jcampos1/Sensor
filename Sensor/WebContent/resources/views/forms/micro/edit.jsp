@@ -79,8 +79,8 @@
 			<!-- BITS POR CARACTER -->
 			<div class="col-sm-6">
 				<h5>
-					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'MAE1008.BITS_CHAR' |
-						translate }}</strong>
+					<strong>{{'GENE.AST'| translate}}&nbsp;{{
+						'MAE1008.BITS_CHAR' | translate }}</strong>
 				</h5>
 				<select chosen="{width: '100%'}" allow-single-deselect="true"
 					placeholder-text-single="'{{::'GENE.SELE_AOPT' | translate}}'"
@@ -93,8 +93,8 @@
 			<!-- BIT DE PARADA -->
 			<div class="col-sm-6">
 				<h5>
-					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'MAE1008.BITS_STOP' |
-						translate }}</strong>
+					<strong>{{'GENE.AST'| translate}}&nbsp;{{
+						'MAE1008.BITS_STOP' | translate }}</strong>
 				</h5>
 				<select chosen="{width: '100%'}" allow-single-deselect="true"
 					placeholder-text-single="'{{::'GENE.SELE_AOPT' | translate}}'"
@@ -111,8 +111,8 @@
 			<!-- TIMEOUT -->
 			<div class="col-sm-6">
 				<h5>
-					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'MAE1008.TIME_OUT' |
-						translate }}</strong>
+					<strong>{{'GENE.AST'| translate}}&nbsp;{{
+						'MAE1008.TIME_OUT' | translate }}</strong>
 				</h5>
 				<input name="tout_read" id="tout_read" class="form-control"
 					placeholder="{{ 'MAE1008.TIME_OUT' | translate }}"
@@ -127,8 +127,7 @@
 			<div class="col-sm-6">
 				<h5>
 					<strong>{{'GENE.AST'| translate}}&nbsp;{{ 'GENE.TOLEIN' |
-						translate }}</strong>&nbsp;<i
-						uib-tooltip="{{'TLTPS.TP11'| translate}}"
+						translate }}</strong>&nbsp;<i uib-tooltip="{{'TLTPS.TP11'| translate}}"
 						tooltip-trigger="focus" class="fa fa-info-circle"
 						aria-hidden="true"></i>
 				</h5>
@@ -141,13 +140,39 @@
 			</div>
 		</div>
 		<br />
+		<div class="row">
+			<!-- LECTURAS -->
+			<div class="col-sm-12">
+				<div class="table table-striped table-condensed table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>{{'GENE.READINGS' | translate}}</th>
+							</tr>
+						</thead>
+						<tbody
+							style="display: block; height: 100px; overflow-y: auto; overflow-x: hidden;">
+							<tr ng-repeat="reading in readings track by $index" ng-class="{'class-first-row' : $index == 0}">
+								<td>{{reading}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<br />
 		<div class="modal-footer">
-			<a ng-click="addMessage()" class="btn btn-app btn btn-warning"> <i
-				class="fa fa-close"></i> {{ 'GENE.ADD' | translate }}
-			</a> <a ng-disabled="!MicroEditForm.$valid"
-				ng-click="update(MicroEditForm)"
-				class="btn btn-app btn btn-primary"> <i class="fa fa-save"></i>
-				{{ 'GENE.SAVE' | translate }}
+			<a ng-click="cancel()" class="btn btn-app btn btn-warning"> <i
+				class="fa fa-close"></i> {{ 'GENE.CANCEL' | translate }}
+			</a> <a ng-click="runMicro(MicroEditForm)"
+				ng-disabled="!MicroEditForm.$valid" uib-popover="{{'TLTPS.TP12' | translate}}" popover-trigger="'mouseenter'"
+				class="btn btn-app btn btn-success"> <i class="fa fa-check"></i>
+				{{ 'GENE.TEST_CONE' | translate }}
+			</a> <a ng-click="stopMicro()" uib-popover="{{'TLTPS.TP13' | translate}}" popover-trigger="'mouseenter'" class="btn btn-app btn btn-danger"> <i
+				class="fa fa-stop"></i> {{ 'GENE.STOP' | translate }}
+			</a><a ng-disabled="!MicroEditForm.$valid"
+				ng-click="update(MicroEditForm)" uib-popover="{{'TLTPS.TP14' | translate}}" popover-trigger="'mouseenter'" class="btn btn-app btn btn-primary">
+				<i class="fa fa-save"></i> {{ 'GENE.SAVE' | translate }}
 			</a>
 		</div>
 	</form>

@@ -1,8 +1,5 @@
 package com.asc.capture;
 
-import gnu.io.CommPortIdentifier;
-import gnu.io.SerialPort;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
@@ -33,13 +30,17 @@ import com.asc.service.interfaces.IReadingService;
 import com.asc.service.interfaces.ISensorService;
 import com.asc.service.interfaces.IStationService;
 
+import gnu.io.CommPortIdentifier;
+import gnu.io.SerialPort;
+
 @Component
 public class Readport extends Thread {
 	static Logger log = LogManager.getLogger(Readport.class);
 
 	private Micro params;
-	public static SerialPort serialport;
+	public SerialPort serialport;
 	private static Boolean follow;
+	private Boolean modeTry;
 
 	@Autowired
 	private IMicroService microServ;
@@ -71,8 +72,8 @@ public class Readport extends Thread {
 
 		try {
 			portId = findPort();
-			serialport = openPort(portId);
-			if (null != serialport) {
+			this.serialport = openPort(portId);
+			if (null != this.serialport) {
 				readPort();
 			}
 		} catch (Exception e) {
@@ -111,11 +112,11 @@ public class Readport extends Thread {
 	}
 
 	// Apertura del puerto serial
-	private synchronized SerialPort openPort(CommPortIdentifier portId) {
-		serialport = null;
+	private SerialPort openPort(CommPortIdentifier portId) {
+		this.serialport = null;
 		try {
-			serialport = (SerialPort) portId.open(params.getPort_name(), params.getTout_read());
-			serialport.setSerialPortParams(params.getBaud(), params.getBits_char(), params.getBits_stop(),
+			this.serialport = (SerialPort) portId.open(params.getPort_name(), params.getTout_read());
+			this.serialport.setSerialPortParams(params.getBaud(), params.getBits_char(), params.getBits_stop(),
 					params.getPrty().ordinal());
 		} catch (Exception e) {
 			log.error("Error al abrir puerto serial. Método openPort (Reading.java). Detalle: " + e);
@@ -124,12 +125,13 @@ public class Readport extends Thread {
 	}
 
 	// Cierre del puerto serial
-	public synchronized static void closePort() throws IOException {
+	public void closePort() throws IOException {
 		try {
 			follow = Boolean.FALSE;
-			serialport.close();
-			serialport = null;
-			Thread.sleep(1000);
+			
+			this.serialport.close();
+			this.serialport = null;
+			Thread.sleep(1500);
 			log.debug("Puerto cerrado. Método run (Reading.java).");
 		} catch (Exception e) {
 			log.error("Error al cerrar puerto serial. Método closePort (Reading.java). Detalle: " + e);
@@ -145,7 +147,7 @@ public class Readport extends Thread {
 			byte[] buffer = new byte[1024];
 			Reading reading;
 
-			in = serialport.getInputStream();
+			in = this.serialport.getInputStream();
 			
 			StompSession session = Configuration.prepareSend();
 			do {
@@ -161,11 +163,14 @@ public class Readport extends Thread {
 				chain = chain.trim();
 				reading = new Reading();
 				if( aceptable(chain, reading)) {
-					readingServ.add(reading);
-					session.send("/topic/tryReading", chain);
-					if( !reading.getStation().getStatus()) {
-						reading.getStation().setStatus(Boolean.TRUE);
-						stationServ.merge(reading.getStation());
+					if( !getModeTry()) {
+						readingServ.add(reading);
+						if( !reading.getStation().getStatus()) {
+							reading.getStation().setStatus(Boolean.TRUE);
+							stationServ.merge(reading.getStation());
+						}
+					}else{
+						session.send("/topic/tryReading", chain);
 					}
 				}
 				len = 0;
@@ -218,5 +223,21 @@ public class Readport extends Thread {
 		}
 
 		return acept;
+	}
+
+	public SerialPort getSerialport() {
+		return serialport;
+	}
+
+	public void setSerialport(SerialPort serialport) {
+		this.serialport = serialport;
+	}
+
+	public Boolean getModeTry() {
+		return modeTry;
+	}
+
+	public void setModeTry(Boolean modeTry) {
+		this.modeTry = modeTry;
 	}
 }

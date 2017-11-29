@@ -10,7 +10,7 @@ function MicroService($http, $q, $log, alrts, $translate, comunication) {
 	        	if(response.status == "ok") {
 	        		update(entity, opc)
 			        .then(function(data) {
-			        	runMicro(entity)
+			        	runMicro(entity, false)
 				        .then(function(data) {
 				        	if($uibModalInstance){
 				        		$uibModalInstance.close(true);
@@ -61,8 +61,12 @@ function MicroService($http, $q, $log, alrts, $translate, comunication) {
 			return getLstBits_stop();
 		},
 		
-		runMicro: function() {
-			return runMicro();
+		runMicro: function(entity, modeTry) {
+			return runMicro(entity, modeTry);
+		},
+		
+		stopMicro: function() {
+			return stopMicro();
 		},
 	}
 	
@@ -145,16 +149,22 @@ function MicroService($http, $q, $log, alrts, $translate, comunication) {
 		return promise;
 	}
 	
-	function runMicro(entity) {
-		var defered = $q.defer();
-		var promise = defered.promise;
-		var url = '/Sensor/Micro/runMicro';
-		$http.post(url, entity).success(function(data) {
-			defered.resolve(data);
-		}).error(function(err) {
-			defered.reject(err);
+	function runMicro(entity, modeTry) {
+		return $http({
+			url : "/Sensor/Micro/runMicro",
+			method : "POST",
+			params : {
+				entity : entity,
+				modeTry : modeTry
+			},
 		});
-		return promise;
+	}
+	
+	function stopMicro() {
+		return $http({
+			url : "/Sensor/Micro/stopMicro",
+			method : "POST"
+		});
 	}
 	
 	//Muestra mensaje de operación realizada exitosamente

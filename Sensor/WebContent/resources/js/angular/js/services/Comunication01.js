@@ -66,6 +66,7 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
     data15: null, //Usuario seleccionado para operaciones (detalle, edicion, eliminacion)
     data16: null, //Roles activos del sistema
     data17: null, //Detalle de microcontrolador
+    data18: null, //Nueva lectura
     
     /*USADO PARA FILTRAR POR STATUS DE ORDEN EN MAESTRO DE CABECERA*/
     stat: null,
@@ -457,6 +458,12 @@ angular.module("Comunication01").factory('comunication', function($state, $log) 
 	},
 	setData17: function(data) {
 	    this.data17 = data;
+	},
+	getData18: function() {
+        return this.data18;
+	},
+	setData18: function(data) {
+	    this.data18 = data;
 	},
 	
 	isValid: function(data) {

@@ -98,12 +98,13 @@
 	angular.module("processApp").controller('UpdateMicroCtrl',
 			UpdateMicroCtrl);
 
-	UpdateMicroCtrl.$inject = [ '$scope', '$log', '$http', '$uibModalInstance',
+	UpdateMicroCtrl.$inject = [ '$scope', '$timeout','$rootScope', '$log', '$http', '$uibModalInstance',
 			'MicroService', 'comunication', 'TryReadingService' ];
-	function UpdateMicroCtrl ( $scope, $log, $http, $uibModalInstance,
+	function UpdateMicroCtrl ( $scope, $timeout, $rootScope, $log, $http, $uibModalInstance,
 			MicroService, comunication, TryReadingService ) {
 		$scope.micro = angular.copy(comunication.getData17());
-		
+		$scope.readings = new Array();
+
 		MicroService.getLstPrty( ).then(function(response){
 			$scope.lstPrty = response.data;
 		})
@@ -145,14 +146,23 @@
 			}
 		};
 		
-		$scope.addMessage = function() {
-			  TryReadingService.send();
-		  };
+		$scope.runMicro = function(form) {
+			if (form.$valid) {
+				MicroService.runMicro($scope.micro, true);
+			}
+		};
 
-		  TryReadingService.receive().then(null, null, function(message) {
-			  console.log("mensaje recibido es: ");
-			  console.log(message);
-		  });
+		$scope.stopMicro = function() {
+			MicroService.stopMicro();
+		};
+		
+		// Escuchador para adicion de nuevas lecturas
+		$scope.$watch(function ( ) { return comunication.getData18() }, function (newVal, oldVal) {
+			if (comunication.isValid(comunication.getData18())) {
+				$scope.readings.unshift(comunication.getData18());
+				comunication.setData18(null);
+			}
+		});
 		
 		$scope.cancel = function ( ) {
 			$uibModalInstance.dismiss(false);

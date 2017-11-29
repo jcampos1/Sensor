@@ -23,12 +23,12 @@ public class MyStompSessionHandler extends StompSessionHandlerAdapter {
 
     @Override
     public void handleException(StompSession session, StompCommand command, StompHeaders headers, byte[] payload, Throwable exception) {
-    	System.out.println("Got an exception: "+exception);
+    	System.out.println("Se produjo una excepción: "+exception);
     }
 
     @Override
     public Type getPayloadType(StompHeaders headers) {
-        return Message.class;
+        return Object.class;
     }
 
     @Override
