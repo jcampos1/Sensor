@@ -531,7 +531,6 @@ var="CPREC" />
 <script type="text/javascript" src="${stomp}"></script>
 <script type="text/javascript" src="${NgSweetAlertMinJs}"></script>
 <script type="text/javascript" src="${SweetAlertMinJs}"></script>
-
 <script type="text/javascript" src="${translateUiGridJs}"></script>
 <script
 	src="/Sensor/resources/js/angular/node_modules/chosen.jquery.min.js"></script>

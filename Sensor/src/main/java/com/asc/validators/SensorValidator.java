@@ -20,7 +20,7 @@ public class SensorValidator extends Configuration implements Validator {
 		return Sensor.class.equals(clazz);
 	}
 
-	public void validate(Object target, Errors errors) {
+	public void validate(Object target, Errors errors, Boolean edition) {
 		Sensor sensor = (Sensor) target;
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "namese", "gene.required",
@@ -31,5 +31,12 @@ public class SensorValidator extends Configuration implements Validator {
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rango", "gene.required",
 				getMess("gene.required"));
+		
+		if( !edition ){
+			if(null != sensorServ.getByStationAndNomenclature(sensor.getNomenc(), sensor.getStation().getNamest())){
+				errors.rejectValue("nomenc", "gene.duplicated",
+						getMess("gene.duplicated"));
+			}
+		}
 	}
 }

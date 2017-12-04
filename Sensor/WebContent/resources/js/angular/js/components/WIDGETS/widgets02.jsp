@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-lg-3 col-sm-6" style="cursor: pointer">
+	<div class="col-lg-3 col-sm-6" style="cursor: pointer" ui-sref="station">
 		<!-- small box -->
 		<div class="small-box bg-yellow">
 			<div class="inner">

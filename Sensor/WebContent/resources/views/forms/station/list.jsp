@@ -1,3 +1,4 @@
+
 <!-- Lista de operaciones -->
 <div class="row">
 	<div class="col-lg-3 col-sm-4 col-xs-8" style="text-align: left;">
@@ -44,9 +45,9 @@
 <select-uti1006-component />
 
 <!-- Lista de estaciones -->
-<div class="row" id="stations">
-	<div ng-repeat="station in stations" class="col-lg-3 col-sm-4 col-xs-12" ng-click="selected(station)">
-		<div class="info-box bg-blue">
+<div class="row">
+	<div style="cursor:pointer;" ng-repeat="station in stations" class="cls80 col-lg-3 col-sm-4 col-xs-12" ng-click="selected(station)">
+		<div class="info-box bg-blue" ng-class="{'clsSelected' : station.namest == id}">
 			<span class="info-box-icon"><i class="fa fa-home"></i>
 			</span>
 			<div class="info-box-content">
@@ -62,13 +63,3 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-	    $("#stations").on('click', '.cls80', function(){
-	    	console.log("SELECCIONADA");
-	        $('.cls80').removeClass("clsSelected");
-	        $(this).addClass("clsSelected");
-	    });
-	});
-</script>

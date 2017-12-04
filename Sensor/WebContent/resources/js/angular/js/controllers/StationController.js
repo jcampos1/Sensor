@@ -21,6 +21,7 @@
 			$scope.stselected = station;
 			$log.info("estacion seleccionada");
 			$log.info($scope.stselected);
+			$scope.id = station.namest;
 		}
 		
 		// Detalle de estacion
